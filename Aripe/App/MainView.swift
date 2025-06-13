@@ -9,13 +9,15 @@ struct MainView: View {
     @State private var capturedConfidence: Double = 0.0
     @State private var showPhotoPicker = false
     @State private var navigateToSummary = false
+    @State private var cropRectInView: CGRect = .zero
 
     var body: some View {
         ZStack {
             CameraView(prediction: $predictionText, controller: cameraController)
+
             CameraOverlayView(
                 onCapture: {
-                    cameraController.captureImage { image, label, confidence in
+                    cameraController.captureImage(cropRectInView: cropRectInView) { image, label, confidence in
                         capturedImage = image
                         capturedPredictionLabel = label
                         capturedConfidence = confidence
@@ -27,7 +29,8 @@ struct MainView: View {
                 },
                 onOpenGallery: {
                     showPhotoPicker = true
-                }
+                },
+                cropRectInView: $cropRectInView
             )
         }
         .navigationTitle("Scan")

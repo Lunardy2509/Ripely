@@ -6,8 +6,9 @@ struct CameraOverlayView: View {
     var onToggleFlash: () -> Void
     var onOpenGallery: () -> Void
     
+    @Binding var cropRectInView: CGRect
     @State private var isFlashOn = false
-    
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -21,12 +22,24 @@ struct CameraOverlayView: View {
                             )
                             .compositingGroup()
                     )
-                
+
+                // 🔴 Add GeometryReader to track the exact rect of the capture box
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(style: StrokeStyle(lineWidth: 3, dash: [8]))
                     .frame(width: 250, height: 250)
                     .foregroundColor(.white)
-                
+                    .background(
+                        GeometryReader { rectGeo in
+                            Color.clear
+                                .onAppear {
+                                    cropRectInView = rectGeo.frame(in: .global)
+                                }
+                                .onChange(of: rectGeo.frame(in: .global)) { _, newValue in
+                                    cropRectInView = newValue
+                                }
+                        }
+                    )
+
                 VStack {
                     HStack {
                         Button(action: {
@@ -42,11 +55,11 @@ struct CameraOverlayView: View {
                         Spacer()
                     }
                     Spacer()
-                    
+
                     Text("Place the Apple in Focus")
                         .foregroundColor(.white)
                         .font(.headline)
-                    
+
                     ZStack {
                         VStack(spacing: 8) {
                             Button(action: onCapture) {
@@ -60,7 +73,7 @@ struct CameraOverlayView: View {
                                 }
                             }
                         }
-                        
+
                         HStack {
                             Spacer()
                             Button(action: onOpenGallery) {
