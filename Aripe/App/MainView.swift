@@ -14,6 +14,7 @@ struct MainView: View {
     var body: some View {
         ZStack {
             CameraView(prediction: $predictionText, controller: cameraController)
+                .coordinateSpace(name: "cameraPreview")
 
             CameraOverlayView(
                 onCapture: {

@@ -32,9 +32,9 @@ struct CameraOverlayView: View {
                         GeometryReader { rectGeo in
                             Color.clear
                                 .onAppear {
-                                    cropRectInView = rectGeo.frame(in: .global)
+                                    cropRectInView = rectGeo.frame(in: .named("cameraPreview"))
                                 }
-                                .onChange(of: rectGeo.frame(in: .global)) { _, newValue in
+                                .onChange(of: rectGeo.frame(in: .named("cameraPreview"))) { _, newValue in
                                     cropRectInView = newValue
                                 }
                         }
