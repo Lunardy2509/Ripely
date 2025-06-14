@@ -127,7 +127,7 @@ struct CameraView: UIViewRepresentable {
             guard let buffer = lastSampleBuffer,
                   let imageBuffer = CMSampleBufferGetImageBuffer(buffer),
                   let model = model else {
-                completion(nil, "No frame or model", 0.0)
+                completion(nil, "No frame or model detected", 0.0)
                 return
             }
 
@@ -146,7 +146,24 @@ struct CameraView: UIViewRepresentable {
                 return
             }
 
-            let cropRect = convertViewRectToImageRect(viewRect: cropRectInView, previewLayer: previewLayer, imageSize: fullImage.size)
+            // Convert SwiftUI view-space cropRect to metadata output rect
+            let metadataRect = previewLayer.metadataOutputRectConverted(fromLayerRect: cropRectInView)
+            
+            // Convert metadata output rect (0-1) to CIImage extent (in pixels)
+            var cropRect = CGRect(
+                x: metadataRect.origin.x * ciImage.extent.width,
+                y: (1 - metadataRect.origin.y - metadataRect.height) * ciImage.extent.height, // Flip Y axis
+                width: metadataRect.size.width * ciImage.extent.width,
+                height: metadataRect.size.height * ciImage.extent.height
+            )
+            
+            // Apply upward offset (positive dy moves down, negative dy moves up)
+            let horizontalOffset: CGFloat = -175
+            let verticalOffset: CGFloat = 0
+            cropRect = cropRect.offsetBy(dx: horizontalOffset, dy: verticalOffset)
+
+            // Make sure we don't go out of bounds
+            cropRect = cropRect.intersection(ciImage.extent)
 
             guard let croppedCG = cgImage.cropping(to: cropRect) else {
                 completion(fullImage, "Cropping failed", 0.0)
