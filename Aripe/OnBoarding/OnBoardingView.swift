@@ -23,8 +23,6 @@ struct OnBoardingView: View {
                     index,
                     page in
                     VStack(spacing: 20) {
-                        //                            Spacer()
-
                         // Image container with rounded background
                         ZStack {
                             // Rounded rectangle background (light cream)
@@ -64,32 +62,30 @@ struct OnBoardingView: View {
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 30)
 
-                        //                            Spacer()
                     }
                     .tag(index)
-                    //                        .frame(width: geo.size.width, height: geo.size.height)
                 }
             }
-            .tabViewStyle(PageTabViewStyle())
-            //                .tabViewStyle(.page)
-            //                .indexViewStyle(.page(backgroundDisplayMode: .always))
+//            .tabViewStyle(PageTabViewStyle())
+            .tabViewStyle(.page)
+            .indexViewStyle(.page(backgroundDisplayMode: .always))
 
             // Custom page indicator
-            HStack(spacing: 8) {
-                ForEach(0..<pages.count, id: \.self) { idx in
-                    Circle()
-                        .fill(
-                            idx == currentPage
-                                ? Color.primary : Color.gray.opacity(0.4)
-                        )
-                        .frame(width: 8, height: 8)
-                }
-            }
+//            HStack(spacing: 8) {
+//                ForEach(0..<pages.count, id: \.self) { idx in
+//                    Circle()
+//                        .fill(
+//                            idx == currentPage
+//                                ? Color.primary : Color.gray.opacity(0.4)
+//                        )
+//                        .frame(width: 8, height: 8)
+//                }
+//            }
 
             // “Selesai” button on last page
             Button(action: {
                 if currentPage == pages.count - 1 {
-                    //                        onFinishedAction()
+                    onFinished?()
                 }
             }) {
                 Text("Selesai")
@@ -105,10 +101,9 @@ struct OnBoardingView: View {
             .disabled(currentPage != pages.count - 1)
             .padding(.horizontal, 30)
             .padding(.top, 16)
-            .padding(.bottom, 30)
+            .padding(.bottom, 40)
 
         }
-        //            .frame(width: geo.size.width, height: geo.size.height)
         .ignoresSafeArea(edges: .bottom)
     }
 }
