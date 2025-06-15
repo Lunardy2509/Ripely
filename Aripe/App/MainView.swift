@@ -2,27 +2,33 @@ import SwiftUI
 
 struct MainView: View {
     @StateObject private var cameraController = CameraController()
-    @State private var predictionText: String = "Waiting for prediction..."
+    @StateObject private var result = PredictionResult()
+
     @State private var selectedImage: UIImage?
-    @State private var capturedImage: UIImage?
-    @State private var capturedPredictionLabel: String = ""
-    @State private var capturedConfidence: Double = 0.0
     @State private var showPhotoPicker = false
     @State private var navigateToSummary = false
+    @State private var livePrediction = ""
     @State private var cropRectInView: CGRect = .zero
-
+    
     var body: some View {
         ZStack {
-            CameraView(prediction: $predictionText, controller: cameraController)
+            CameraView(prediction: $livePrediction, controller: cameraController)
                 .coordinateSpace(name: "cameraPreview")
 
             CameraOverlayView(
                 onCapture: {
                     cameraController.captureImage(cropRectInView: cropRectInView) { image, label, confidence in
-                        capturedImage = image
-                        capturedPredictionLabel = label
-                        capturedConfidence = confidence
-                        navigateToSummary = true
+                        guard result.image == nil else {
+                            print("Prediction already exists.")
+                            return
+                        }
+                        result.image = image
+                        result.label = extractCleanLabel(from: livePrediction)
+                        result.confidence = confidence
+                                                
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                            navigateToSummary = true
+                        }
                     }
                 },
                 onToggleFlash: {
@@ -34,14 +40,18 @@ struct MainView: View {
                 cropRectInView: $cropRectInView
             )
         }
-        .navigationTitle("Scan")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(isPresented: $navigateToSummary) {
+//        .navigationTitle("Scan")
+//        .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $navigateToSummary, onDismiss: {
+            result.image = nil
+            result.label = ""
+            result.confidence = 0.0
+        }) {
             SummaryView(
-                image: capturedImage,
-                predictionLabel: capturedPredictionLabel,
-                confidence: capturedConfidence
+                result: result,
+                navigateToSummary: $navigateToSummary
             )
+            .presentationDetents([.fraction(0.80), .fraction(0.99)])
         }
         .sheet(isPresented: $showPhotoPicker) {
             PhotoPickerView(selectedImage: $selectedImage)
