@@ -1,11 +1,11 @@
-import SwiftUI
 import PhotosUI
+import SwiftUI
 
 struct CameraOverlayView: View {
     var onCapture: () -> Void
     var onToggleFlash: () -> Void
     var onOpenGallery: () -> Void
-    
+
     @Binding var cropRectInView: CGRect
     @State private var isFlashOn = false
 
@@ -32,27 +32,24 @@ struct CameraOverlayView: View {
                         GeometryReader { rectGeo in
                             Color.clear
                                 .onAppear {
-                                    cropRectInView = rectGeo.frame(in: .named("cameraPreview"))
+                                    cropRectInView = rectGeo.frame(
+                                        in: .named("cameraPreview")
+                                    )
                                 }
-                                .onChange(of: rectGeo.frame(in: .named("cameraPreview"))) { _, newValue in
+                                .onChange(
+                                    of: rectGeo.frame(
+                                        in: .named("cameraPreview")
+                                    )
+                                ) { _, newValue in
                                     cropRectInView = newValue
                                 }
                         }
                     )
 
                 VStack {
+                    //MARK: Top Bar
                     HStack {
-                        Button(action: {
-                            isFlashOn.toggle()
-                            onToggleFlash()
-                        }) {
-                            Image(systemName: isFlashOn ? "bolt.fill" : "bolt.slash.fill")
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Circle().fill(Color.black.opacity(0.6)).frame(width: 40, height: 40))
-                        }
-                        .padding()
-                        Spacer()
+                        
                     }
                     Spacer()
 
@@ -60,36 +57,77 @@ struct CameraOverlayView: View {
                         .foregroundColor(.white)
                         .font(.headline)
 
-                    ZStack {
-                        VStack(spacing: 8) {
-                            Button(action: onCapture) {
-                                ZStack {
-                                    Circle()
-                                        .stroke(Color.white, lineWidth: 5)
-                                        .frame(width: 85, height: 85)
-                                    Circle()
-                                        .fill(Color.white)
-                                        .frame(width: 75, height: 75)
-                                }
+                    HStack {
+                        //                        HStack {
+                        //MARK: Gallery Button
+                        Button(action: onOpenGallery) {
+                            Image(systemName: "photo.on.rectangle")
+                                .foregroundColor(.aPrimaryGreen)
+                                .font(.system(size: 30))
+//                                .background(
+//                                    Circle().fill(Color.black.opacity(0.6))
+//                                )
+                        }
+                        //                        }
+                        
+                        Spacer()
+
+                        //MARK: Capture Button
+                        Button(action: onCapture) {
+                            ZStack {
+                                Circle()
+                                    .stroke(Color.aPrimaryGreen, lineWidth: 5)
+                                    .frame(width: 75, height: 75)
+                                Circle()
+                                    .fill(Color.aPrimaryGreen)
+                                    .frame(width: 65, height: 65)
                             }
                         }
-
-                        HStack {
-                            Spacer()
-                            Button(action: onOpenGallery) {
-                                Image(systemName: "photo.on.rectangle")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 28))
-                                    .padding()
-                                    .background(Circle().fill(Color.black.opacity(0.6)))
-                            }
-                            .padding(.trailing, 32)
+                        .padding(.trailing, 20)
+                        
+                        Spacer()
+                        
+                        //MARK: Flash Button
+                        Button(action: {
+                            isFlashOn.toggle()
+                            onToggleFlash()
+                        }) {
+                            Image(
+                                systemName: isFlashOn
+                                    ? "bolt.fill" : "bolt.slash.fill"
+                            )
+                            .foregroundColor(.aWhite)
+                            .font(.system(size: 25))
+                            .background(
+                                Circle().fill(Color.aPrimaryGreen).frame(
+                                    width: 40,
+                                    height: 40
+                                )
+                            )
                         }
                     }
-                    .padding(.bottom, 35)
+                    .padding(.horizontal, 30)
+                    .padding(.vertical, 35)
+                    .background(.aWhite)
+//                    .padding(.bottom, 35)
                 }
             }
             .edgesIgnoringSafeArea(.bottom)
         }
     }
+}
+
+#Preview {
+    CameraOverlayView(
+        onCapture: {
+            print("Capture button pressed")
+        },
+        onToggleFlash: {
+            print("Flash toggled")
+        },
+        onOpenGallery: {
+            print("Gallery opened")
+        },
+        cropRectInView: .constant(CGRect.zero)
+    )
 }
