@@ -48,28 +48,34 @@ struct CameraOverlayView: View {
 
                 VStack {
                     //MARK: Top Bar
-                    HStack {
-                        
+                    HStack() {
+                        Spacer()
+                        Image(systemName: "camera")
+                            .foregroundColor(.aWhite)
+                            
                     }
                     Spacer()
 
                     Text("Place the Apple in Focus")
-                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.aWhite)
+                        .background(
+                            Rectangle()
+                                .fill(Color.aPrimaryGreen.opacity(0.5))
+                                .frame(height: 45)
+                        )
+//                        .background(.aAccentGreen)
+//                        .frame(height: 0)
                         .font(.headline)
 
                     HStack {
-                        //                        HStack {
                         //MARK: Gallery Button
                         Button(action: onOpenGallery) {
                             Image(systemName: "photo.on.rectangle")
                                 .foregroundColor(.aPrimaryGreen)
                                 .font(.system(size: 30))
-//                                .background(
-//                                    Circle().fill(Color.black.opacity(0.6))
-//                                )
                         }
-                        //                        }
-                        
+
                         Spacer()
 
                         //MARK: Capture Button
@@ -84,9 +90,9 @@ struct CameraOverlayView: View {
                             }
                         }
                         .padding(.trailing, 20)
-                        
+
                         Spacer()
-                        
+
                         //MARK: Flash Button
                         Button(action: {
                             isFlashOn.toggle()
@@ -107,9 +113,8 @@ struct CameraOverlayView: View {
                         }
                     }
                     .padding(.horizontal, 30)
-                    .padding(.vertical, 35)
+                    .padding(.vertical, 40)
                     .background(.aWhite)
-//                    .padding(.bottom, 35)
                 }
             }
             .edgesIgnoringSafeArea(.bottom)
