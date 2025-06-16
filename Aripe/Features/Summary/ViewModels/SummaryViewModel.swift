@@ -5,7 +5,6 @@
 //  Created by Jerry Febriano on 16/06/25.
 //
 
-
 import SwiftUI
 
 class SummaryViewModel: ObservableObject {
@@ -32,5 +31,12 @@ class SummaryViewModel: ObservableObject {
     
     var confidencePercentage: Int {
         Int(result.confidence * 100)
+    }
+    
+    var appleInfo: Constants.AppleInfo {
+        guard let state = ripenessState else {
+            return Constants.AppleInfo.notApple
+        }
+        return Constants.AppleInfo.info(for: state)
     }
 }
