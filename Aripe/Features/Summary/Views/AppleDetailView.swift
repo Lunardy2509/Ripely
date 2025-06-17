@@ -56,7 +56,7 @@ struct AppleDetailView: View {
                     scanAnotherButton
                         .padding(.horizontal, 16)
                         .padding(.vertical, 16)
-                        .background(Color.white)
+                        .background(.aBackgroundPrimary)
                 }
             }
             .navigationTitle("Apple Detail")
@@ -72,7 +72,7 @@ struct AppleDetailView: View {
                     }
                 }
             }
-            .background(Color.white)
+            .background(.aBackgroundPrimary)
         }
     }
 
@@ -164,45 +164,45 @@ struct AppleDetailView: View {
                 Text("After slicing the apple,")
                     .font(.body)
                     .fontWeight(.semibold)
-                    .foregroundColor(Constants.NeutralBlack)
+                    .foregroundColor(.aTextPrimary)
             }
             
             // First bullet point
             VStack(spacing:0) {
                 HStack(alignment: .top, spacing: 8) {
                     Circle()
-                        .fill(Color.black)
+                        .fill(.aTextPrimary)
                         .frame(width: 4, height: 4)
                         .padding(.top, 4)
                     
                     Text("Store in a sealed container inside the fridge.")
                         .font(.footnote)
-                        .foregroundColor(Constants.NeutralBlack)
+                        .foregroundColor(.aTextPrimary)
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                 }
             
             // Second bullet point
             HStack(alignment: .top, spacing: 8) {
                 Circle()
-                    .fill(Color.black)
+                    .fill(.aTextPrimary)
                     .frame(width: 4, height: 4)
                     .padding(.top, 4)
                 
                 Text("Soak in lemon water or salt water to slow down the oxidation rate for a while.")
                     .font(.footnote)
-                    .foregroundColor(Constants.NeutralBlack)
+                    .foregroundColor(.aTextPrimary)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
             }
             }
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .topLeading)
-        .background(Constants.NeutralWhite)
+        .background(.aBackgroundSecondary)
         .cornerRadius(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
                 .inset(by: 0.5)
-                .stroke(Constants.NeutralLightGray, lineWidth: 1)
+                .stroke(.aStroke)
         )
         .padding(.horizontal, 16)
     }
@@ -213,7 +213,7 @@ struct AppleDetailView: View {
             Text("Tips")
                 .font(.body)
                 .fontWeight(.semibold)
-                .foregroundColor(Constants.NeutralBlack)
+                .foregroundColor(.aTextPrimary)
 
             HStack(alignment: .center, spacing: 12) {
                 Image(viewModel.appleInfo.tips.tipsIcon)
@@ -222,7 +222,7 @@ struct AppleDetailView: View {
                 // Caption1/Regular
                 Text(viewModel.appleInfo.tips.tipsLabel)
                     .font(.caption)
-                    .foregroundColor(Constants.NeutralBlack)
+                    .foregroundColor(.aTextPrimary)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
             }
             .padding(0)
@@ -230,12 +230,12 @@ struct AppleDetailView: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .topLeading)
-        .background(Constants.NeutralWhite)
+        .background(.aBackgroundSecondary)
         .cornerRadius(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
                 .inset(by: 0.5)
-                .stroke(Constants.NeutralLightGray, lineWidth: 1)
+                .stroke(.aStroke)
         )
         .padding(.horizontal, 16)
     }
