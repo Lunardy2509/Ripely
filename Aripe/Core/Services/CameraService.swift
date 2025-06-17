@@ -5,14 +5,13 @@
 //  Created by Jerry Febriano on 16/06/25.
 //
 
-
 import AVFoundation
 import UIKit
 import Vision
 
 protocol CameraServiceDelegate: AnyObject {
     func cameraService(_ service: CameraService, didOutput prediction: String)
-    func cameraService(_ service: CameraService, didCaptureImage result: PredictionResult)
+    func cameraService(_ service: CameraService, didCaptureImage image: UIImage)
     func cameraService(_ service: CameraService, didFailWithError error: Error)
 }
 
@@ -113,17 +112,8 @@ class CameraService: NSObject, ObservableObject {
         
         let croppedImage = UIImage(cgImage: croppedCG, scale: 1.0, orientation: .right)
         
-        mlService.predict(from: croppedImage) { [weak self] result in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let predictionResult):
-                    self.delegate?.cameraService(self, didCaptureImage: predictionResult)
-                case .failure(let error):
-                    self.delegate?.cameraService(self, didFailWithError: error)
-                }
-            }
+        DispatchQueue.main.async {
+            self.delegate?.cameraService(self, didCaptureImage: croppedImage)
         }
     }
 }
