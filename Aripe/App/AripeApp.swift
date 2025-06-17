@@ -15,6 +15,7 @@ struct AripeApp: App {
                     hasSeenOnboarding = true
                 })
             }
+//            OnBoardingView()
         }
     }
 }

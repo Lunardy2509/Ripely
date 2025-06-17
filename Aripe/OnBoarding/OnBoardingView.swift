@@ -8,103 +8,94 @@
 import SwiftUI
 
 struct OnBoardingView: View {
-    let pages = pagesContent
-
-    // Track the current page
-    @State private var currentPage = 0
-
-    // Dismiss or mark onboarding done
+    // Action when Start Scanning tapped
     var onFinished: (() -> Void)? = nil
 
     var body: some View {
         VStack {
-            TabView(selection: $currentPage) {
-                ForEach(Array(pages.enumerated()), id: \.1.id) {
-                    index,
-                    page in
-                    VStack(spacing: 20) {
-                        // Image container with rounded background
-                        ZStack {
-                            // Rounded rectangle background (light cream)
-                            RoundedRectangle(cornerRadius: 24)
-                                .fill(
-                                    Color(
-                                        red: 254 / 255,
-                                        green: 242 / 255,
-                                        blue: 221 / 255
-                                    )
-                                )
-                                .frame(
-                                    width: UIScreen.main.bounds.width * 0.8,
-                                    height: UIScreen.main.bounds.height * 0.4
-                                )
+            // Top spacing
+            Spacer().frame(height: 40)
 
-                            // The illustration image
-                            Image(page.imageName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(
-                                    width: UIScreen.main.bounds.width * 0.6,
-                                    height: 250
-                                )
-                        }
+            // Top Icon
+            Image(.appLogo)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 100, height: 100)
 
-                        // Title
-                        Text(page.title)
-                            .font(.title2).bold()
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 30)
+            // Title
+            Text("What is Ripely?")
+                .font(.title)
+                .fontWeight(.bold)
 
-                        // Description
-                        Text(page.description)
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 30)
-
-                    }
-                    .tag(index)
-                }
+            // Info cards
+            VStack(spacing: 16) {
+                InfoCard(
+                    iconName: .illust1,
+                    title:
+                        "Ripely can help you identify the ripeness level of apples using your phone camera."
+                )
+                InfoCard(
+                    iconName: .illust2,
+                    title:
+                        "Get tips on how to store your apple based on its ripeness level and external conditions."
+                )
+                InfoCard(
+                    iconName: .illust3,
+                    title:
+                        "Your result will vary depending on your lighting, phone camera, and apple variation."
+                )
             }
-//            .tabViewStyle(PageTabViewStyle())
-            .tabViewStyle(.page)
-            .indexViewStyle(.page(backgroundDisplayMode: .always))
+            .padding(.top, 24)
+            .padding(.horizontal, 20)
 
-            // Custom page indicator
-//            HStack(spacing: 8) {
-//                ForEach(0..<pages.count, id: \.self) { idx in
-//                    Circle()
-//                        .fill(
-//                            idx == currentPage
-//                                ? Color.primary : Color.gray.opacity(0.4)
-//                        )
-//                        .frame(width: 8, height: 8)
-//                }
-//            }
+            Spacer()  // push button to bottom
 
-            // “Selesai” button on last page
+            // Start Scanning button
             Button(action: {
-                if currentPage == pages.count - 1 {
-                    onFinished?()
-                }
+                onFinished?()
             }) {
-                Text("Selesai")
+                Text("Start Scanning")
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
-//                    .frame(height: 50)
                     .background(.aPrimaryGreen)
                     .cornerRadius(12)
+                    .padding(.horizontal, 20)
             }
-            .opacity(currentPage == pages.count - 1 ? 1 : 0)
-            .disabled(currentPage != pages.count - 1)
-            .padding(.horizontal, 30)
-            .padding(.top, 16)
-            .padding(.bottom, 40)
+            .padding(.bottom, 35)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.systemBackground)) 
+        .ignoresSafeArea(edges: .bottom)
+    }
+}
+
+// MARK: - InfoCard
+
+struct InfoCard: View {
+    let iconName: ImageResource
+    let title: String
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 12) {
+                Image(iconName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 100)
+                    .background(.aCream)
+
+            Text(title)
+                .font(.footnote)
+                .lineSpacing(7)
+                .multilineTextAlignment(.leading)
+                .padding(.horizontal, 8)
 
         }
-        .ignoresSafeArea(edges: .bottom)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.aWhite)
+        .cornerRadius(16)
+        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 6)
     }
 }
 
