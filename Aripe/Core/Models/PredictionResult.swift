@@ -31,7 +31,7 @@ struct PredictionResult {
 enum AppleRipenessState: String, CaseIterable {
     case unripe = "unripe apple"
     case ripe = "ripe apple"
-    case overripe = "overripe apple"
+    case overripe = "rotten apple"
     case notApple = "not apple"
     
     var displayInfo: (title: String, description: String, color: String) {

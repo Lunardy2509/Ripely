@@ -27,7 +27,8 @@ struct SummaryView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     if viewModel.isPredictionValid {
                         imageSection
-                        predictionSection.padding(.horizontal, 16)
+                        ApplePredictionResultView(viewModel: viewModel)
+                            .padding(.horizontal, 16)
                         finishButton
                     } else {
                         errorSection
@@ -76,72 +77,6 @@ struct SummaryView: View {
                     .padding(.horizontal, 16)
             }
         }
-    }
-
-    private var predictionSection: some View {
-        let appleInfo = viewModel.appleInfo
-        
-        return VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .center, spacing: 16) {
-                // Dynamic apple image based on state
-                Image(appleInfo.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 98, height: 98)
-
-                VStack(alignment: .leading, spacing: 16) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        // Dynamic title
-                        Text(appleInfo.title)
-                            .font(.headline)
-                            .foregroundColor(Constants.NeutralBlack)
-                            .frame(
-                                maxWidth: .infinity,
-                                alignment: .topLeading
-                            )
-
-                        // Dynamic characteristics
-                        Text(appleInfo.characteristics)
-                            .font(.footnote)
-                            .foregroundColor(Color.gray)
-                            .frame(
-                                maxWidth: .infinity,
-                                alignment: .topLeading
-                            )
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    .padding(0)
-
-                    // Dynamic consumption advice
-                    HStack(alignment: .center, spacing: 10) {
-                        Text(appleInfo.consumptionAdvice)
-                            .font(.subheadline)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(appleInfo.adviceColor)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 4)
-                    .frame(height: 28, alignment: .center)
-                    .background(appleInfo.backgroundColor)
-                    .cornerRadius(24)
-                }
-                .frame(maxWidth: .infinity, alignment: .topLeading)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .padding()
-        .background(.white)
-        .cornerRadius(16)
-        .shadow(
-            color: Constants.MiscellaneousFloatingTabPillShadow,
-            radius: 5,
-            x: 0,
-            y: 4
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color(red: 0.95, green: 0.95, blue: 0.95), lineWidth: 1)
-        )
     }
 
     private var errorSection: some View {

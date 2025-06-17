@@ -34,7 +34,8 @@ struct AppleDetailView: View {
                         }
 
                         // Apple Status Section
-                        appleStatusSection.padding(.horizontal, 16)
+                        ApplePredictionResultView(viewModel: viewModel)
+                            .padding(.horizontal, 16)
 
                         // Info Cards Section
                         infoCardsSection.padding(.horizontal, 16)
@@ -45,7 +46,7 @@ struct AppleDetailView: View {
                         // Tips Section
                         tipsSection
                     }
-                    .padding(.bottom, 100) // Add bottom padding to avoid button overlap
+                    .padding(.bottom, 16) // Add bottom padding to avoid button overlap
                 }
                 
                 // Fixed bottom button
@@ -75,106 +76,49 @@ struct AppleDetailView: View {
         }
     }
 
-    private var appleStatusSection: some View {
-        let appleInfo = viewModel.appleInfo
-
-        return VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .center, spacing: 16) {
-                // Dynamic apple image based on state
-                Image(appleInfo.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 98, height: 98)
-
-                VStack(alignment: .leading, spacing: 16) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        // Dynamic title
-                        Text(appleInfo.title)
-                            .font(.headline)
-                            .foregroundColor(Constants.NeutralBlack)
-                            .frame(
-                                maxWidth: .infinity,
-                                alignment: .topLeading
-                            )
-
-                        // Dynamic characteristics
-                        Text(appleInfo.characteristics)
-                            .font(.footnote)
-                            .foregroundColor(Color.gray)
-                            .frame(
-                                maxWidth: .infinity,
-                                alignment: .topLeading
-                            )
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    .padding(0)
-
-                    // Dynamic consumption advice
-                    HStack(alignment: .center, spacing: 10) {
-                        Text(appleInfo.consumptionAdvice)
-                            .font(.subheadline)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(appleInfo.adviceColor)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 4)
-                    .frame(height: 28, alignment: .center)
-                    .background(appleInfo.backgroundColor)
-                    .cornerRadius(24)
-                }
-                .frame(maxWidth: .infinity, alignment: .topLeading)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .padding()
-        .background(.white)
-        .cornerRadius(16)
-        .shadow(
-            color: Constants.MiscellaneousFloatingTabPillShadow,
-            radius: 5,
-            x: 0,
-            y: 4
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color(red: 0.95, green: 0.95, blue: 0.95), lineWidth: 1)
-        )
-    }
-
     private var infoCardsSection: some View {
         HStack(alignment: .center, spacing: 16) {
             VStack(alignment: .center) {
                 // Space Between
-                Image("ripe_candy")
+                Image(viewModel.appleInfo.characteristics.sweetIconName)
                 Spacer()
                 // Alternating Views and Spacers
                 // Caption2/Regular
-                Text("Sweet")
+                Text(viewModel.appleInfo.characteristics.sweetLevel)
                     .font(.caption2)
-                    .foregroundColor(Constants.PrimaryBrown)
+                    .foregroundColor(
+                        viewModel.appleInfo.characteristics.sweetPrimaryColor
+                    )
             }
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .aspectRatio(1, contentMode: .fit)
-            .background(Color(red: 0.57, green: 0.19, blue: 0.03).opacity(0.1))
+            .background(
+                viewModel.appleInfo.characteristics.sweetPrimaryColor
+                    .opacity(0.1)
+            )
             .cornerRadius(16)
 
             VStack(alignment: .center) {
                 // Space Between
-                Image("thermometer")
+                Image(viewModel.appleInfo.characteristics.tempIconName)
                 Spacer()
                 // Alternating Views and Spacers
                 VStack(alignment: .leading, spacing: 4) {  // Caption2/Emphasized
                     Text("Ideal Temp:")
                         .font(.caption2)
                         .fontWeight(.bold)
-                        .foregroundColor(Constants.PrimaryPrimaryGreen)
+                        .foregroundColor(
+                            viewModel.appleInfo.characteristics.tempPrimaryColor
+                        )
                         .frame(maxWidth: .infinity, alignment: .top)
 
                     // Caption2/Regular
-                    Text("4–20°C")
+                    Text(viewModel.appleInfo.characteristics.tempLevel)
                         .font(.caption2)
-                        .foregroundColor(Constants.PrimaryPrimaryGreen)
+                        .foregroundColor(
+                            viewModel.appleInfo.characteristics.tempPrimaryColor
+                        )
                         .frame(maxWidth: .infinity, alignment: .top)
                 }
                 .padding(0)
@@ -183,24 +127,32 @@ struct AppleDetailView: View {
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .aspectRatio(1, contentMode: .fit)
-            .background(Color(red: 0.23, green: 0.5, blue: 0.19).opacity(0.1))
+            .background(
+                viewModel.appleInfo.characteristics.tempPrimaryColor
+                    .opacity(0.1)
+            )
             .cornerRadius(16)
 
             VStack(alignment: .center) {
                 // Space Between
-                Image("fridge")
+                Image(viewModel.appleInfo.characteristics.saveIconName)
                 Spacer()
                 // Alternating Views and Spacers
                 // Caption2/Regular
-                Text("Keep in fridge")
+                Text(viewModel.appleInfo.characteristics.saveDescription)
                     .font(.caption2)
-                    .foregroundColor(Constants.PrimaryPrimaryGreen)
+                    .foregroundColor(
+                        viewModel.appleInfo.characteristics.savePrimaryColor
+                    )
                     .frame(maxWidth: .infinity, alignment: .top)
             }
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .aspectRatio(1, contentMode: .fit)
-            .background(Color(red: 0.23, green: 0.5, blue: 0.19).opacity(0.1))
+            .background(
+                viewModel.appleInfo.characteristics.savePrimaryColor
+                    .opacity(0.1)
+            )
             .cornerRadius(16)
         }
     }
@@ -263,58 +215,18 @@ struct AppleDetailView: View {
                 .fontWeight(.semibold)
                 .foregroundColor(Constants.NeutralBlack)
 
-            HStack(alignment: .top, spacing: 16) {
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack(alignment: .center, spacing: 8) {
-                        Image("banana")
-                            .frame(width: 40, height: 40)
-                        Image("avocado")
-                            .frame(width: 40, height: 40)
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                    }
-                    .padding(0)
-                    
-                    
-                    // Caption1/Regular
-                    Text(
-                        "Avoid placing apples beside bananas or avocados. The ripened apple would oxidize faster."
-                    )
+            HStack(alignment: .center, spacing: 12) {
+                Image(viewModel.appleInfo.tips.tipsIcon)
+                    .frame(width: 40, height: 40)
+                
+                // Caption1/Regular
+                Text(viewModel.appleInfo.tips.tipsLabel)
                     .font(.caption)
                     .foregroundColor(Constants.NeutralBlack)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
-                }
-                .padding(0)
-                .frame(maxWidth: .infinity, alignment: .topLeading)
-
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 1, height: 112)
-                    .background(Constants.NeutralLightGray)
-
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack(alignment: .center, spacing: 10) {
-                        Image("paper_bag")
-                            .frame(width: 26.66667, height: 30)
-                        Image(systemName: "x.circle.fill")
-                            .foregroundColor(.red)
-                    }
-                    .padding(.horizontal, 7)
-                    .padding(.vertical, 5)
-
-                    // Caption1/Regular
-                    Text(
-                        "Utilize a paper bag to speed up the ripening rate if you want to eat it quickly."
-                    )
-                    .font(.caption)
-                    .foregroundColor(Constants.NeutralBlack)
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                }
-                .padding(0)
-                .frame(maxWidth: .infinity, alignment: .topLeading)
             }
             .padding(0)
-            .frame(maxWidth: .infinity, alignment: .topLeading)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .topLeading)
