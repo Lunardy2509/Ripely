@@ -43,6 +43,11 @@ struct CameraOverlayView: View {
                         }
                     )
                 
+                // Processing overlay
+                if viewModel.isProcessing {
+                    processingOverlay
+                }
+                
                 VStack {
                     //MARK: Top Bar
                     HStack() {
@@ -85,22 +90,31 @@ struct CameraOverlayView: View {
                             photoLibrary: .shared()
                         ) {
                             Image(systemName: "photo.on.rectangle")
-                                .foregroundColor(.aPrimaryGreen)
+                                .foregroundColor(viewModel.isProcessing ? .gray : .aPrimaryGreen)
                                 .font(.system(size: 30))
                         }
+                        .disabled(viewModel.isProcessing)
+                        
                         Spacer()
                         
                         //MARK: Capture Button
                         Button(action: viewModel.captureImage) {
                             ZStack {
                                 Circle()
-                                    .stroke(Color.aPrimaryGreen, lineWidth: 5)
+                                    .stroke(viewModel.isProcessing ? Color.gray : Color.aPrimaryGreen, lineWidth: 5)
                                     .frame(width: 75, height: 75)
                                 Circle()
-                                    .fill(Color.aPrimaryGreen)
+                                    .fill(viewModel.isProcessing ? Color.gray : Color.aPrimaryGreen)
                                     .frame(width: 65, height: 65)
+                                
+                                if viewModel.isProcessing {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .scaleEffect(0.8)
+                                }
                             }
                         }
+                        .disabled(viewModel.isProcessing)
                         .padding(.trailing, 20)
                         
                         Spacer()
@@ -120,15 +134,11 @@ struct CameraOverlayView: View {
                                 )
                             )
                         }
+                        .disabled(viewModel.isProcessing)
                     }
                     .padding(.horizontal, 30)
                     .padding(.vertical, 40)
                     .background(.aWhite)
-                }
-                .onChange(of: viewModel.selectedPhotoItem) { _, _ in
-                    Task {
-                        await viewModel.loadImageFromPicker()
-                    }
                 }
             }
             .navigationTitle("Scan Your Apple")
@@ -139,6 +149,34 @@ struct CameraOverlayView: View {
                     .presentationDragIndicator(.visible)
                     .presentationDetents([.fraction(0.99)])
             }
+            .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
+                Button("OK") {
+                    viewModel.errorMessage = nil
+                }
+            } message: {
+                if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                }
+            }
+        }
+    }
+    
+    private var processingOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.3)
+            
+            VStack(spacing: 16) {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    .scaleEffect(1.5)
+                
+                Text("Processing...")
+                    .foregroundColor(.white)
+                    .font(.headline)
+            }
+            .padding(24)
+            .background(Color.black.opacity(0.8))
+            .cornerRadius(12)
         }
     }
 }

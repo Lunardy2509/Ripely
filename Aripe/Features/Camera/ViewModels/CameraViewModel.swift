@@ -5,7 +5,6 @@
 //  Created by Jerry Febriano on 16/06/25.
 //
 
-
 import SwiftUI
 import PhotosUI
 import Combine
@@ -16,29 +15,38 @@ class CameraViewModel: ObservableObject {
     @Published var cropRectInView: CGRect = .zero
     @Published var capturedResult: PredictionResult?
     @Published var showSummary = false
-    @Published var showPhotoPicker = false
-    @Published var selectedImage: UIImage?
     @Published var errorMessage: String?
     @Published var isSheetOpened = false
     @Published var selectedPhotoItem: PhotosPickerItem? = nil
+    @Published var isProcessing = false
     
     private let cameraService: CameraService
+    private let photoProcessingService: PhotoProcessingServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    init(cameraService: CameraService = CameraService()) {
+    init(
+        cameraService: CameraService = CameraService(),
+        photoProcessingService: PhotoProcessingServiceProtocol = PhotoProcessingService()
+    ) {
         self.cameraService = cameraService
+        self.photoProcessingService = photoProcessingService
         self.cameraService.delegate = self
+        
+        setupPhotoItemObserver()
     }
     
+    // MARK: - Camera Functions
     func setupCamera(in view: UIView) {
         cameraService.setupCamera(in: view)
     }
     
     func captureImage() {
-        guard capturedResult == nil else {
-            print("Prediction already exists.")
+        guard capturedResult == nil, !isProcessing else {
+            print("Capture already in progress or result exists.")
             return
         }
+        
+        isProcessing = true
         cameraService.captureImage(cropRect: cropRectInView)
     }
     
@@ -47,53 +55,83 @@ class CameraViewModel: ObservableObject {
         cameraService.toggleTorch()
     }
     
-    func resetCapture() {
-        capturedResult = nil
-        showSummary = false
+    // MARK: - Photo Processing Functions
+    private func setupPhotoItemObserver() {
+        $selectedPhotoItem
+            .compactMap { $0 }
+            .sink { [weak self] item in
+                self?.processPhotoItem(item)
+            }
+            .store(in: &cancellables)
     }
     
-    func loadImageFromPicker() async {
-        guard let item = selectedPhotoItem else { return }
+    private func processPhotoItem(_ item: PhotosPickerItem) {
+        guard !isProcessing else { return }
         
-        do {
-            if let data = try await item.loadTransferable(type: Data.self),
-               let uiImage = UIImage(data: data) {
+        isProcessing = true
+        errorMessage = nil
+        
+        photoProcessingService.loadAndProcessImage(from: item) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isProcessing = false
                 
-                await MainActor.run {
-                    self.selectedImage = uiImage
-                    self.capturedResult = PredictionResult(image: uiImage, label: "From Gallery", confidence: 1.0)
-                    self.showSummary = true
+                switch result {
+                case .success(let predictionResult):
+                    self?.handlePredictionSuccess(predictionResult)
+                case .failure(let error):
+                    self?.handlePredictionError(error)
                 }
-            } else {
-                await MainActor.run {
-                    self.errorMessage = "Invalid image format."
-                }
-            }
-        } catch {
-            await MainActor.run {
-                self.errorMessage = "Failed to load image: \(error.localizedDescription)"
             }
         }
     }
+    
+    // MARK: - Result Handling
+    private func handlePredictionSuccess(_ result: PredictionResult) {
+        capturedResult = result
+        showSummary = true
+    }
+    
+    private func handlePredictionError(_ error: Error) {
+        errorMessage = error.localizedDescription
+        // Reset photo item to allow retry
+        selectedPhotoItem = nil
+    }
+    
+    func resetCapture() {
+        capturedResult = nil
+        showSummary = false
+        selectedPhotoItem = nil
+        isProcessing = false
+        errorMessage = nil
+    }
 }
 
+// MARK: - CameraServiceDelegate
 extension CameraViewModel: CameraServiceDelegate {
     func cameraService(_ service: CameraService, didOutput prediction: String) {
         livePrediction = prediction
     }
     
-    func cameraService(_ service: CameraService, didCaptureImage result: PredictionResult) {
-        DispatchQueue.main.async {
-            self.capturedResult = result
-            self.showSummary = true
+    func cameraService(_ service: CameraService, didCaptureImage image: UIImage) {
+        // Process the captured image with ML
+        photoProcessingService.processImage(image) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isProcessing = false
+                
+                switch result {
+                case .success(let predictionResult):
+                    self?.handlePredictionSuccess(predictionResult)
+                case .failure(let error):
+                    self?.handlePredictionError(error)
+                }
+            }
         }
     }
     
     func cameraService(_ service: CameraService, didFailWithError error: Error) {
         DispatchQueue.main.async {
+            self.isProcessing = false
             self.errorMessage = error.localizedDescription
         }
     }
 }
-
-
