@@ -7,6 +7,7 @@
 
 
 import SwiftUI
+import PhotosUI
 import Combine
 
 class CameraViewModel: ObservableObject {
@@ -19,6 +20,7 @@ class CameraViewModel: ObservableObject {
     @Published var selectedImage: UIImage?
     @Published var errorMessage: String?
     @Published var isSheetOpened = false
+    @Published var selectedPhotoItem: PhotosPickerItem? = nil
     
     private let cameraService: CameraService
     private var cancellables = Set<AnyCancellable>()
@@ -45,13 +47,33 @@ class CameraViewModel: ObservableObject {
         cameraService.toggleTorch()
     }
     
-    func openGallery() {
-        showPhotoPicker = true
-    }
-    
     func resetCapture() {
         capturedResult = nil
         showSummary = false
+    }
+    
+    func loadImageFromPicker() async {
+        guard let item = selectedPhotoItem else { return }
+        
+        do {
+            if let data = try await item.loadTransferable(type: Data.self),
+               let uiImage = UIImage(data: data) {
+                
+                await MainActor.run {
+                    self.selectedImage = uiImage
+                    self.capturedResult = PredictionResult(image: uiImage, label: "From Gallery", confidence: 1.0)
+                    self.showSummary = true
+                }
+            } else {
+                await MainActor.run {
+                    self.errorMessage = "Invalid image format."
+                }
+            }
+        } catch {
+            await MainActor.run {
+                self.errorMessage = "Failed to load image: \(error.localizedDescription)"
+            }
+        }
     }
 }
 

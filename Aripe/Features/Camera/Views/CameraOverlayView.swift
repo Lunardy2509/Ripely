@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct CameraOverlayView: View {
     @ObservedObject var viewModel: CameraViewModel
@@ -78,12 +79,15 @@ struct CameraOverlayView: View {
                     
                     HStack {
                         //MARK: Gallery Button
-                        Button(action: viewModel.openGallery) {
+                        PhotosPicker(
+                            selection: $viewModel.selectedPhotoItem,
+                            matching: .images,
+                            photoLibrary: .shared()
+                        ) {
                             Image(systemName: "photo.on.rectangle")
                                 .foregroundColor(.aPrimaryGreen)
                                 .font(.system(size: 30))
                         }
-                        
                         Spacer()
                         
                         //MARK: Capture Button
@@ -120,6 +124,11 @@ struct CameraOverlayView: View {
                     .padding(.horizontal, 30)
                     .padding(.vertical, 40)
                     .background(.aWhite)
+                }
+                .onChange(of: viewModel.selectedPhotoItem) { _, _ in
+                    Task {
+                        await viewModel.loadImageFromPicker()
+                    }
                 }
             }
             .navigationTitle("Scan Your Apple")

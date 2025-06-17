@@ -27,8 +27,8 @@ struct MainView: View {
                     .presentationDragIndicator(.visible)
             }
         }
-        .sheet(isPresented: $viewModel.showPhotoPicker) {
-            PhotoPickerView(selectedImage: $viewModel.selectedImage)
-        }
+//        .sheet(isPresented: $viewModel.showPhotoPicker) {
+//            PhotoPickerView(selectedImage: $viewModel.selectedImage)
+//        }
     }
 }
