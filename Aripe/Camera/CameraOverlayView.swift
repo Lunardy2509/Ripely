@@ -8,6 +8,7 @@ struct CameraOverlayView: View {
 
     @Binding var cropRectInView: CGRect
     @State private var isFlashOn = false
+    @State private var isSheetOpened = false
 
     var body: some View {
         GeometryReader { geometry in
@@ -50,9 +51,23 @@ struct CameraOverlayView: View {
                     //MARK: Top Bar
                     HStack() {
                         Spacer()
-                        Image(systemName: "camera")
-                            .foregroundColor(.aWhite)
-                            
+                        
+                        //MARK: Help Button
+                        Button(action: {
+                            isSheetOpened.toggle()
+                        }) {
+                            Image(systemName: "questionmark")
+                                .foregroundColor(.aWhite)
+                                .font(.system(size: 20))
+                                .bold()
+                                .background(
+                                    Circle().fill(Color.aBlack.opacity(0.5)).frame(
+                                        width: 40,
+                                        height: 40
+                                    )
+                                )
+                        }
+                        .padding(25)
                     }
                     Spacer()
 
@@ -118,6 +133,10 @@ struct CameraOverlayView: View {
                 }
             }
             .edgesIgnoringSafeArea(.bottom)
+            .sheet(isPresented: $isSheetOpened) {
+                SnapTips()
+                    .presentationDragIndicator(.visible)
+            }
         }
     }
 }
