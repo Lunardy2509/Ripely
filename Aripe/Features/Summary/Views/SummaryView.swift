@@ -46,18 +46,9 @@ struct SummaryView: View {
 
     private var headerSection: some View {
         HStack {
-            Text("Hasil Scan")
+            Text("Scan Result")
                 .font(.title2)
                 .fontWeight(.bold)
-            Spacer()
-            Button {
-                isPresented = false
-            } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.gray)
-            }
         }
         .padding()
     }
