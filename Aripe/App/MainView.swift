@@ -23,7 +23,7 @@ struct MainView: View {
         }) {
             if let result = viewModel.capturedResult {
                 SummaryView(result: result, isPresented: $viewModel.showSummary)
-                    .presentationDetents([.fraction(0.80), .fraction(0.99)])
+                    .presentationDetents([.fraction(0.85)])
                     .presentationDragIndicator(.visible)
             }
         }
