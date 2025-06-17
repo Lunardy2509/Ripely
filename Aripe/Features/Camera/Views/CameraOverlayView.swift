@@ -71,7 +71,7 @@ struct CameraOverlayView: View {
                         .foregroundColor(.aWhite)
                         .background(
                             Rectangle()
-                                .fill(Color.aPrimaryGreen.opacity(0.5))
+                                .fill(Color.aBlack.opacity(0.5))
                                 .frame(height: 30)
                         )
                         .font(.caption)
