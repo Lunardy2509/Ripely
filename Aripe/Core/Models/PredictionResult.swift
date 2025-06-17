@@ -5,6 +5,12 @@
 //  Created by Jerry Febriano on 16/06/25.
 //
 
+//
+//  PredictionResult.swift
+//  Aripe
+//
+//  Created by Jerry Febriano on 16/06/25.
+//
 
 import UIKit
 
@@ -25,7 +31,7 @@ struct PredictionResult {
 enum AppleRipenessState: String, CaseIterable {
     case unripe = "unripe apple"
     case ripe = "ripe apple"
-    case rotten = "rotten apple"
+    case overripe = "overripe apple"
     case notApple = "not apple"
     
     var displayInfo: (title: String, description: String, color: String) {
@@ -34,8 +40,8 @@ enum AppleRipenessState: String, CaseIterable {
             return ("Belum Matang", "Apel masih keras dan belum manis", "orange")
         case .ripe:
             return ("Matang", "Siap dikonsumsi, rasa manis", "green")
-        case .rotten:
-            return ("Busuk", "Apel sudah tidak layak dikonsumsi", "red")
+        case .overripe:
+            return ("Terlalu Matang", "Apel mungkin terlalu lunak", "brown")
         case .notApple:
             return ("Tidak Dikenal", "Tidak bisa mendeteksi kondisi apel", "gray")
         }

@@ -37,7 +37,9 @@ struct SummaryView: View {
             }
         }
         .fullScreenCover(isPresented: $showAppleDetail) {
-            AppleDetailView(result: viewModel.result, isPresented: $isPresented)
+            if viewModel.ripenessState != .notApple {
+                AppleDetailView(result: viewModel.result, isPresented: $isPresented)
+            }
         }
     }
 
@@ -144,15 +146,16 @@ struct SummaryView: View {
 
     private var errorSection: some View {
         VStack(alignment: .center, spacing: 12) {
-            Image(systemName: "exclamationmark.triangle")
-                .font(.system(size: 48))
-                .foregroundColor(.orange)
+            Image("not_apple")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 100, height: 100)
             
-            Text("Foto tidak terdeteksi")
+            Text("Apel tidak terdeteksi")
                 .foregroundColor(.gray)
                 .fontWeight(.semibold)
                 .font(.title2)
-            Text("Silakan coba scan ulang dengan pencahayaan yang lebih baik.")
+            Text("Silakan coba scan ulang dengan pencahayaan yang lebih baik dan pastikan objek adalah apel.")
                 .font(.subheadline)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
@@ -163,9 +166,13 @@ struct SummaryView: View {
     
     private var finishButton: some View {
         Button(action: {
-            showAppleDetail = true
+            if viewModel.ripenessState != .notApple {
+                showAppleDetail = true
+            } else {
+                isPresented = false // Dismiss if not an apple
+            }
         }) {
-            Text("Selesai")
+            Text(viewModel.ripenessState == .notApple ? "Coba Lagi" : "Lihat Detail")
                 .font(.headline)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
@@ -201,11 +208,11 @@ struct SummaryView: View {
     )
 }
 
-#Preview("Rotten Apple") {
+#Preview("Overripe Apple") {
     SummaryView(
         result: PredictionResult(
             image: createSampleImage(color: .brown, emoji: "🍎"),
-            label: "rotten apple",
+            label: "overripe apple",
             confidence: 0.94
         ),
         isPresented: .constant(true)

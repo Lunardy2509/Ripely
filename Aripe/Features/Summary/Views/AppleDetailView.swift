@@ -37,7 +37,7 @@ struct AppleDetailView: View {
                         appleStatusSection.padding(.horizontal, 16)
 
                         // Info Cards Section
-                        infoCardsSection
+                        infoCardsSection.padding(.horizontal, 16)
 
                         // After Slicing Section
                         afterSlicingSection
@@ -154,7 +154,8 @@ struct AppleDetailView: View {
                     .foregroundColor(Constants.PrimaryBrown)
             }
             .padding(16)
-            .frame(width: 113.33334, height: 117, alignment: .center)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .aspectRatio(1, contentMode: .fit)
             .background(Color(red: 0.57, green: 0.19, blue: 0.03).opacity(0.1))
             .cornerRadius(16)
 
@@ -173,16 +174,15 @@ struct AppleDetailView: View {
                     // Caption2/Regular
                     Text("4–20°C")
                         .font(.caption2)
-                        .foregroundColor(
-                            Constants.PrimaryPrimaryGreen
-                        )
+                        .foregroundColor(Constants.PrimaryPrimaryGreen)
                         .frame(maxWidth: .infinity, alignment: .top)
                 }
                 .padding(0)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(16)
-            .frame(width: 113.33334, height: 117, alignment: .center)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .aspectRatio(1, contentMode: .fit)
             .background(Color(red: 0.23, green: 0.5, blue: 0.19).opacity(0.1))
             .cornerRadius(16)
 
@@ -198,7 +198,8 @@ struct AppleDetailView: View {
                     .frame(maxWidth: .infinity, alignment: .top)
             }
             .padding(16)
-            .frame(width: 113.33334, height: 117, alignment: .center)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .aspectRatio(1, contentMode: .fit)
             .background(Color(red: 0.23, green: 0.5, blue: 0.19).opacity(0.1))
             .cornerRadius(16)
         }
@@ -345,7 +346,7 @@ struct AppleDetailView: View {
         switch viewModel.ripenessState {
         case .ripe: return "Ripe"
         case .unripe: return "Unripe"
-        case .rotten: return "Rotten"
+        case .overripe: return "Overripe"
         case .notApple: return "Unknown"
         case .none: return "Unknown"
         }
@@ -356,7 +357,7 @@ struct AppleDetailView: View {
         case .ripe:
             return "Consume soon for best taste, store in the fridge if needed."
         case .unripe: return "Wait a few more days before consuming."
-        case .rotten: return "This apple is no longer safe to consume."
+        case .overripe: return "This apple is best consumed immediately."
         case .notApple: return "This doesn't appear to be an apple."
         case .none: return "Unable to determine apple status."
         }
@@ -364,7 +365,7 @@ struct AppleDetailView: View {
 }
 
 // Supporting Views
-struct InfoCard: View {
+struct AppleInfoCard: View {
     let icon: String
     let title: String
     let subtitle: String?

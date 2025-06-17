@@ -67,36 +67,36 @@ struct Constants {
             imageName: "red_apple",
             title: "Apel ini terlihat matang",
             characteristics:
-                "ciri-ciri: warna merah cerah, kulit mengkilap, tekstur keras namun tidak terlalu keras",
-            consumptionAdvice: "Siap dikonsumsi sekarang",
+                "Ciri-ciri: warna merah cerah, kulit mengkilap, tekstur keras namun tidak terlalu keras.",
+            consumptionAdvice: "Baik dimakan sebelum 5 hari",
             adviceColor: .green,
-            backgroundColor: Color.green.opacity(0.1)
+            backgroundColor: Color.green.opacity(0.2)
         )
 
         static let unripe = AppleInfo(
             imageName: "green_apple",
             title: "Apel ini masih mentah",
             characteristics:
-                "ciri-ciri: warna hijau dominan, kulit keras, rasa masih asam dan keras",
-            consumptionAdvice: "Tunggu 3-5 hari lagi",
+                "Ciri-ciri: Keras dan sedikit asam, biarkan di luar atau dinginkan agar tetap segar.",
+            consumptionAdvice: "Matang dalam 3-5 hari",
             adviceColor: .orange,
-            backgroundColor: Color.orange.opacity(0.1)
+            backgroundColor: Color.orange.opacity(0.2)
         )
 
-        static let rotten = AppleInfo(
+        static let overripe = AppleInfo(
             imageName: "brown_apple",
-            title: "Apel ini sudah busuk",
+            title: "Apel ini terlalu matang",
             characteristics:
-                "ciri-ciri: warna kecokelatan, tekstur lunak, mungkin ada bintik hitam",
-            consumptionAdvice: "Jangan dikonsumsi",
-            adviceColor: .red,
-            backgroundColor: Color.red.opacity(0.1)
+                "Sebaiknya segera dimakan, mungkin terlalu lunak atau manis untuk beberapa selera.",
+            consumptionAdvice: "Gunakan Segera",
+            adviceColor: Constants.PrimaryBrown,
+            backgroundColor: Color.yellow.opacity(0.3)
         )
 
         static let notApple = AppleInfo(
-            imageName: "questionmark_apple",
-            title: "Ini bukan apel",
-            characteristics: "objek yang terdeteksi bukan merupakan buah apel",
+            imageName: "not_apple",
+            title: "Apel tidak terdeteksi",
+            characteristics: "Objek yang terdeteksi bukan merupakan buah apel.",
             consumptionAdvice: "Coba scan apel yang lain",
             adviceColor: .gray,
             backgroundColor: Color.gray.opacity(0.1)
@@ -106,7 +106,7 @@ struct Constants {
             switch state {
             case .ripe: return .ripe
             case .unripe: return .unripe
-            case .rotten: return .rotten
+            case .overripe: return .overripe
             case .notApple: return .notApple
             }
         }
