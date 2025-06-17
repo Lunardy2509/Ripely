@@ -26,7 +26,6 @@ struct ApplePredictionResultView: View {
                         // Dynamic title
                         Text(appleInfo.title)
                             .font(.headline)
-//                            .foregroundColor(Constants.NeutralBlack)
                             .frame(
                                 maxWidth: .infinity,
                                 alignment: .topLeading
@@ -45,13 +44,10 @@ struct ApplePredictionResultView: View {
                     .padding(0)
 
                     // Dynamic consumption advice
-                    HStack(alignment: .center, spacing: 10) {
-//                        Spacer()
-                        Text(appleInfo.consumptionAdvice)
+                    HStack(alignment: .center, spacing: 10) {                        Text(appleInfo.consumptionAdvice)
                             .font(.subheadline)
                             .multilineTextAlignment(.center)
                             .foregroundColor(appleInfo.adviceColor)
-//                        Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 4)

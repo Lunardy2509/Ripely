@@ -5,7 +5,6 @@
 //  Created by Jerry Febriano on 16/06/25.
 //
 
-
 import SwiftUI
 
 struct MainView: View {
@@ -27,8 +26,5 @@ struct MainView: View {
                     .presentationDragIndicator(.visible)
             }
         }
-//        .sheet(isPresented: $viewModel.showPhotoPicker) {
-//            PhotoPickerView(selectedImage: $viewModel.selectedImage)
-//        }
     }
 }

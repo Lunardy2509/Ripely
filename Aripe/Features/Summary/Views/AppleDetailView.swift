@@ -144,11 +144,12 @@ struct AppleDetailView: View {
                     .foregroundColor(
                         viewModel.appleInfo.characteristics.savePrimaryColor
                     )
+                    .multilineTextAlignment(.center)
+                    .lineLimit(nil)
                     .frame(maxWidth: .infinity, alignment: .top)
             }
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            .aspectRatio(1, contentMode: .fit)
             .background(
                 viewModel.appleInfo.characteristics.savePrimaryColor
                     .opacity(0.1)
