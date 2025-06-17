@@ -83,13 +83,17 @@ extension CameraViewModel: CameraServiceDelegate {
     }
     
     func cameraService(_ service: CameraService, didCaptureImage result: PredictionResult) {
-        capturedResult = result
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+        DispatchQueue.main.async {
+            self.capturedResult = result
             self.showSummary = true
         }
     }
     
     func cameraService(_ service: CameraService, didFailWithError error: Error) {
-        errorMessage = error.localizedDescription
+        DispatchQueue.main.async {
+            self.errorMessage = error.localizedDescription
+        }
     }
 }
+
+

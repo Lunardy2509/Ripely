@@ -12,6 +12,23 @@ struct Constants {
     static let MiscellaneousFloatingTabPillShadow: Color = .black.opacity(0.08)
     static let NeutralBlack: Color = Color(red: 0.18, green: 0.18, blue: 0.18)
     static let PrimaryRed: Color = Color(red: 0.87, green: 0.18, blue: 0.27)
+    static let PrimaryBrown: Color = Color(red: 0.57, green: 0.19, blue: 0.03)
+    static let PrimaryPrimaryGreen: Color = Color(
+        red: 0.23,
+        green: 0.5,
+        blue: 0.19
+    )
+    static let NeutralWhite: Color = Color(red: 1, green: 0.99, blue: 0.99)
+    static let NeutralLightGray: Color = Color(
+        red: 0.89,
+        green: 0.89,
+        blue: 0.89
+    )
+    static let PrimaryDarkOrange: Color = Color(
+        red: 0.66,
+        green: 0.49,
+        blue: 0.19
+    )
 
     struct Camera {
         static let captureBoxSize: CGFloat = 250
@@ -54,57 +71,140 @@ struct Constants {
     struct AppleInfo {
         let imageName: String
         let title: String
-        let characteristics: String
+        let appleDescription: String
         let consumptionAdvice: String
         let adviceColor: Color
         let backgroundColor: Color
+        let showRipeningAdvice: Bool = true
+        let characteristics: AppleCharacteristic
+        let tips: AppleTips
 
         static let ripe = AppleInfo(
             imageName: "red_apple",
-            title: "Apel ini terlihat matang",
-            characteristics:
-                "ciri-ciri: warna merah cerah, kulit mengkilap, tekstur keras namun tidak terlalu keras",
-            consumptionAdvice: "Siap dikonsumsi sekarang",
-            adviceColor: .green,
-            backgroundColor: Color.green.opacity(0.1)
+            title: "Apple is Likely Ripe",
+            appleDescription:
+                "Consume soon for best taste, store in fridge if needed.",
+            consumptionAdvice: "Best eaten before 5 days",
+            adviceColor: PrimaryPrimaryGreen,
+            backgroundColor: Color(red: 0.38, green: 0.78, blue: 0.31).opacity(
+                0.15
+            ),
+            characteristics: AppleCharacteristic.ripe,
+            tips: AppleTips.ripe
         )
 
         static let unripe = AppleInfo(
             imageName: "green_apple",
-            title: "Apel ini masih mentah",
-            characteristics:
-                "ciri-ciri: warna hijau dominan, kulit keras, rasa masih asam dan keras",
-            consumptionAdvice: "Tunggu 3-5 hari lagi",
-            adviceColor: .orange,
-            backgroundColor: Color.orange.opacity(0.1)
+            title: "Apple is Likely Unripe",
+            appleDescription:
+                "Firm and slightly tart, leave out to ripen or chill to keep fresh.",
+            consumptionAdvice: "Ripens in 3–5 days",
+            adviceColor: PrimaryPrimaryGreen,
+            backgroundColor: Color(red: 0.38, green: 0.78, blue: 0.31).opacity(
+                0.15
+            ),
+            characteristics: AppleCharacteristic.unripe,
+            tips: AppleTips.unripe
         )
 
-        static let rotten = AppleInfo(
+        static let overripe = AppleInfo(
             imageName: "brown_apple",
-            title: "Apel ini sudah busuk",
-            characteristics:
-                "ciri-ciri: warna kecokelatan, tekstur lunak, mungkin ada bintik hitam",
-            consumptionAdvice: "Jangan dikonsumsi",
-            adviceColor: .red,
-            backgroundColor: Color.red.opacity(0.1)
+            title: "Apple is Likely Overripe",
+            appleDescription:
+                "Best eaten soon, may be too soft or sweet for some tastes.",
+            consumptionAdvice: "Eat Immediately",
+            adviceColor: PrimaryDarkOrange,
+            backgroundColor: Color(red: 1, green: 0.8, blue: 0.2).opacity(0.24),
+            characteristics: AppleCharacteristic.overripe,
+            tips: AppleTips.overripe
         )
 
         static let notApple = AppleInfo(
-            imageName: "questionmark_apple",
-            title: "Ini bukan apel",
-            characteristics: "objek yang terdeteksi bukan merupakan buah apel",
+            imageName: "not_apple",
+            title: "Apel tidak terdeteksi",
+            appleDescription: "Objek yang terdeteksi bukan merupakan buah apel.",
             consumptionAdvice: "Coba scan apel yang lain",
             adviceColor: .gray,
-            backgroundColor: Color.gray.opacity(0.1)
+            backgroundColor: Color.gray.opacity(0.1),
+            characteristics: AppleCharacteristic.overripe,
+            tips: AppleTips.overripe
         )
 
         static func info(for state: AppleRipenessState) -> AppleInfo {
             switch state {
             case .ripe: return .ripe
             case .unripe: return .unripe
-            case .rotten: return .rotten
+            case .overripe: return .overripe
             case .notApple: return .notApple
             }
         }
+    }
+    
+    struct AppleCharacteristic {
+        let sweetIconName: String
+        let sweetLevel: String
+        let sweetPrimaryColor: Color
+        let tempIconName: String
+        let tempLevel: String
+        let tempPrimaryColor: Color
+        let saveIconName: String
+        let saveDescription: String
+        let savePrimaryColor: Color
+        
+        static let ripe = AppleCharacteristic(
+            sweetIconName: "ripe_candy",
+            sweetLevel: "Sweet",
+            sweetPrimaryColor: PrimaryBrown,
+            tempIconName: "thermometer",
+            tempLevel: "4–20°C",
+            tempPrimaryColor: PrimaryPrimaryGreen,
+            saveIconName: "fridge",
+            saveDescription: "Keep in fridge",
+            savePrimaryColor: PrimaryPrimaryGreen
+        )
+        
+        static let unripe = AppleCharacteristic(
+            sweetIconName: "unripe_candy",
+            sweetLevel: "Tart",
+            sweetPrimaryColor: PrimaryDarkOrange,
+            tempIconName: "thermometer",
+            tempLevel: "4–20°C",
+            tempPrimaryColor: PrimaryPrimaryGreen,
+            saveIconName: "no_sunlight",
+            saveDescription: "Away from sunlight",
+            savePrimaryColor: PrimaryDarkOrange
+        )
+        
+        static let overripe = AppleCharacteristic(
+            sweetIconName: "ripe_candy",
+            sweetLevel: "Sweet",
+            sweetPrimaryColor: PrimaryBrown,
+            tempIconName: "thermometer",
+            tempLevel: "4–20°C",
+            tempPrimaryColor: PrimaryPrimaryGreen,
+            saveIconName: "fridge",
+            saveDescription: "Keep in fridge",
+            savePrimaryColor: PrimaryPrimaryGreen
+        )
+    }
+    
+    struct AppleTips {
+        let tipsIcon: String
+        let tipsLabel: String
+        
+        static let ripe = AppleTips(
+            tipsIcon: "ripe_tips",
+            tipsLabel: "Store apples in the fridge to slow ripening and keep them crisp."
+        )
+        
+        static let unripe = AppleTips(
+            tipsIcon: "unripe_tips",
+            tipsLabel: "Utilize a paper bag to speed up the ripening rate if you want to eat it quickly."
+        )
+        
+        static let overripe = AppleTips(
+            tipsIcon: "overripe_tips",
+            tipsLabel: "Avoid placing ripe apples near other fruits or vegetables, as it speeds up their ripening."
+        )
     }
 }

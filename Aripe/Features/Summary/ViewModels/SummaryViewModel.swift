@@ -29,10 +29,6 @@ class SummaryViewModel: ObservableObject {
         result.image != nil && ripenessState != nil && result.confidence > 0.0
     }
     
-    var confidencePercentage: Int {
-        Int(result.confidence * 100)
-    }
-    
     var appleInfo: Constants.AppleInfo {
         guard let state = ripenessState else {
             return Constants.AppleInfo.notApple
