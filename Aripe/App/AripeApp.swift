@@ -1,18 +1,37 @@
+//
+//  AripeApp.swift
+//  Aripe
+//
+//  Created by Jerry Febriano on 16/06/25.
+//
+
+
 import SwiftUI
 
 @main
 struct AripeApp: App {
-    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
-
+    @StateObject private var storageService = StorageService()
+    
     var body: some Scene {
         WindowGroup {
-            if hasSeenOnboarding {
+            ContentView()
+                .environmentObject(storageService)
+        }
+    }
+}
+
+struct ContentView: View {
+    @EnvironmentObject var storageService: StorageService
+    
+    var body: some View {
+        Group {
+            if storageService.hasSeenOnboarding {
                 NavigationStack {
                     MainView()
                 }
             } else {
                 OnBoardingView(onFinished: {
-                    hasSeenOnboarding = true
+                    storageService.hasSeenOnboarding = true
                 })
             }
 //            OnBoardingView()
