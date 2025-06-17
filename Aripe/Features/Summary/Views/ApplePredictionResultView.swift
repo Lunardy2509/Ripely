@@ -26,7 +26,7 @@ struct ApplePredictionResultView: View {
                         // Dynamic title
                         Text(appleInfo.title)
                             .font(.headline)
-                            .foregroundColor(Constants.NeutralBlack)
+//                            .foregroundColor(Constants.NeutralBlack)
                             .frame(
                                 maxWidth: .infinity,
                                 alignment: .topLeading
@@ -35,7 +35,7 @@ struct ApplePredictionResultView: View {
                         // Dynamic characteristics
                         Text(appleInfo.appleDescription)
                             .font(.footnote)
-                            .foregroundColor(Color.gray)
+                            .foregroundColor(.aTextSecondary)
                             .frame(
                                 maxWidth: .infinity,
                                 alignment: .topLeading
@@ -46,12 +46,12 @@ struct ApplePredictionResultView: View {
 
                     // Dynamic consumption advice
                     HStack(alignment: .center, spacing: 10) {
-                        Spacer()
+//                        Spacer()
                         Text(appleInfo.consumptionAdvice)
                             .font(.subheadline)
                             .multilineTextAlignment(.center)
                             .foregroundColor(appleInfo.adviceColor)
-                        Spacer()
+//                        Spacer()
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 4)
@@ -69,7 +69,7 @@ struct ApplePredictionResultView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding()
-        .background(.white)
+        .background(.aBackgroundSecondary)
         .cornerRadius(16)
         .shadow(
             color: Constants.MiscellaneousFloatingTabPillShadow,
@@ -79,7 +79,17 @@ struct ApplePredictionResultView: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(Color(red: 0.95, green: 0.95, blue: 0.95), lineWidth: 1)
+                .stroke(.aStroke)
         )
     }
+}
+
+#Preview {
+    let result = PredictionResult(
+        image: .correctApple,
+        label: "Correct Apple",
+        confidence: 99.5,
+    )
+    
+    ApplePredictionResultView(viewModel: SummaryViewModel(result: result))
 }

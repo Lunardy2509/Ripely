@@ -138,7 +138,7 @@ struct CameraOverlayView: View {
                     }
                     .padding(.horizontal, 30)
                     .padding(.vertical, 40)
-                    .background(.aWhite)
+                    .background(.aBackgroundPrimary)
                 }
             }
             .navigationTitle("Scan Your Apple")
