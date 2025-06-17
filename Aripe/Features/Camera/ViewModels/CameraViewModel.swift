@@ -18,6 +18,7 @@ class CameraViewModel: ObservableObject {
     @Published var showPhotoPicker = false
     @Published var selectedImage: UIImage?
     @Published var errorMessage: String?
+    @Published var isSheetOpened = false
     
     private let cameraService: CameraService
     private var cancellables = Set<AnyCancellable>()
@@ -72,4 +73,5 @@ extension CameraViewModel: CameraServiceDelegate {
         }
     }
 }
+
 

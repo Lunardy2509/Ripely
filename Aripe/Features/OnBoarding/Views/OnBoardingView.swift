@@ -9,92 +9,94 @@
 import SwiftUI
 
 struct OnBoardingView: View {
-    @StateObject private var viewModel = OnboardingViewModel()
-    var onFinished: (() -> Void)?
-    
+    // Action when Start Scanning tapped
+    var onFinished: (() -> Void)? = nil
+
     var body: some View {
         VStack {
-            TabView(selection: $viewModel.currentPage) {
-                ForEach(Array(viewModel.pages.enumerated()), id: \.1.id) { index, page in
-                    OnboardingPageView(page: page)
-                        .tag(index)
-                }
+            // Top spacing
+            Spacer().frame(height: 40)
+
+            // Top Icon
+            Image(.appLogo)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 100, height: 100)
+
+            // Title
+            Text("What is Ripely?")
+                .font(.title)
+                .fontWeight(.bold)
+
+            // Info cards
+            VStack(spacing: 16) {
+                InfoCard(
+                    iconName: .illust1,
+                    title:
+                        "Ripely can help you identify the ripeness level of apples using your phone camera."
+                )
+                InfoCard(
+                    iconName: .illust2,
+                    title:
+                        "Get tips on how to store your apple based on its ripeness level and external conditions."
+                )
+                InfoCard(
+                    iconName: .illust3,
+                    title:
+                        "Your result will vary depending on your lighting, phone camera, and apple variation."
+                )
             }
-            .tabViewStyle(.page)
-            .indexViewStyle(.page(backgroundDisplayMode: .always))
-            
-            finishButton
-        }
-        .ignoresSafeArea(edges: .bottom)
-    }
-    
-    private var finishButton: some View {
-        Button(action: {
-            if viewModel.isLastPage {
-                viewModel.finishOnboarding()
+            .padding(.top, 24)
+            .padding(.horizontal, 20)
+
+            Spacer()  // push button to bottom
+
+            // Start Scanning button
+            Button(action: {
                 onFinished?()
+            }) {
+                Text("Start Scanning")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(.aPrimaryGreen)
+                    .cornerRadius(12)
+                    .padding(.horizontal, 20)
             }
-        }) {
-            Text("Selesai")
-                .font(.headline)
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(.aPrimaryGreen)
-                .cornerRadius(12)
+            .padding(.bottom, 35)
         }
-        .opacity(viewModel.isLastPage ? 1 : 0)
-        .disabled(!viewModel.isLastPage)
-        .padding(.horizontal, 30)
-        .padding(.top, 16)
-        .padding(.bottom, 40)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.systemBackground))
+        .ignoresSafeArea(edges: .bottom)
     }
 }
 
-struct OnboardingPageView: View {
-    let page: OnboardingPage
-    
+// MARK: - InfoCard
+
+struct InfoCard: View {
+    let iconName: ImageResource
+    let title: String
+
     var body: some View {
-        VStack(spacing: 20) {
-            imageContainer
-            titleSection
-            descriptionSection
+        HStack(alignment: .center, spacing: 12) {
+                Image(iconName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 100)
+                    .background(.aCream)
+
+            Text(title)
+                .font(.footnote)
+                .lineSpacing(7)
+                .multilineTextAlignment(.leading)
+                .padding(.horizontal, 8)
+
         }
-    }
-    
-    private var imageContainer: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 24)
-                .fill(Color(red: 254/255, green: 242/255, blue: 221/255))
-                .frame(
-                    width: UIScreen.main.bounds.width * 0.8,
-                    height: UIScreen.main.bounds.height * 0.4
-                )
-            
-            Image(page.imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(
-                    width: UIScreen.main.bounds.width * 0.6,
-                    height: 250
-                )
-        }
-    }
-    
-    private var titleSection: some View {
-        Text(page.title)
-            .font(.title2)
-            .bold()
-            .multilineTextAlignment(.center)
-            .padding(.horizontal, 30)
-    }
-    
-    private var descriptionSection: some View {
-        Text(page.description)
-            .font(.body)
-            .foregroundColor(.secondary)
-            .multilineTextAlignment(.center)
-            .padding(.horizontal, 30)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.aWhite)
+        .cornerRadius(16)
+        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 6)
     }
 }
 

@@ -43,55 +43,93 @@ struct CameraOverlayView: View {
                     )
                 
                 VStack {
-                    // Flash button
-                    HStack {
-                        Button(action: viewModel.toggleFlash) {
-                            Image(systemName: viewModel.isFlashOn ? "bolt.fill" : "bolt.slash.fill")
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Circle().fill(Color.black.opacity(0.6)).frame(width: 40, height: 40))
-                        }
-                        .padding()
+                    //MARK: Top Bar
+                    HStack() {
                         Spacer()
+                        
+                        //MARK: Help Button
+                        Button(action: {
+                            viewModel.isSheetOpened.toggle()
+                        }) {
+                            Image(systemName: "questionmark")
+                                .foregroundColor(.aWhite)
+                                .font(.system(size: 20))
+                                .bold()
+                                .background(
+                                    Circle().fill(Color.aBlack.opacity(0.5)).frame(
+                                        width: 40,
+                                        height: 40
+                                    )
+                                )
+                        }
+                        .padding(25)
                     }
-                    
                     Spacer()
                     
-                    Text(Constants.UI.captureInstruction)
-                        .foregroundColor(.white)
-                        .font(.headline)
+                    Text("Place one clear apple in frame. Avoid blur and background apples.")
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.aWhite)
+                        .background(
+                            Rectangle()
+                                .fill(Color.aBlack.opacity(0.5))
+                                .frame(height: 30)
+                        )
+                        .font(.caption)
                     
-                    // Camera controls
-                    ZStack {
-                        VStack(spacing: 8) {
-                            Button(action: viewModel.captureImage) {
-                                ZStack {
-                                    Circle()
-                                        .stroke(Color.white, lineWidth: 5)
-                                        .frame(width: 85, height: 85)
-                                    Circle()
-                                        .fill(Color.white)
-                                        .frame(width: 75, height: 75)
-                                }
-                            }
+                    HStack {
+                        //MARK: Gallery Button
+                        Button(action: viewModel.openGallery) {
+                            Image(systemName: "photo.on.rectangle")
+                                .foregroundColor(.aPrimaryGreen)
+                                .font(.system(size: 30))
                         }
                         
-                        HStack {
-                            Spacer()
-                            Button(action: viewModel.openGallery) {
-                                Image(systemName: "photo.on.rectangle")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 28))
-                                    .padding()
-                                    .background(Circle().fill(Color.black.opacity(0.6)))
+                        Spacer()
+                        
+                        //MARK: Capture Button
+                        Button(action: viewModel.captureImage) {
+                            ZStack {
+                                Circle()
+                                    .stroke(Color.aPrimaryGreen, lineWidth: 5)
+                                    .frame(width: 75, height: 75)
+                                Circle()
+                                    .fill(Color.aPrimaryGreen)
+                                    .frame(width: 65, height: 65)
                             }
-                            .padding(.trailing, 32)
+                        }
+                        .padding(.trailing, 20)
+                        
+                        Spacer()
+                        
+                        //MARK: Flash Button
+                        Button(action: viewModel.toggleFlash) {
+                            Image(
+                                systemName: viewModel.isFlashOn
+                                ? "bolt.fill" : "bolt.slash.fill"
+                            )
+                            .foregroundColor(.aWhite)
+                            .font(.system(size: 25))
+                            .background(
+                                Circle().fill(Color.aPrimaryGreen).frame(
+                                    width: 40,
+                                    height: 40
+                                )
+                            )
                         }
                     }
-                    .padding(.bottom, 35)
+                    .padding(.horizontal, 30)
+                    .padding(.vertical, 40)
+                    .background(.aWhite)
                 }
             }
+            .navigationTitle("Scan Your Apple")
+            .navigationBarTitleDisplayMode(.inline)
             .edgesIgnoringSafeArea(.bottom)
+            .sheet(isPresented: $viewModel.isSheetOpened) {
+                SnapTips()
+                    .presentationDragIndicator(.visible)
+                    .presentationDetents([.fraction(0.99)])
+            }
         }
     }
 }
