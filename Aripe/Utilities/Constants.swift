@@ -12,6 +12,10 @@ struct Constants {
     static let MiscellaneousFloatingTabPillShadow: Color = .black.opacity(0.08)
     static let NeutralBlack: Color = Color(red: 0.18, green: 0.18, blue: 0.18)
     static let PrimaryRed: Color = Color(red: 0.87, green: 0.18, blue: 0.27)
+    static let PrimaryBrown: Color = Color(red: 0.57, green: 0.19, blue: 0.03)
+    static let PrimaryPrimaryGreen: Color = Color(red: 0.23, green: 0.5, blue: 0.19)
+    static let NeutralWhite: Color = Color(red: 1, green: 0.99, blue: 0.99)
+    static let NeutralLightGray: Color = Color(red: 0.89, green: 0.89, blue: 0.89)
 
     struct Camera {
         static let captureBoxSize: CGFloat = 250

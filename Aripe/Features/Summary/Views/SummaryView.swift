@@ -5,18 +5,12 @@
 //  Created by Jerry Febriano on 16/06/25.
 //
 
-//
-//  SummaryView.swift
-//  Aripe
-//
-//  Created by Jerry Febriano on 16/06/25.
-//
-
 import SwiftUI
 
 struct SummaryView: View {
     @StateObject private var viewModel: SummaryViewModel
     @Binding var isPresented: Bool
+    @State private var showAppleDetail = false
 
     init(result: PredictionResult, isPresented: Binding<Bool>) {
         self._viewModel = StateObject(
@@ -41,6 +35,9 @@ struct SummaryView: View {
                 }
                 .padding(.bottom, 32)
             }
+        }
+        .fullScreenCover(isPresented: $showAppleDetail) {
+            AppleDetailView(result: viewModel.result, isPresented: $isPresented)
         }
     }
 
@@ -129,19 +126,6 @@ struct SummaryView: View {
                 .frame(maxWidth: .infinity, alignment: .topLeading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            
-            // Confidence section
-            HStack {
-                Text("Tingkat Keyakinan:")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                Spacer()
-                Text("\(viewModel.confidencePercentage)%")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(appleInfo.adviceColor)
-            }
-            .padding(.top, 8)
         }
         .padding()
         .background(.white)
@@ -179,7 +163,7 @@ struct SummaryView: View {
     
     private var finishButton: some View {
         Button(action: {
-            isPresented = false
+            showAppleDetail = true
         }) {
             Text("Selesai")
                 .font(.headline)
@@ -190,9 +174,7 @@ struct SummaryView: View {
                 .cornerRadius(12)
         }
         .disabled(!viewModel.isPredictionValid)
-        .padding(.horizontal, 30)
-        .padding(.top, 16)
-        .padding(.bottom, 40)
+        .padding(.horizontal, 16)
     }
 }
 
