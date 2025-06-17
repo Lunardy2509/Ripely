@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "brown_apple.png",
+      "filename" : "not_an_apple.png",
       "idiom" : "universal",
       "scale" : "1x"
     },

@@ -66,15 +66,15 @@ struct CameraOverlayView: View {
                     }
                     Spacer()
                     
-                    Text("Place the Apple in Focus")
+                    Text("Place one clear apple in frame. Avoid blur and background apples.")
                         .frame(maxWidth: .infinity)
                         .foregroundColor(.aWhite)
                         .background(
                             Rectangle()
                                 .fill(Color.aPrimaryGreen.opacity(0.5))
-                                .frame(height: 45)
+                                .frame(height: 30)
                         )
-                        .font(.headline)
+                        .font(.caption)
                     
                     HStack {
                         //MARK: Gallery Button
@@ -122,6 +122,8 @@ struct CameraOverlayView: View {
                     .background(.aWhite)
                 }
             }
+            .navigationTitle("Scan Your Apple")
+            .navigationBarTitleDisplayMode(.inline)
             .edgesIgnoringSafeArea(.bottom)
             .sheet(isPresented: $viewModel.isSheetOpened) {
                 SnapTips()

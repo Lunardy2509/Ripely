@@ -31,8 +31,12 @@ struct ExamplePhotos: View {
                  .cornerRadius(12)
                 
                 // Status Icon
-                Image(systemName: status == .correct ? "checkmark.circle.fill" : "xmark.circle.fill")
-                    .foregroundColor(status == .correct ? .green : .red)
+                Image(systemName: status == .correct ? "checkmark.circle" : "xmark.circle")
+                    .foregroundColor(.white)
+                    .background(
+                        Circle()
+                            .fill(status == .correct ? .green : .red)
+                    )
                     .padding(8)
                     .font(.title)
             }
