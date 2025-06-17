@@ -18,35 +18,45 @@ struct AppleDetailView: View {
 
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-                    // Apple Image
-                    if let image = result.image {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(height: 300)
-                            .clipped()
-                            .cornerRadius(16)
-                            .padding(.horizontal, 16)
+            VStack(spacing: 0) {
+                // Scrollable content
+                ScrollView {
+                    VStack(spacing: 20) {
+                        // Apple Image
+                        if let image = result.image {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 300)
+                                .clipped()
+                                .cornerRadius(16)
+                                .padding(.horizontal, 16)
+                        }
+
+                        // Apple Status Section
+                        appleStatusSection.padding(.horizontal, 16)
+
+                        // Info Cards Section
+                        infoCardsSection
+
+                        // After Slicing Section
+                        afterSlicingSection
+
+                        // Tips Section
+                        tipsSection
                     }
-
-                    // Apple Status Section
-                    appleStatusSection.padding(.horizontal, 16)
-
-                    // Info Cards Section
-                    infoCardsSection
-
-                    // After Slicing Section
-                    afterSlicingSection
-
-                    // Tips Section
-                    tipsSection
-
-                    // Scan Another Button
-                    scanAnotherButton
+                    .padding(.bottom, 100) // Add bottom padding to avoid button overlap
                 }
-                .padding(.bottom, 32)
+                
+                // Fixed bottom button
+                VStack(spacing: 0) {
+                    Divider()
+                    
+                    scanAnotherButton
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 16)
+                        .background(Color.white)
+                }
             }
             .navigationTitle("Apple Detail")
             .navigationBarTitleDisplayMode(.inline)
@@ -315,7 +325,6 @@ struct AppleDetailView: View {
                 .stroke(Constants.NeutralLightGray, lineWidth: 1)
         )
         .padding(.horizontal, 16)
-
     }
 
     private var scanAnotherButton: some View {
@@ -330,8 +339,6 @@ struct AppleDetailView: View {
                 .background(.aPrimaryGreen)
                 .cornerRadius(12)
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 16)
     }
 
     private func getStatusText() -> String {
