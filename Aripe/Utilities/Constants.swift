@@ -138,7 +138,7 @@ struct Constants {
         let twoDescription: String
         let twoPrimaryColor: Color
         let threeIconName: ImageResource
-        let threeDescription: String
+        let threeDescription: AnyView
         let threePrimaryColor: Color
         
         static let ripe = AppleCharacteristic(
@@ -149,7 +149,7 @@ struct Constants {
             twoDescription: "Chill in fridge",
             twoPrimaryColor: PrimaryGreen,
             threeIconName: .noSunlight,
-            threeDescription: "Avoid sunlight",
+            threeDescription: AnyView(Text("Avoid sunlight")),
             threePrimaryColor: PrimaryDarkOrange
         )
         
@@ -158,10 +158,13 @@ struct Constants {
             oneDescription: "Sour & Firm",
             onePrimaryColor: PrimaryGreen,
             twoIconName: .fridge,
-            twoDescription: "Chill in Fridge",
+            twoDescription: "Chill in fridge",
             twoPrimaryColor: PrimaryGreen,
             threeIconName: .thermometer,
-            threeDescription: "Room Temp: 18–25°C",
+            threeDescription: AnyView(VStack {
+                Text("Room Temp:")
+                Text("18–25°C").fontWeight(.semibold)
+            }),
             threePrimaryColor: PrimaryGreen
         )
         
@@ -173,7 +176,7 @@ struct Constants {
             twoDescription: "Do not chill",
             twoPrimaryColor: PrimaryDarkOrange,
             threeIconName: .overripeBaking,
-            threeDescription: "For Baking",
+            threeDescription: AnyView(Text("For Baking")),
             threePrimaryColor: PrimaryGreen
         )
     }

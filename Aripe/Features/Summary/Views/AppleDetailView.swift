@@ -110,9 +110,6 @@ struct AppleDetailView: View {
                         .foregroundColor(
                             viewModel.appleInfo.characteristics.twoPrimaryColor
                         )
-                        .multilineTextAlignment(.center)
-                        .lineLimit(nil)
-                        .frame(maxWidth: .infinity, alignment: .top)
                 }
                 .padding(16)
                 .frame(
@@ -130,7 +127,7 @@ struct AppleDetailView: View {
                 VStack(alignment: .center) {
                     Image(viewModel.appleInfo.characteristics.threeIconName)
                     Spacer()
-                    Text(viewModel.appleInfo.characteristics.threeDescription)
+                    viewModel.appleInfo.characteristics.threeDescription
                         .font(.caption2)
                         .foregroundColor(
                             viewModel.appleInfo.characteristics
