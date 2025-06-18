@@ -117,10 +117,8 @@ struct SummaryView: View {
                 .background(.aPrimaryGreen)
                 .cornerRadius(12)
         }
-        .disabled(!viewModel.isPredictionValid)
         .padding(.horizontal, 16)
-    }
-}
+    }}
 
 // MARK: - Previews with Sample Data
 #Preview("Ripe Apple") {

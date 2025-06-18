@@ -45,11 +45,6 @@ struct CameraOverlayView: View {
                     )
                     .padding(.bottom, 130)
                 
-                // Processing overlay
-                if viewModel.isProcessing {
-                    processingOverlay
-                }
-                
                 VStack {
                     //MARK: Top Bar
                     HStack() {
@@ -70,6 +65,7 @@ struct CameraOverlayView: View {
                                     )
                                 )
                         }
+                        .disabled(viewModel.isProcessing)
                         .padding(25)
                     }
                     Spacer()
@@ -110,12 +106,6 @@ struct CameraOverlayView: View {
                                 Circle()
                                     .fill(viewModel.isProcessing ? Color.gray : Color.aPrimaryGreen)
                                     .frame(width: 65, height: 65)
-                                
-                                if viewModel.isProcessing {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                        .scaleEffect(0.8)
-                                }
                             }
                         }
                         .disabled(viewModel.isProcessing)
@@ -164,28 +154,8 @@ struct CameraOverlayView: View {
             }
         }
     }
-    
-    private var processingOverlay: some View {
-        ZStack {
-            Color.black.opacity(0.3)
-            
-            VStack(spacing: 16) {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                    .scaleEffect(1.5)
-                
-                Text("Processing...")
-                    .foregroundColor(.white)
-                    .font(.headline)
-            }
-            .padding(24)
-            .background(Color.black.opacity(0.8))
-            .cornerRadius(12)
-        }
-    }
 }
 
 #Preview {
     CameraOverlayView(viewModel: CameraViewModel())
 }
-
