@@ -74,15 +74,17 @@ struct CameraOverlayView: View {
                     }
                     Spacer()
                     
-                    Text("Place one clear apple in frame. Avoid blur and background apples.")
+                    // Simplified dynamic instruction text
+                    Text(viewModel.overlayText)
                         .frame(maxWidth: .infinity)
                         .foregroundColor(.aWhite)
                         .background(
                             Rectangle()
-                                .fill(Color.aBlack.opacity(0.5))
+                                .fill(viewModel.isTooDark ? Color(red: 0.87, green: 0.18, blue: 0.27).opacity(0.4) : Color.aBlack.opacity(0.5))
                                 .frame(height: 30)
                         )
                         .font(.caption)
+                        .animation(.easeInOut(duration: 0.3), value: viewModel.isTooDark)
                     
                     HStack {
                         //MARK: Gallery Button
@@ -186,3 +188,4 @@ struct CameraOverlayView: View {
 #Preview {
     CameraOverlayView(viewModel: CameraViewModel())
 }
+

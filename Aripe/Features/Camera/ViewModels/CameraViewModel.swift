@@ -20,6 +20,9 @@ class CameraViewModel: ObservableObject {
     @Published var selectedPhotoItem: PhotosPickerItem? = nil
     @Published var isProcessing = false
     
+    // Simplified camera feed state
+    @Published var isTooDark = false
+    
     private let cameraService: CameraService
     private let photoProcessingService: PhotoProcessingServiceProtocol
     private var cancellables = Set<AnyCancellable>()
@@ -104,6 +107,13 @@ class CameraViewModel: ObservableObject {
         isProcessing = false
         errorMessage = nil
     }
+    
+    // MARK: - Overlay Text
+    var overlayText: String {
+        return isTooDark ?
+            "Too dark, use flash or change locations." :
+            "Place one clear apple in frame. Avoid blur and background apples."
+    }
 }
 
 // MARK: - CameraServiceDelegate
@@ -133,5 +143,9 @@ extension CameraViewModel: CameraServiceDelegate {
             self.isProcessing = false
             self.errorMessage = error.localizedDescription
         }
+    }
+    
+    func cameraService(_ service: CameraService, didUpdateBrightness isTooDark: Bool) {
+        self.isTooDark = isTooDark
     }
 }
