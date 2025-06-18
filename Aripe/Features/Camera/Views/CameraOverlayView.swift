@@ -25,6 +25,7 @@ struct CameraOverlayView: View {
                             )
                             .compositingGroup()
                     )
+                    .padding(.bottom, 130)
                 
                 // Capture box
                 RoundedRectangle(cornerRadius: 16)
@@ -42,6 +43,7 @@ struct CameraOverlayView: View {
                                 }
                         }
                     )
+                    .padding(.bottom, 130)
                 
                 // Processing overlay
                 if viewModel.isProcessing {
@@ -179,4 +181,8 @@ struct CameraOverlayView: View {
             .cornerRadius(12)
         }
     }
+}
+
+#Preview {
+    CameraOverlayView(viewModel: CameraViewModel())
 }
