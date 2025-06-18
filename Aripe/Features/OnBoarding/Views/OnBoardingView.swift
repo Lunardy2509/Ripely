@@ -29,7 +29,7 @@ struct OnBoardingView: View {
                 .fontWeight(.bold)
 
             // Info cards
-            VStack(spacing: 16) {
+            VStack(spacing: 18) {
                 InfoCard(
                     iconName: .illust1,
                     title:
@@ -67,7 +67,7 @@ struct OnBoardingView: View {
             .padding(.bottom, 35)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemBackground))
+        .background(.aBackgroundPrimary)
         .ignoresSafeArea(edges: .bottom)
     }
 }
@@ -94,9 +94,13 @@ struct InfoCard: View {
 
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.aWhite)
+        .background(.aBackgroundSecondary)
         .cornerRadius(16)
         .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 6)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(.aStroke)
+        )
     }
 }
 
