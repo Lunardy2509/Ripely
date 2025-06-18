@@ -21,9 +21,14 @@ struct MainView: View {
             viewModel.resetCapture()
         }) {
             if let result = viewModel.capturedResult {
+                
+                let ripenessState = AppleRipenessState.from(rawLabel: result.label)
+                let detentHeight: CGFloat = (ripenessState == .notApple) ? 0.50 : 0.85
+                
                 SummaryView(result: result, isPresented: $viewModel.showSummary)
-                    .presentationDetents([.fraction(0.85)])
+                    .presentationDetents([.fraction(detentHeight)])
                     .presentationDragIndicator(.visible)
+                    .background(.aBackgroundPrimary)
             }
         }
     }

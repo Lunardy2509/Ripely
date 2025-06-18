@@ -75,19 +75,14 @@ struct SummaryView: View {
             Image("not_apple")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 100, height: 100)
+                .frame(width: 250, height: 250)
             
-            Text("Apel tidak terdeteksi")
+            Text("Apple not detected")
                 .foregroundColor(.gray)
                 .fontWeight(.semibold)
                 .font(.title2)
-            Text("Silakan coba scan ulang dengan pencahayaan yang lebih baik dan pastikan objek adalah apel.")
-                .font(.subheadline)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 40)
     }
     
     private var finishButton: some View {
@@ -98,7 +93,7 @@ struct SummaryView: View {
                 isPresented = false // Dismiss if not an apple
             }
         }) {
-            Text(viewModel.ripenessState == .notApple ? "Coba Lagi" : "Lihat Detail")
+            Text(viewModel.ripenessState == .notApple ? "Try Again" : "More Detail")
                 .font(.headline)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)

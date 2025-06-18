@@ -214,4 +214,5 @@ xcuserdata/
 
 ####
 # UNKNOWN: recommended by others, but I can't discover what these files are
-#
+*.xcodeproj/xcshareddata/
+*.xcodeproj/xcuserdata/lun.xcuserdatad/xcschemes/xcschememanagement.plist

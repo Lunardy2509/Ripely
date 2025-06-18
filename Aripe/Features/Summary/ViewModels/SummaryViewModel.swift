@@ -26,7 +26,7 @@ class SummaryViewModel: ObservableObject {
     }
     
     var isPredictionValid: Bool {
-        result.image != nil && ripenessState != nil && result.confidence > 0.0
+        result.image != nil && ripenessState != .notApple && result.confidence > 0.0
     }
     
     var appleInfo: Constants.AppleInfo {
