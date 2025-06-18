@@ -10,26 +10,15 @@ import SwiftUI
 
 struct Constants {
     static let MiscellaneousFloatingTabPillShadow: Color = .black.opacity(0.08)
-    static let NeutralBlack: Color = Color(red: 0.18, green: 0.18, blue: 0.18)
-    static let PrimaryRed: Color = Color(red: 0.87, green: 0.18, blue: 0.27)
-    static let PrimaryBrown: Color = Color(red: 0.57, green: 0.19, blue: 0.03)
-    static let PrimaryPrimaryGreen: Color = Color(
-        red: 0.23,
-        green: 0.5,
-        blue: 0.19
-    )
-    static let NeutralWhite: Color = Color(red: 1, green: 0.99, blue: 0.99)
-    static let NeutralLightGray: Color = Color(
-        red: 0.89,
-        green: 0.89,
-        blue: 0.89
-    )
-    static let PrimaryDarkOrange: Color = Color(
-        red: 0.66,
-        green: 0.49,
-        blue: 0.19
-    )
-
+    static let NeutralBlack: Color = Color.aBlack
+    static let PrimaryRed: Color = Color.aRed
+    static let PrimaryBrown: Color = Color.aBrown
+    static let PrimaryGreen: Color = Color.aPrimaryGreen
+    static let NeutralWhite: Color = Color.aWhite
+    static let NeutralLightGray: Color = Color.aLightGray
+    static let PrimaryDarkOrange: Color = Color.aOrange
+    static let BGPrimaryGreen: Color = Color.aBackgroundGreen
+    static let BGPrimaryOrange: Color = Color.aBackgroundOrange
     struct Camera {
         static let captureBoxSize: CGFloat = 250
         static let horizontalOffset: CGFloat = -110
@@ -77,6 +66,7 @@ struct Constants {
         let backgroundColor: Color
         let showRipeningAdvice: Bool = true
         let characteristics: AppleCharacteristic
+        let detail: AppleDetail
         let tips: AppleTips
 
         static let ripe = AppleInfo(
@@ -85,11 +75,10 @@ struct Constants {
             appleDescription:
                 "Consume soon for best taste, store in fridge if needed.",
             consumptionAdvice: "Best eaten before 5 days",
-            adviceColor: PrimaryPrimaryGreen,
-            backgroundColor: Color(red: 0.38, green: 0.78, blue: 0.31).opacity(
-                0.15
-            ),
+            adviceColor: PrimaryGreen,
+            backgroundColor: BGPrimaryGreen,
             characteristics: AppleCharacteristic.ripe,
+            detail: AppleDetail.ripe,
             tips: AppleTips.ripe
         )
 
@@ -99,11 +88,10 @@ struct Constants {
             appleDescription:
                 "Firm and slightly tart, leave out to ripen or chill to keep fresh.",
             consumptionAdvice: "Ripens in 3–5 days",
-            adviceColor: PrimaryPrimaryGreen,
-            backgroundColor: Color(red: 0.38, green: 0.78, blue: 0.31).opacity(
-                0.15
-            ),
+            adviceColor: PrimaryGreen,
+            backgroundColor: BGPrimaryGreen,
             characteristics: AppleCharacteristic.unripe,
+            detail: AppleDetail.unripe,
             tips: AppleTips.unripe
         )
 
@@ -114,8 +102,9 @@ struct Constants {
                 "Best eaten soon, may be too soft or sweet for some tastes.",
             consumptionAdvice: "Eat Immediately",
             adviceColor: PrimaryDarkOrange,
-            backgroundColor: Color(red: 1, green: 0.8, blue: 0.2).opacity(0.24),
+            backgroundColor: BGPrimaryOrange,
             characteristics: AppleCharacteristic.overripe,
+            detail: AppleDetail.overripe,
             tips: AppleTips.overripe
         )
 
@@ -127,6 +116,7 @@ struct Constants {
             adviceColor: .gray,
             backgroundColor: Color.gray.opacity(0.1),
             characteristics: AppleCharacteristic.overripe,
+            detail: AppleDetail.overripe,
             tips: AppleTips.overripe
         )
 
@@ -141,51 +131,86 @@ struct Constants {
     }
     
     struct AppleCharacteristic {
-        let sweetIconName: String
-        let sweetLevel: String
-        let sweetPrimaryColor: Color
-        let tempIconName: String
-        let tempLevel: String
-        let tempPrimaryColor: Color
-        let saveIconName: String
-        let saveDescription: String
-        let savePrimaryColor: Color
+        let oneIconName: ImageResource
+        let oneDescription: String
+        let onePrimaryColor: Color
+        let twoIconName: ImageResource
+        let twoDescription: String
+        let twoPrimaryColor: Color
+        let threeIconName: ImageResource
+        let threeDescription: String
+        let threePrimaryColor: Color
         
         static let ripe = AppleCharacteristic(
-            sweetIconName: "ripe_candy",
-            sweetLevel: "Sweet",
-            sweetPrimaryColor: PrimaryBrown,
-            tempIconName: "thermometer",
-            tempLevel: "4–20°C",
-            tempPrimaryColor: PrimaryPrimaryGreen,
-            saveIconName: "fridge",
-            saveDescription: "Keep in fridge",
-            savePrimaryColor: PrimaryPrimaryGreen
+            oneIconName: .ripeCandy,
+            oneDescription: "Sweet & Crisp",
+            onePrimaryColor: PrimaryGreen,
+            twoIconName: .fridge,
+            twoDescription: "Chill in fridge",
+            twoPrimaryColor: PrimaryGreen,
+            threeIconName: .noSunlight,
+            threeDescription: "Avoid sunlight",
+            threePrimaryColor: PrimaryGreen
         )
         
         static let unripe = AppleCharacteristic(
-            sweetIconName: "unripe_candy",
-            sweetLevel: "Tart",
-            sweetPrimaryColor: PrimaryDarkOrange,
-            tempIconName: "thermometer",
-            tempLevel: "4–20°C",
-            tempPrimaryColor: PrimaryPrimaryGreen,
-            saveIconName: "no_sunlight",
-            saveDescription: "Away from sunlight",
-            savePrimaryColor: PrimaryDarkOrange
+            oneIconName: .unripeLemon,
+            oneDescription: "Sour & Firm",
+            onePrimaryColor: PrimaryGreen,
+            twoIconName: .fridge,
+            twoDescription: "Chill in Fridge",
+            twoPrimaryColor: PrimaryGreen,
+            threeIconName: .thermometer,
+            threeDescription: "Room Temp: 18–25°C",
+            threePrimaryColor: PrimaryGreen
         )
         
         static let overripe = AppleCharacteristic(
-            sweetIconName: "ripe_candy",
-            sweetLevel: "Sweet",
-            sweetPrimaryColor: PrimaryBrown,
-            tempIconName: "thermometer",
-            tempLevel: "4–20°C",
-            tempPrimaryColor: PrimaryPrimaryGreen,
-            saveIconName: "fridge",
-            saveDescription: "Keep in fridge",
-            savePrimaryColor: PrimaryPrimaryGreen
+            oneIconName: .overripeSugar,
+            oneDescription: "Sweet & Soft",
+            onePrimaryColor: PrimaryGreen,
+            twoIconName: .noChill,
+            twoDescription: "Do not chill",
+            twoPrimaryColor: PrimaryDarkOrange,
+            threeIconName: .overripeBaking,
+            threeDescription: "For Baking",
+            threePrimaryColor: PrimaryGreen
         )
+    }
+    
+    struct AppleDetail {
+        let detailTitle: String
+        let detailDescription: String
+        
+        static let ripe = AppleDetail(
+            detailTitle: "After slicing the apple",
+            detailDescription: 
+                """
+                • Store in a sealed container inside the fridge.
+                • Soak in lemon water or salt water to slow down the oxidation rate for a while.
+                """
+        )
+
+        static let unripe = AppleDetail(
+            detailTitle: "Signs It’s Ready to Eat",
+            detailDescription:
+                """
+                • Slightly softer when pressed
+                • Sweet, fruity smell
+                • Yellower or redder color and less waxy surface
+                """
+        )
+        
+        static let overripe = AppleDetail(
+            detailTitle: "Best Ways to Use It",
+            detailDescription:
+                """
+                • Use it for baking (muffins, pies, crisps)
+                • Mix into oatmeal or porridge
+                • Turn into applesauce
+                """
+        )
+
     }
     
     struct AppleTips {
@@ -199,12 +224,12 @@ struct Constants {
         
         static let unripe = AppleTips(
             tipsIcon: "unripe_tips",
-            tipsLabel: "Utilize a paper bag to speed up the ripening rate if you want to eat it quickly."
+            tipsLabel: "Use a paper bag to speed up the ripening rate if you want to eat it quickly."
         )
         
         static let overripe = AppleTips(
             tipsIcon: "overripe_tips",
-            tipsLabel: "Avoid placing ripe apples near other fruits or vegetables, as it speeds up their ripening."
+            tipsLabel: "Cut away any bruised spots on the apple before cooking or eating."
         )
     }
 }
