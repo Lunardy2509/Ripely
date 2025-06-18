@@ -114,7 +114,7 @@ struct SummaryView: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(.aPrimaryGreen)
+                .background(.aButtonGreen)
                 .cornerRadius(12)
         }
         .padding(.horizontal, 16)

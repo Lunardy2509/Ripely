@@ -41,18 +41,18 @@ struct AppleDetailView: View {
                         infoCardsSection.padding(.horizontal, 16)
 
                         // After Slicing Section
-                        afterSlicingSection
+                        detailSection
 
                         // Tips Section
                         tipsSection
                     }
-                    .padding(.bottom, 16) // Add bottom padding to avoid button overlap
+                    .padding(.bottom, 16)  // Add bottom padding to avoid button overlap
                 }
-                
+
                 // Fixed bottom button
                 VStack(spacing: 0) {
                     Divider()
-                    
+
                     scanAnotherButton
                         .padding(.horizontal, 16)
                         .padding(.vertical, 16)
@@ -77,124 +77,100 @@ struct AppleDetailView: View {
     }
 
     private var infoCardsSection: some View {
-        HStack(alignment: .center, spacing: 16) {
-            VStack(alignment: .center) {
-                // Space Between
-                Image(viewModel.appleInfo.characteristics.sweetIconName)
-                Spacer()
-                // Alternating Views and Spacers
-                // Caption2/Regular
-                Text(viewModel.appleInfo.characteristics.sweetLevel)
-                    .font(.caption2)
-                    .foregroundColor(
-                        viewModel.appleInfo.characteristics.sweetPrimaryColor
+        VStack(spacing: 16) {
+            HStack(alignment: .center, spacing: 16) {
+                VStack(alignment: .center) {
+                    Image(viewModel.appleInfo.characteristics.oneIconName)
+                    Spacer()
+                    Text(viewModel.appleInfo.characteristics.oneDescription)
+                        .font(.caption2)
+                        .foregroundColor(
+                            viewModel.appleInfo.characteristics.onePrimaryColor
+                        )
+                }
+                .padding(16)
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: .center
+                )
+                .aspectRatio(1, contentMode: .fit)
+                .background(
+                    viewModel.appleInfo.characteristics.onePrimaryColor.opacity(
+                        0.1
                     )
-            }
-            .padding(16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            .aspectRatio(1, contentMode: .fit)
-            .background(
-                viewModel.appleInfo.characteristics.sweetPrimaryColor
-                    .opacity(0.1)
-            )
-            .cornerRadius(16)
+                )
+                .cornerRadius(16)
 
-            VStack(alignment: .center) {
-                // Space Between
-                Image(viewModel.appleInfo.characteristics.tempIconName)
-                Spacer()
-                // Alternating Views and Spacers
-                VStack(alignment: .leading, spacing: 4) {  // Caption2/Emphasized
-                    Text("Ideal Temp:")
-                        .font(.caption2)
-                        .fontWeight(.bold)
-                        .foregroundColor(
-                            viewModel.appleInfo.characteristics.tempPrimaryColor
-                        )
-                        .frame(maxWidth: .infinity, alignment: .top)
-
-                    // Caption2/Regular
-                    Text(viewModel.appleInfo.characteristics.tempLevel)
+                VStack(alignment: .center) {
+                    Image(viewModel.appleInfo.characteristics.twoIconName)
+                    Spacer()
+                    Text(viewModel.appleInfo.characteristics.twoDescription)
                         .font(.caption2)
                         .foregroundColor(
-                            viewModel.appleInfo.characteristics.tempPrimaryColor
+                            viewModel.appleInfo.characteristics.twoPrimaryColor
                         )
+                        .multilineTextAlignment(.center)
+                        .lineLimit(nil)
                         .frame(maxWidth: .infinity, alignment: .top)
                 }
-                .padding(0)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .padding(16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            .aspectRatio(1, contentMode: .fit)
-            .background(
-                viewModel.appleInfo.characteristics.tempPrimaryColor
-                    .opacity(0.1)
-            )
-            .cornerRadius(16)
-
-            VStack(alignment: .center) {
-                // Space Between
-                Image(viewModel.appleInfo.characteristics.saveIconName)
-                Spacer()
-                // Alternating Views and Spacers
-                // Caption2/Regular
-                Text(viewModel.appleInfo.characteristics.saveDescription)
-                    .font(.caption2)
-                    .foregroundColor(
-                        viewModel.appleInfo.characteristics.savePrimaryColor
+                .padding(16)
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: .center
+                )
+                .background(
+                    viewModel.appleInfo.characteristics.twoPrimaryColor.opacity(
+                        0.1
                     )
-                    .multilineTextAlignment(.center)
-                    .lineLimit(nil)
-                    .frame(maxWidth: .infinity, alignment: .top)
+                )
+                .cornerRadius(16)
+
+                VStack(alignment: .center) {
+                    Image(viewModel.appleInfo.characteristics.threeIconName)
+                    Spacer()
+                    Text(viewModel.appleInfo.characteristics.threeDescription)
+                        .font(.caption2)
+                        .foregroundColor(
+                            viewModel.appleInfo.characteristics
+                                .threePrimaryColor
+                        )
+                        .multilineTextAlignment(.center)
+                        .lineLimit(nil)
+                        .frame(maxWidth: .infinity, alignment: .top)
+                }
+                .padding(16)
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: .center
+                )
+                .background(
+                    viewModel.appleInfo.characteristics.threePrimaryColor
+                        .opacity(0.1)
+                )
+                .cornerRadius(16)
             }
-            .padding(16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            .background(
-                viewModel.appleInfo.characteristics.savePrimaryColor
-                    .opacity(0.1)
-            )
-            .cornerRadius(16)
         }
     }
 
-    private var afterSlicingSection: some View {
+    private var detailSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            // Body/Emphasized with bullet
+            // Title
             HStack(alignment: .top, spacing: 8) {
-                Text("After slicing the apple,")
+                Text(viewModel.appleInfo.detail.detailTitle)
                     .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(.aTextPrimary)
             }
-            
-            // First bullet point
-            VStack(spacing:0) {
-                HStack(alignment: .top, spacing: 8) {
-                    Circle()
-                        .fill(.aTextPrimary)
-                        .frame(width: 4, height: 4)
-                        .padding(.top, 4)
-                    
-                    Text("Store in a sealed container inside the fridge.")
-                        .font(.footnote)
-                        .foregroundColor(.aTextPrimary)
-                        .frame(maxWidth: .infinity, alignment: .topLeading)
-                }
-            
-            // Second bullet point
-            HStack(alignment: .top, spacing: 8) {
-                Circle()
-                    .fill(.aTextPrimary)
-                    .frame(width: 4, height: 4)
-                    .padding(.top, 4)
-                
-                Text("Soak in lemon water or salt water to slow down the oxidation rate for a while.")
-                    .font(.footnote)
-                    .foregroundColor(.aTextPrimary)
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-            }
-            }
+
+            // Description
+            Text(viewModel.appleInfo.detail.detailDescription)
+                .font(.footnote)
+                .foregroundColor(.aTextPrimary)
+                .frame(maxWidth: .infinity, alignment: .topLeading)
+                .padding(.leading)
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -211,7 +187,7 @@ struct AppleDetailView: View {
     private var tipsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             // Body/Emphasized
-            Text("Tips")
+            Text("Bonus Tip")
                 .font(.body)
                 .fontWeight(.semibold)
                 .foregroundColor(.aTextPrimary)
@@ -219,7 +195,7 @@ struct AppleDetailView: View {
             HStack(alignment: .center, spacing: 12) {
                 Image(viewModel.appleInfo.tips.tipsIcon)
                     .frame(width: 40, height: 40)
-                
+
                 // Caption1/Regular
                 Text(viewModel.appleInfo.tips.tipsLabel)
                     .font(.caption)
@@ -250,7 +226,7 @@ struct AppleDetailView: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(.aPrimaryGreen)
+                .background(.aButtonGreen)
                 .cornerRadius(12)
         }
     }

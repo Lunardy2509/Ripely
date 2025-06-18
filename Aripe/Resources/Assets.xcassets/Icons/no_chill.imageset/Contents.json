@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "green_apple.svg",
+      "filename" : "no_chill.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,7 +12,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "green_apple_dark.svg",
+      "filename" : "no_chill_dark.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
