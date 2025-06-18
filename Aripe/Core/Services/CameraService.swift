@@ -13,6 +13,7 @@ protocol CameraServiceDelegate: AnyObject {
     func cameraService(_ service: CameraService, didOutput prediction: String)
     func cameraService(_ service: CameraService, didCaptureImage image: UIImage)
     func cameraService(_ service: CameraService, didFailWithError error: Error)
+    func cameraService(_ service: CameraService, didUpdateBrightness isTooDark: Bool)
 }
 
 class CameraService: NSObject, ObservableObject {
@@ -22,6 +23,11 @@ class CameraService: NSObject, ObservableObject {
     private var previewLayer: AVCaptureVideoPreviewLayer?
     private var lastSampleBuffer: CMSampleBuffer?
     private let mlService: MLServiceProtocol
+    
+    // Simplified brightness detection
+    private var brightnessThreshold: Float = 0.25
+    private var lastBrightnessCheck: TimeInterval = 0
+    private let brightnessCheckInterval: TimeInterval = 0.5
     
     init(mlService: MLServiceProtocol = MLService()) {
         self.mlService = mlService
@@ -116,6 +122,39 @@ class CameraService: NSObject, ObservableObject {
             self.delegate?.cameraService(self, didCaptureImage: croppedImage)
         }
     }
+    
+    // MARK: - Simplified Brightness Analysis
+    private func analyzeBrightness(from pixelBuffer: CVPixelBuffer) -> Float {
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        
+        // Sample from center region
+        let centerRect = CGRect(
+            x: ciImage.extent.width * 0.3,
+            y: ciImage.extent.height * 0.3,
+            width: ciImage.extent.width * 0.4,
+            height: ciImage.extent.height * 0.4
+        )
+        
+        let croppedImage = ciImage.cropped(to: centerRect)
+        
+        // Use CIAreaAverage filter for quick brightness calculation
+        let filter = CIFilter(name: "CIAreaAverage")!
+        filter.setValue(croppedImage, forKey: kCIInputImageKey)
+        filter.setValue(CIVector(cgRect: croppedImage.extent), forKey: kCIInputExtentKey)
+        
+        guard let outputImage = filter.outputImage else { return 0.5 }
+        
+        let context = CIContext()
+        var bitmap = [UInt8](repeating: 0, count: 4)
+        context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
+        
+        // Calculate luminance from RGB
+        let r = Float(bitmap[0]) / 255.0
+        let g = Float(bitmap[1]) / 255.0
+        let b = Float(bitmap[2]) / 255.0
+        
+        return 0.299 * r + 0.587 * g + 0.114 * b
+    }
 }
 
 extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -124,6 +163,20 @@ extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         
+        // Check brightness periodically
+        let currentTime = CACurrentMediaTime()
+        if currentTime - lastBrightnessCheck >= brightnessCheckInterval {
+            lastBrightnessCheck = currentTime
+            
+            let brightness = analyzeBrightness(from: pixelBuffer)
+            let isTooDark = brightness < brightnessThreshold
+            
+            DispatchQueue.main.async {
+                self.delegate?.cameraService(self, didUpdateBrightness: isTooDark)
+            }
+        }
+        
+        // Continue with ML prediction
         mlService.predict(from: pixelBuffer) { [weak self] result in
             guard let self = self else { return }
             
