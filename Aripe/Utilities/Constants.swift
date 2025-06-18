@@ -21,7 +21,7 @@ struct Constants {
     static let BGPrimaryOrange: Color = Color.aBackgroundOrange
     struct Camera {
         static let captureBoxSize: CGFloat = 250
-        static let horizontalOffset: CGFloat = -110
+        static let horizontalOffset: CGFloat = -175
         static let verticalOffset: CGFloat = 0
     }
 

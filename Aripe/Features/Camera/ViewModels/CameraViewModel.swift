@@ -19,12 +19,13 @@ class CameraViewModel: ObservableObject {
     @Published var isSheetOpened = false
     @Published var selectedPhotoItem: PhotosPickerItem? = nil
     @Published var isProcessing = false
-    
-    // Simplified camera feed state
     @Published var isTooDark = false
+    @Published var showCropper = false
+    @Published var selectedUIImage: UIImage? = nil
+
     
     private let cameraService: CameraService
-    private let photoProcessingService: PhotoProcessingServiceProtocol
+    let photoProcessingService: PhotoProcessingServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
     init(
@@ -70,24 +71,34 @@ class CameraViewModel: ObservableObject {
     
     private func processPhotoItem(_ item: PhotosPickerItem) {
         guard !isProcessing else { return }
-        
+
         isProcessing = true
         errorMessage = nil
-        
-        photoProcessingService.loadAndProcessImage(from: item) { [weak self] result in
-            DispatchQueue.main.async {
-                self?.isProcessing = false
-                
-                switch result {
-                case .success(let predictionResult):
-                    self?.handlePredictionSuccess(predictionResult)
-                case .failure(let error):
-                    self?.handlePredictionError(error)
+
+        Task {
+            do {
+                guard let data = try await item.loadTransferable(type: Data.self),
+                      let image = UIImage(data: data) else {
+                    await MainActor.run {
+                        self.isProcessing = false
+                        self.errorMessage = "Invalid image format."
+                    }
+                    return
+                }
+
+                await MainActor.run {
+                    self.selectedUIImage = image
+                    self.showCropper = true
+                }
+            } catch {
+                await MainActor.run {
+                    self.isProcessing = false
+                    self.errorMessage = "Failed to load image: \(error.localizedDescription)"
                 }
             }
         }
     }
-    
+
     // MARK: - Result Handling
     private func handlePredictionSuccess(_ result: PredictionResult) {
         capturedResult = result
@@ -123,11 +134,10 @@ extension CameraViewModel: CameraServiceDelegate {
     }
     
     func cameraService(_ service: CameraService, didCaptureImage image: UIImage) {
-        // Process the captured image with ML
-        photoProcessingService.processImage(image) { [weak self] result in
+        photoProcessingService.processRawImage(image) { [weak self] result in
             DispatchQueue.main.async {
                 self?.isProcessing = false
-                
+
                 switch result {
                 case .success(let predictionResult):
                     self?.handlePredictionSuccess(predictionResult)

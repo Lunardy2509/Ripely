@@ -143,6 +143,28 @@ struct CameraOverlayView: View {
                     .presentationDragIndicator(.visible)
                     .presentationDetents([.fraction(0.99)])
             }
+            .sheet(isPresented: $viewModel.showCropper) {
+                if let imageToCrop = viewModel.selectedUIImage {
+                    CropView(image: imageToCrop) { croppedImage in
+                        viewModel.isProcessing = true
+                        viewModel.photoProcessingService.processImage(
+                            croppedImage,
+                            cropRect: CGRect(origin: .zero, size: croppedImage.size)
+                        ) { result in
+                            DispatchQueue.main.async {
+                                viewModel.isProcessing = false
+                                switch result {
+                                case .success(let predictionResult):
+                                    viewModel.capturedResult = predictionResult
+                                    viewModel.showSummary = true
+                                case .failure(let error):
+                                    viewModel.errorMessage = error.localizedDescription
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
                 Button("OK") {
                     viewModel.errorMessage = nil
