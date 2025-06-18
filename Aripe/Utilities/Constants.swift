@@ -150,7 +150,7 @@ struct Constants {
             twoPrimaryColor: PrimaryGreen,
             threeIconName: .noSunlight,
             threeDescription: "Avoid sunlight",
-            threePrimaryColor: PrimaryGreen
+            threePrimaryColor: PrimaryDarkOrange
         )
         
         static let unripe = AppleCharacteristic(
