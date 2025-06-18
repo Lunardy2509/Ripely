@@ -44,7 +44,8 @@ struct ApplePredictionResultView: View {
                     .padding(0)
 
                     // Dynamic consumption advice
-                    HStack(alignment: .center, spacing: 10) {                        Text(appleInfo.consumptionAdvice)
+                    HStack(alignment: .center, spacing: 10) {
+                        Text(appleInfo.consumptionAdvice)
                             .font(.subheadline)
                             .multilineTextAlignment(.center)
                             .foregroundColor(appleInfo.adviceColor)

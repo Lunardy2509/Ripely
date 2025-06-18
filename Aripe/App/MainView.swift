@@ -23,7 +23,7 @@ struct MainView: View {
             if let result = viewModel.capturedResult {
                 
                 let ripenessState = AppleRipenessState.from(rawLabel: result.label)
-                let detentHeight: CGFloat = (ripenessState == .notApple) ? 0.50 : 0.85
+                let detentHeight: CGFloat = (ripenessState == .notApple) ? 0.40 : 0.85
                 
                 SummaryView(result: result, isPresented: $viewModel.showSummary)
                     .presentationDetents([.fraction(detentHeight)])

@@ -32,8 +32,10 @@ struct SummaryView: View {
                         finishButton
                     } else {
                         errorSection
+                        finishButton
                     }
                 }
+                .padding(.top, 5)
                 .padding(.bottom, 32)
             }
         }
@@ -72,17 +74,31 @@ struct SummaryView: View {
 
     private var errorSection: some View {
         VStack(alignment: .center, spacing: 12) {
-            Image("not_apple")
+            Image("not_an_apple")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 250, height: 250)
+                .frame(width: 100, height: 100)
             
             Text("Apple not detected")
                 .foregroundColor(.aTextPrimary)
                 .fontWeight(.semibold)
                 .font(.title2)
         }
+        .padding()
         .frame(maxWidth: .infinity)
+        .background(.aBackgroundSecondary)
+        .cornerRadius(16)
+        .shadow(
+            color: Constants.MiscellaneousFloatingTabPillShadow,
+            radius: 5,
+            x: 0,
+            y: 4
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(.aStroke)
+        )
+        .padding(.horizontal, 16)
     }
     
     private var finishButton: some View {
@@ -93,12 +109,12 @@ struct SummaryView: View {
                 isPresented = false // Dismiss if not an apple
             }
         }) {
-            Text(viewModel.ripenessState == .notApple ? "Try Again" : "More Detail")
+            Text(viewModel.ripenessState == .notApple ? "Scan Another" : "More Detail")
                 .font(.headline)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(viewModel.isPredictionValid ? .aPrimaryGreen : .gray)
+                .background(.aPrimaryGreen)
                 .cornerRadius(12)
         }
         .disabled(!viewModel.isPredictionValid)
