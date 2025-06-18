@@ -78,7 +78,7 @@ struct SummaryView: View {
                 .frame(width: 250, height: 250)
             
             Text("Apple not detected")
-                .foregroundColor(.gray)
+                .foregroundColor(.aTextPrimary)
                 .fontWeight(.semibold)
                 .font(.title2)
         }
