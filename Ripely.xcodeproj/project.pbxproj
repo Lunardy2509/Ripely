@@ -1,0 +1,645 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BD4670AF2E0FF53000196DFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD4670A92E0FF53000196DFF /* Assets.xcassets */; };
+		BD4670B02E0FF53000196DFF /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670852E0FF53000196DFF /* CameraService.swift */; };
+		BD4670B12E0FF53000196DFF /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670942E0FF53000196DFF /* OnBoardingView.swift */; };
+		BD4670B22E0FF53000196DFF /* SnapTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD46709D2E0FF53000196DFF /* SnapTips.swift */; };
+		BD4670B32E0FF53000196DFF /* MLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670862E0FF53000196DFF /* MLService.swift */; };
+		BD4670B42E0FF53000196DFF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670AB2E0FF53000196DFF /* Constants.swift */; };
+		BD4670B52E0FF53000196DFF /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670922E0FF53000196DFF /* OnboardingViewModel.swift */; };
+		BD4670B62E0FF53000196DFF /* AppleRipenessModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BD4670A72E0FF53000196DFF /* AppleRipenessModel.mlmodel */; };
+		BD4670B72E0FF53000196DFF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD46708F2E0FF53000196DFF /* CameraView.swift */; };
+		BD4670B82E0FF53000196DFF /* PhotoPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670972E0FF53000196DFF /* PhotoPickerViewModel.swift */; };
+		BD4670B92E0FF53000196DFF /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670802E0FF53000196DFF /* MainView.swift */; };
+		BD4670BA2E0FF53000196DFF /* SummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD46709F2E0FF53000196DFF /* SummaryViewModel.swift */; };
+		BD4670BB2E0FF53000196DFF /* PredictionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670832E0FF53000196DFF /* PredictionResult.swift */; };
+		BD4670BC2E0FF53000196DFF /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670882E0FF53000196DFF /* StorageService.swift */; };
+		BD4670BD2E0FF53000196DFF /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670822E0FF53000196DFF /* OnboardingPage.swift */; };
+		BD4670BE2E0FF53000196DFF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670AC2E0FF53000196DFF /* Extensions.swift */; };
+		BD4670BF2E0FF53000196DFF /* AppleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670A12E0FF53000196DFF /* AppleDetailView.swift */; };
+		BD4670C12E0FF53000196DFF /* CameraOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD46708E2E0FF53000196DFF /* CameraOverlayView.swift */; };
+		BD4670C22E0FF53000196DFF /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD46708C2E0FF53000196DFF /* CropView.swift */; };
+		BD4670C32E0FF53000196DFF /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD46708B2E0FF53000196DFF /* CameraViewModel.swift */; };
+		BD4670C42E0FF53000196DFF /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670992E0FF53000196DFF /* PhotoPickerView.swift */; };
+		BD4670C52E0FF53000196DFF /* ExamplePhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD46709C2E0FF53000196DFF /* ExamplePhotos.swift */; };
+		BD4670C62E0FF53000196DFF /* PhotoProcessingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670872E0FF53000196DFF /* PhotoProcessingService.swift */; };
+		BD4670C72E0FF53000196DFF /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670A32E0FF53000196DFF /* SummaryView.swift */; };
+		BD4670C82E0FF53000196DFF /* ApplePredictionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4670A22E0FF53000196DFF /* ApplePredictionResultView.swift */; };
+		BD698BDF2E0FF8B00027228A /* RipelyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD698BDE2E0FF8B00027228A /* RipelyApp.swift */; };
+		BD7A08742E031047005925AC /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BD7A08732E031047005925AC /* CropViewController */; };
+		BD7A08762E031047005925AC /* TOCropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BD7A08752E031047005925AC /* TOCropViewController */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BD4670802E0FF53000196DFF /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		BD4670822E0FF53000196DFF /* OnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
+		BD4670832E0FF53000196DFF /* PredictionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionResult.swift; sourceTree = "<group>"; };
+		BD4670852E0FF53000196DFF /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
+		BD4670862E0FF53000196DFF /* MLService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLService.swift; sourceTree = "<group>"; };
+		BD4670872E0FF53000196DFF /* PhotoProcessingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoProcessingService.swift; sourceTree = "<group>"; };
+		BD4670882E0FF53000196DFF /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		BD46708B2E0FF53000196DFF /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		BD46708C2E0FF53000196DFF /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
+		BD46708E2E0FF53000196DFF /* CameraOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraOverlayView.swift; sourceTree = "<group>"; };
+		BD46708F2E0FF53000196DFF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		BD4670922E0FF53000196DFF /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		BD4670942E0FF53000196DFF /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
+		BD4670972E0FF53000196DFF /* PhotoPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerViewModel.swift; sourceTree = "<group>"; };
+		BD4670992E0FF53000196DFF /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
+		BD46709C2E0FF53000196DFF /* ExamplePhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamplePhotos.swift; sourceTree = "<group>"; };
+		BD46709D2E0FF53000196DFF /* SnapTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapTips.swift; sourceTree = "<group>"; };
+		BD46709F2E0FF53000196DFF /* SummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewModel.swift; sourceTree = "<group>"; };
+		BD4670A12E0FF53000196DFF /* AppleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleDetailView.swift; sourceTree = "<group>"; };
+		BD4670A22E0FF53000196DFF /* ApplePredictionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePredictionResultView.swift; sourceTree = "<group>"; };
+		BD4670A32E0FF53000196DFF /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
+		BD4670A72E0FF53000196DFF /* AppleRipenessModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = AppleRipenessModel.mlmodel; sourceTree = "<group>"; };
+		BD4670A92E0FF53000196DFF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BD4670AB2E0FF53000196DFF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		BD4670AC2E0FF53000196DFF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		BD4965832DF830AF0034C769 /* Ripely.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ripely.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD698BDE2E0FF8B00027228A /* RipelyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RipelyApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BD4965802DF830AF0034C769 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD7A08762E031047005925AC /* TOCropViewController in Frameworks */,
+				BD7A08742E031047005925AC /* CropViewController in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BD4670812E0FF53000196DFF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				BD698BDE2E0FF8B00027228A /* RipelyApp.swift */,
+				BD4670802E0FF53000196DFF /* MainView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		BD4670842E0FF53000196DFF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670822E0FF53000196DFF /* OnboardingPage.swift */,
+				BD4670832E0FF53000196DFF /* PredictionResult.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BD4670892E0FF53000196DFF /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670852E0FF53000196DFF /* CameraService.swift */,
+				BD4670862E0FF53000196DFF /* MLService.swift */,
+				BD4670872E0FF53000196DFF /* PhotoProcessingService.swift */,
+				BD4670882E0FF53000196DFF /* StorageService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		BD46708A2E0FF53000196DFF /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670842E0FF53000196DFF /* Models */,
+				BD4670892E0FF53000196DFF /* Services */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		BD46708D2E0FF53000196DFF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BD46708B2E0FF53000196DFF /* CameraViewModel.swift */,
+				BD46708C2E0FF53000196DFF /* CropView.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		BD4670902E0FF53000196DFF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BD46708E2E0FF53000196DFF /* CameraOverlayView.swift */,
+				BD46708F2E0FF53000196DFF /* CameraView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BD4670912E0FF53000196DFF /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				BD46708D2E0FF53000196DFF /* ViewModels */,
+				BD4670902E0FF53000196DFF /* Views */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		BD4670932E0FF53000196DFF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670922E0FF53000196DFF /* OnboardingViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		BD4670952E0FF53000196DFF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670942E0FF53000196DFF /* OnBoardingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BD4670962E0FF53000196DFF /* OnBoarding */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670932E0FF53000196DFF /* ViewModels */,
+				BD4670952E0FF53000196DFF /* Views */,
+			);
+			path = OnBoarding;
+			sourceTree = "<group>";
+		};
+		BD4670982E0FF53000196DFF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670972E0FF53000196DFF /* PhotoPickerViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		BD46709A2E0FF53000196DFF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670992E0FF53000196DFF /* PhotoPickerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BD46709B2E0FF53000196DFF /* Photos */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670982E0FF53000196DFF /* ViewModels */,
+				BD46709A2E0FF53000196DFF /* Views */,
+			);
+			path = Photos;
+			sourceTree = "<group>";
+		};
+		BD46709E2E0FF53000196DFF /* SnapTips */ = {
+			isa = PBXGroup;
+			children = (
+				BD46709C2E0FF53000196DFF /* ExamplePhotos.swift */,
+				BD46709D2E0FF53000196DFF /* SnapTips.swift */,
+			);
+			path = SnapTips;
+			sourceTree = "<group>";
+		};
+		BD4670A02E0FF53000196DFF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BD46709F2E0FF53000196DFF /* SummaryViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		BD4670A42E0FF53000196DFF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670A12E0FF53000196DFF /* AppleDetailView.swift */,
+				BD4670A22E0FF53000196DFF /* ApplePredictionResultView.swift */,
+				BD4670A32E0FF53000196DFF /* SummaryView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BD4670A52E0FF53000196DFF /* Summary */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670A02E0FF53000196DFF /* ViewModels */,
+				BD4670A42E0FF53000196DFF /* Views */,
+			);
+			path = Summary;
+			sourceTree = "<group>";
+		};
+		BD4670A62E0FF53000196DFF /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670912E0FF53000196DFF /* Camera */,
+				BD4670962E0FF53000196DFF /* OnBoarding */,
+				BD46709B2E0FF53000196DFF /* Photos */,
+				BD46709E2E0FF53000196DFF /* SnapTips */,
+				BD4670A52E0FF53000196DFF /* Summary */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		BD4670A82E0FF53000196DFF /* MLModel */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670A72E0FF53000196DFF /* AppleRipenessModel.mlmodel */,
+			);
+			path = MLModel;
+			sourceTree = "<group>";
+		};
+		BD4670AA2E0FF53000196DFF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670A82E0FF53000196DFF /* MLModel */,
+				BD4670A92E0FF53000196DFF /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		BD4670AD2E0FF53000196DFF /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670AB2E0FF53000196DFF /* Constants.swift */,
+				BD4670AC2E0FF53000196DFF /* Extensions.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		BD4670AE2E0FF53000196DFF /* Ripely */ = {
+			isa = PBXGroup;
+			children = (
+				BD4670812E0FF53000196DFF /* App */,
+				BD46708A2E0FF53000196DFF /* Core */,
+				BD4670A62E0FF53000196DFF /* Features */,
+				BD4670AA2E0FF53000196DFF /* Resources */,
+				BD4670AD2E0FF53000196DFF /* Utilities */,
+			);
+			path = Ripely;
+			sourceTree = "<group>";
+		};
+		BD49657A2DF830AF0034C769 = {
+			isa = PBXGroup;
+			children = (
+				BD4670AE2E0FF53000196DFF /* Ripely */,
+				BD4965842DF830AF0034C769 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BD4965842DF830AF0034C769 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BD4965832DF830AF0034C769 /* Ripely.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BD4965822DF830AF0034C769 /* Ripely */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD49658E2DF830AF0034C769 /* Build configuration list for PBXNativeTarget "Ripely" */;
+			buildPhases = (
+				BD49657F2DF830AF0034C769 /* Sources */,
+				BD4965802DF830AF0034C769 /* Frameworks */,
+				BD4965812DF830AF0034C769 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Ripely;
+			packageProductDependencies = (
+				BD7A08732E031047005925AC /* CropViewController */,
+				BD7A08752E031047005925AC /* TOCropViewController */,
+			);
+			productName = Aripe;
+			productReference = BD4965832DF830AF0034C769 /* Ripely.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BD49657B2DF830AF0034C769 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					BD4965822DF830AF0034C769 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+				};
+			};
+			buildConfigurationList = BD49657E2DF830AF0034C769 /* Build configuration list for PBXProject "Ripely" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BD49657A2DF830AF0034C769;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BD7A08722E031047005925AC /* XCRemoteSwiftPackageReference "TOCropViewController" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = BD4965842DF830AF0034C769 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BD4965822DF830AF0034C769 /* Ripely */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BD4965812DF830AF0034C769 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD4670AF2E0FF53000196DFF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BD49657F2DF830AF0034C769 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD4670B02E0FF53000196DFF /* CameraService.swift in Sources */,
+				BD4670B12E0FF53000196DFF /* OnBoardingView.swift in Sources */,
+				BD4670B22E0FF53000196DFF /* SnapTips.swift in Sources */,
+				BD4670B32E0FF53000196DFF /* MLService.swift in Sources */,
+				BD4670B42E0FF53000196DFF /* Constants.swift in Sources */,
+				BD4670B52E0FF53000196DFF /* OnboardingViewModel.swift in Sources */,
+				BD4670B62E0FF53000196DFF /* AppleRipenessModel.mlmodel in Sources */,
+				BD4670B72E0FF53000196DFF /* CameraView.swift in Sources */,
+				BD4670B82E0FF53000196DFF /* PhotoPickerViewModel.swift in Sources */,
+				BD4670B92E0FF53000196DFF /* MainView.swift in Sources */,
+				BD4670BA2E0FF53000196DFF /* SummaryViewModel.swift in Sources */,
+				BD4670BB2E0FF53000196DFF /* PredictionResult.swift in Sources */,
+				BD4670BC2E0FF53000196DFF /* StorageService.swift in Sources */,
+				BD4670BD2E0FF53000196DFF /* OnboardingPage.swift in Sources */,
+				BD4670BE2E0FF53000196DFF /* Extensions.swift in Sources */,
+				BD4670BF2E0FF53000196DFF /* AppleDetailView.swift in Sources */,
+				BD4670C12E0FF53000196DFF /* CameraOverlayView.swift in Sources */,
+				BD4670C22E0FF53000196DFF /* CropView.swift in Sources */,
+				BD4670C32E0FF53000196DFF /* CameraViewModel.swift in Sources */,
+				BD698BDF2E0FF8B00027228A /* RipelyApp.swift in Sources */,
+				BD4670C42E0FF53000196DFF /* PhotoPickerView.swift in Sources */,
+				BD4670C52E0FF53000196DFF /* ExamplePhotos.swift in Sources */,
+				BD4670C62E0FF53000196DFF /* PhotoProcessingService.swift in Sources */,
+				BD4670C72E0FF53000196DFF /* SummaryView.swift in Sources */,
+				BD4670C82E0FF53000196DFF /* ApplePredictionResultView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BD49658C2DF830AF0034C769 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 84KMF7PD4V;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Ripely;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Ripely;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BD49658D2DF830AF0034C769 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 84KMF7PD4V;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Ripely;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = Ripely;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BD49658F2DF830AF0034C769 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 84KMF7PD4V;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Ripely;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera for prediction.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs access to your photo library to load images.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.origin-lun.Ripely";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BD4965902DF830AF0034C769 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 84KMF7PD4V;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Ripely;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera for prediction.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs access to your photo library to load images.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.origin-lun.Ripely";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BD49657E2DF830AF0034C769 /* Build configuration list for PBXProject "Ripely" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD49658C2DF830AF0034C769 /* Debug */,
+				BD49658D2DF830AF0034C769 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BD49658E2DF830AF0034C769 /* Build configuration list for PBXNativeTarget "Ripely" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD49658F2DF830AF0034C769 /* Debug */,
+				BD4965902DF830AF0034C769 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BD7A08722E031047005925AC /* XCRemoteSwiftPackageReference "TOCropViewController" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TimOliver/TOCropViewController";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BD7A08732E031047005925AC /* CropViewController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD7A08722E031047005925AC /* XCRemoteSwiftPackageReference "TOCropViewController" */;
+			productName = CropViewController;
+		};
+		BD7A08752E031047005925AC /* TOCropViewController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD7A08722E031047005925AC /* XCRemoteSwiftPackageReference "TOCropViewController" */;
+			productName = TOCropViewController;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = BD49657B2DF830AF0034C769 /* Project object */;
+}

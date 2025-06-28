@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Matangin Icon Light.png",
+      "filename" : "Ripely_Light.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "Matangin Icon Dark.png",
+      "filename" : "Ripely_Dark.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

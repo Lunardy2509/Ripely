@@ -9,7 +9,7 @@
 import SwiftUI
 
 @main
-struct AripeApp: App {
+struct RipelyApp: App {
     @StateObject private var storageService = StorageService()
     
     var body: some Scene {
@@ -34,7 +34,6 @@ struct ContentView: View {
                     storageService.hasSeenOnboarding = true
                 })
             }
-//            OnBoardingView()
         }
     }
 }
