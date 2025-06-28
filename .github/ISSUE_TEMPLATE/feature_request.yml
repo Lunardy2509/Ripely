@@ -1,0 +1,38 @@
+name: 💡 Feature Request
+description: Suggest a new feature or improvement for Ripely
+title: "[Feature]"
+labels: ["enhancement"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💡 Feature Request for Ripely
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Describe the feature you'd like
+      description: What is the new feature or improvement you want to see in Ripely?
+      placeholder: e.g., Ability to classify apples from photos in the photo library.
+    validations:
+      required: true
+
+  - type: textarea
+    id: how-it-works
+    attributes:
+      label: How should it work?
+      description: Describe how the feature should behave. Provide examples if helpful.
+
+  - type: textarea
+    id: usefulness
+    attributes:
+      label: Why is it useful?
+      description: Explain how this would improve Ripely for you or other users.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Include any mockups, links, or extra details that can help us understand your request.
