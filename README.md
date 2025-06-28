@@ -1,6 +1,6 @@
 <div align="center">
   <h1>🍎 Ripely</h1>
-  <img src="https://github.com/Lunardy2509/Aripe/blob/main/Aripe/Resources/Assets.xcassets/AppIcon.appiconset/Matangin%20Icon%20Light.png" width="200" height="200" alt="Ripely Logo">
+  <img src="https://github.com/Lunardy2509/Ripely/blob/main/Ripely/Resources/Assets.xcassets/AppIcon.appiconset/Ripely_Light.png" width="200" height="200" alt="Ripely Logo">
 
   ![Version](https://img.shields.io/badge/version-1.0-green?style=for-the-badge)
 
