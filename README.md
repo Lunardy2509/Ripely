@@ -1,73 +1,86 @@
 <div align="center">
-  <h1>Ripely: Smart iOS Image Picker & Cropper</h1>
-
+  <h1>🍎 Ripely</h1>
   <img src="https://github.com/Lunardy2509/Aripe/blob/main/Aripe/Resources/Assets.xcassets/AppIcon.appiconset/Matangin%20Icon%20Light.png" width="200" height="200" alt="Ripely Logo">
 
   ![Version](https://img.shields.io/badge/version-1.0-green?style=for-the-badge)
 
-  <p>Welcome to <strong>Ripely</strong> — a lightweight and powerful iOS image picker with customizable manual cropping and camera offset support, built for high-performance image workflows.</p>
+  <p><strong>Ripely</strong> is a CoreML-powered iOS app designed to help <em>Academy Learners</em> identify apple ripeness in real time using image classification.</p>
 
-<p>
-  <a href="https://yourdomain.com/privacy-policy">📜 Privacy Policy »</a><br><br>
-  <a href="https://github.com/Lunardy2509/Aripe/discussions">💬 Discussion</a> ·
-  <a href="https://github.com/Lunardy2509/Aripe/issues/new?labels=bug&template=bug_report.md&title=%5BBug%5D">🐛 Report Bug</a> ·
-  <a href="https://github.com/Lunardy2509/Aripe/issues/new?labels=enhancement&template=feature_request.md&title=%5BFeature%5D">✨ Request Feature</a><br><br>
-  <a href="https://apps.apple.com/"><strong>📲 Download on App Store</strong></a>
-</p>
+  <p>
+    <a href="https://lunardy2509.github.io/lq-docs/privacy/privacy-bsdgo">📜 Privacy Policy</a><br><br>
+    <a href="https://github.com/Lunardy2509/Aripe/discussions">💬 Discussion</a> ·
+    <a href="https://github.com/Lunardy2509/Aripe/issues/new?labels=bug">🐛 Report Bug</a> ·
+    <a href="https://github.com/Lunardy2509/Aripe/issues/new?labels=enhancement">✨ Request Feature</a><br><br>
+    <a href="https://apps.apple.com/"><strong>📲 Download on App Store</strong></a>
+  </p>
 </div>
 
 ---
 
-## 📍 About Ripely
+## 📍 What is Ripely?
 
-**Ripely** is a custom-built iOS utility for developers, designers, and content creators who need precise control over image input. It provides manual cropping, live photo preview, and advanced camera offset calibration — perfect for apps involving receipts, documents, or product shots.
+**Ripely** helps Academy Learners who enjoy eating fruits identify the ripeness of apples using **CreateML’s Image Classification** model integrated with **Vision**.
 
-> ℹ️ *Currently optimized for Swift UIKit projects targeting iOS 15+. Future SwiftUI and VisionOS support is under review.*
+It classifies an object into one of four categories:
+
+- 🍎 Ripe Apple (typically red)
+- 🍏 Unripe Apple (typically green)
+- 🤢 Rotten Apple (visibly damaged)
+- ❌ Not an Apple
+
+> 🧑‍💻 Built as part of a capstone project at **Apple Developer Academy @BINUS**, Ripely combines ML learning with practical daily relevance.
 
 ---
 
-## 🛠 Purpose of this Repository
+## 🎯 Why We Built This
 
-Use this repository to:
+Our objective:  
+**Help identify the ripeness of apples for Academy Learners who enjoy eating fruits using CreateML’s Image Classification with Vision.**
 
-- Track and report issues
-- Suggest enhancements or UI/UX improvements
-- Understand the core logic and setup
-- Contribute to future updates and extensions
+Ripely serves as both an educational showcase and a fun, helpful tool for learners exploring machine learning on iOS.
+
+---
+
+## 🍽 Use Case Scenario
+
+- 📱 Snap a photo of an apple in the cafeteria or kitchen
+- ⚡ Instantly see its ripeness status via real-time prediction
+- 🤖 Learn how image classification works behind the scenes
+- 🍏 Avoid eating unripe or spoiled fruit!
 
 ---
 
 ## 🚀 Features
 
-- 📸 Manual Crop with Real-Time Preview
-- 🎯 Custom Offset Camera Positioning
-- 🖼️ Native Photo Picker Integration
-- ⚙️ Lightweight & Modular Swift UIKit Codebase
-- 💡 Designed for Performance and Minimalism
+- 🔍 Real-time prediction via camera  
+- 📸 Manual image classification via photo picker  
+- 🧠 CoreML model trained using **CreateML**  
+- 🌈 Handles various lighting and backgrounds  
+- 🎓 Ideal for educational demonstration of Vision + CoreML  
 
 ---
 
 ## ⚙️ Tech Stack
 
-| Layer        | Tech       |
-| ------------ | ---------- |
-| Language     | Swift      |
-| Frameworks   | UIKit, PhotosUI |
-| IDE          | Xcode 14+  |
-| Platform     | iOS 15+    |
+| Layer        | Tools                          |
+| ------------ | ----------------------------- |
+| Language     | Swift                          |
+| Frameworks   | UIKit, AVFoundation, CoreML, Vision |
+| ML Tooling   | CreateML (image classifier)    |
+| IDE          | Xcode                          |
+| Platform     | iOS 15+                        |
 
 ---
 
 ## 🔧 Prerequisites
 
-- macOS with Xcode 14 or newer
-- iOS device or simulator (iOS 15+)
-- CocoaPods / Swift Package Manager (if additional libraries needed)
-- Developer account for App Store testing (optional)
+- macOS with Xcode 14 or newer  
+- iPhone or iOS simulator (iOS 15+)  
+- CoreML-compatible device (A11 chip or newer)
 
 ---
 
-## 🧑‍💻 Contributors
+## 👨‍👩‍👧 Contributors
 
 - [@Lunardy2509](https://github.com/Lunardy2509)
 - [@yoshikazuuu](https://github.com/yoshikazuuu)
@@ -78,11 +91,14 @@ Use this repository to:
 ## 📄 License
 
 © 2025 Ripely. All rights reserved.  
-For commercial or enterprise use, please contact us directly.
+This repository is part of an educational project at **Apple Developer Academy @BINUS**. For non-commercial and learning purposes only.
 
 ---
 
-## 💬 Stay Connected
+## ✨ Want to Learn More?
 
-Join the discussion, track upcoming milestones, or suggest improvements via Issues or Discussions. Your input helps shape **Ripely** into a robust image-processing toolkit for iOS developers and creatives.
+Browse the Discussions tab to learn more about how we trained the model, implemented CoreML, and integrated Vision.  
+You can also fork this project and retrain your own model for bananas, oranges, or anything else!
+
+---
 
