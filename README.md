@@ -7,10 +7,12 @@
   <p><strong>Ripely</strong> is a CoreML-powered iOS app designed to help <em>Academy Learners</em> identify apple ripeness in real time using image classification.</p>
 
   <p>
-    <a href="https://lunardy2509.github.io/lq-docs/privacy/privacy-bsdgo">📜 Privacy Policy</a><br><br>
-    <a href="https://github.com/Lunardy2509/Aripe/discussions">💬 Discussion</a> ·
-    <a href="https://github.com/Lunardy2509/Aripe/issues/new?labels=bug">🐛 Report Bug</a> ·
-    <a href="https://github.com/Lunardy2509/Aripe/issues/new?labels=enhancement">✨ Request Feature</a><br><br>
+    <a href="https://lunardy2509.github.io/lq-docs/privacy/privacy-ripely">📜 Privacy Policy</a><br><br>
+    <a href="https://github.com/Lunardy2509/Ripely/discussions">💬 Discussion</a> ·
+    <a href="https://github.com/Lunardy2509/Ripely/issues/new?assignees=&labels=bug&template=bug_report.yml&title=%5BBug%5D
+">🐛 Report Bug</a> ·
+    <a href="https://github.com/Lunardy2509/Ripely/issues/new?assignees=&labels=enhancement&template=feature_request.yml&title=%5BFeature%5D
+">✨ Request Feature</a><br><br>
     <a href="https://apps.apple.com/"><strong>📲 Download on App Store</strong></a>
   </p>
 </div>
