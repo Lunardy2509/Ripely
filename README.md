@@ -77,14 +77,14 @@ Ripely serves as both an educational showcase and a fun, helpful tool for learne
 ## 🔧 Prerequisites
 
 - macOS with Xcode 14 or newer  
-- iPhone or iOS simulator (iOS 15+)  
+- iPhone or iOS simulator (iOS 17+)  
 - CoreML-compatible device (A11 chip or newer)
 
 ---
 
-## 👨‍👩‍👧 Contributors
-
-- [@Lunardy2509](https://github.com/Lunardy2509)
+## 👨‍👩‍👧 Collaborators
+Built as part of Apple Developer Academy @BINUS
+Special thanks to:
 - [@yoshikazuuu](https://github.com/yoshikazuuu)
 - [@ReynardHansel](https://github.com/ReynardHansel)
 
@@ -93,7 +93,7 @@ Ripely serves as both an educational showcase and a fun, helpful tool for learne
 ## 📄 License
 
 © 2025 Ripely. All rights reserved.  
-This repository is part of an educational project at **Apple Developer Academy @BINUS**. For non-commercial and learning purposes only.
+This repository is part of an educational project at **Apple Developer Academy @BINUS**for non-commercial and learning purposes only.
 
 ---
 
