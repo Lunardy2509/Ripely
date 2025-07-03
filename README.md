@@ -13,7 +13,7 @@
 ">🐛 Report Bug</a> ·
     <a href="https://github.com/Lunardy2509/Ripely/issues/new?assignees=&labels=enhancement&template=feature_request.yml&title=%5BFeature%5D
 ">✨ Request Feature</a><br><br>
-    <a href="https://apps.apple.com/id/app/ripely/id6747743774Ripely"><strong>📲 Download on App Store</strong></a>
+    <a href="https://apps.apple.com/id/app/ripely/id6747743774"><strong>📲 Download on App Store</strong></a>
   </p>
 </div>
 
