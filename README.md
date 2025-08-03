@@ -70,7 +70,7 @@ Ripely serves as both an educational showcase and a fun, helpful tool for learne
 | Frameworks   | UIKit, AVFoundation, CoreML, Vision |
 | ML Tooling   | CreateML (image classifier)    |
 | IDE          | Xcode                          |
-| Platform     | iOS 15+                        |
+| Platform     | iOS 17+                        |
 
 ---
 
