@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import UIKit
 
 struct Constants {
     static let MiscellaneousFloatingTabPillShadow: Color = .black.opacity(0.08)
@@ -19,10 +20,20 @@ struct Constants {
     static let PrimaryDarkOrange: Color = Color.aOrange
     static let BGPrimaryGreen: Color = Color.aBackgroundGreen
     static let BGPrimaryOrange: Color = Color.aBackgroundOrange
+    
     struct Camera {
-        static let captureBoxSize: CGFloat = 250
-        static let horizontalOffset: CGFloat = -175
-        static let verticalOffset: CGFloat = 0
+        static let captureBoxSize: CGFloat = {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                return CGFloat(500)
+            }
+            else if UIDevice.current.userInterfaceIdiom == .phone {
+                return  CGFloat(250)
+            }
+                return 0
+        }()
+        
+        // Removed static offsets as they are now calculated dynamically
+        // based on the actual preview layer bounds and camera output
     }
 
     struct UI {

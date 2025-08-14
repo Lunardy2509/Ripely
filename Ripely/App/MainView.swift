@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @StateObject private var viewModel = CameraViewModel()
+    @StateObject private var orientationManager = OrientationManager()
     
     var body: some View {
         ZStack {
@@ -17,6 +18,7 @@ struct MainView: View {
             
             CameraOverlayView(viewModel: viewModel)
         }
+        .environmentObject(orientationManager)
         .sheet(isPresented: $viewModel.showSummary, onDismiss: {
             viewModel.resetCapture()
         }) {

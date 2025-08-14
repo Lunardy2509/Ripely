@@ -36,7 +36,13 @@ struct CameraOverlayView: View {
                         GeometryReader { rectGeo in
                             Color.clear
                                 .onAppear {
-                                    viewModel.cropRectInView = rectGeo.frame(in: .named("cameraPreview"))
+                                    let frame = rectGeo.frame(in: .named("cameraPreview"))
+                                    viewModel.cropRectInView = frame
+                                }
+                                .onChange(of: geometry.size) { _, _ in
+                                    // Update when the parent geometry changes (orientation)
+                                    let frame = rectGeo.frame(in: .named("cameraPreview"))
+                                    viewModel.cropRectInView = frame
                                 }
                                 .onChange(of: rectGeo.frame(in: .named("cameraPreview"))) { _, newValue in
                                     viewModel.cropRectInView = newValue

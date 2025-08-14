@@ -56,3 +56,21 @@ extension String {
         NSLocalizedString(self, comment: "")
     }
 }
+
+// MARK: - UIDevice Extensions
+extension UIDevice {
+    var isLandscape: Bool {
+        return orientation.isLandscape
+    }
+    
+    var isPortrait: Bool {
+        return orientation.isPortrait
+    }
+    
+    var currentInterfaceOrientation: UIInterfaceOrientation {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            return windowScene.interfaceOrientation
+        }
+        return .portrait
+    }
+}

@@ -22,9 +22,8 @@ class CameraViewModel: ObservableObject {
     @Published var isTooDark = false
     @Published var showCropper = false
     @Published var selectedUIImage: UIImage? = nil
-
-    
-    private let cameraService: CameraService
+     
+    let cameraService: CameraService
     let photoProcessingService: PhotoProcessingServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
@@ -40,6 +39,7 @@ class CameraViewModel: ObservableObject {
     }
     
     // MARK: - Camera Functions
+    
     func setupCamera(in view: UIView) {
         cameraService.setupCamera(in: view)
     }
