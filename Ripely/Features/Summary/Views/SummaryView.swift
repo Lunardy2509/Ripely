@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct SummaryView: View {
-    @StateObject private var viewModel: SummaryViewModel
     @Binding var isPresented: Bool
+    
+    @StateObject private var viewModel: SummaryViewModel
     @State private var showAppleDetail = false
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
 
     init(result: PredictionResult, isPresented: Binding<Bool>) {
         self._viewModel = StateObject(
@@ -50,14 +51,14 @@ struct SummaryView: View {
     private var headerSection: some View {
         HStack {
             Text("Scan Result")
-                .font(.title2)
+                .font(.title)
                 .fontWeight(.bold)
             
             Spacer()
             
-            Button(action:{
+            Button(action: {
                 dismiss()
-            }, label:{
+            }, label: {
                 Image(systemName: "xmark.circle.fill")
                     .resizable()
                     .frame(width: 16, height: 16)
@@ -117,7 +118,7 @@ struct SummaryView: View {
             if viewModel.ripenessState != .notApple {
                 showAppleDetail = true
             } else {
-                isPresented = false // Dismiss if not an apple
+                isPresented = false
             }
         }, label: {
             Text(viewModel.ripenessState == .notApple ? "Scan Another" : "More Detail")

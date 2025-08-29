@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "green_apple.svg",
+      "filename" : "Light-Apple-02.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,11 +12,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "green_apple_dark.svg",
+      "filename" : "dark-apple-01.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Light-Apple-02 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -27,10 +28,12 @@
           "value" : "dark"
         }
       ],
+      "filename" : "dark-apple-01 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Light-Apple-02 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -41,6 +44,7 @@
           "value" : "dark"
         }
       ],
+      "filename" : "dark-apple-01 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

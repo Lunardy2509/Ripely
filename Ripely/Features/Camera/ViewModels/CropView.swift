@@ -24,15 +24,14 @@ struct CropView: UIViewControllerRepresentable {
         Coordinator(self)
     }
 
-    class Coordinator: NSObject, TOCropViewControllerDelegate {
+    internal class Coordinator: NSObject, TOCropViewControllerDelegate {
         let parent: CropView
 
         init(_ parent: CropView) {
             self.parent = parent
         }
 
-        func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int)
-        {
+        func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
             parent.onCropped(image)
             cropViewController.dismiss(animated: true)
         }

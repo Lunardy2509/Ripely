@@ -4,8 +4,6 @@
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
-
 import Foundation
 import Vision
 import CoreML
@@ -16,7 +14,7 @@ protocol MLServiceProtocol {
     func predict(from pixelBuffer: CVPixelBuffer, completion: @escaping (Result<String, Error>) -> Void)
 }
 
-class MLService: MLServiceProtocol {
+final class MLService: MLServiceProtocol {
     private var model: VNCoreMLModel?
     
     init() {

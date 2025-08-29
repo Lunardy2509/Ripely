@@ -4,13 +4,11 @@
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
-
 import SwiftUI
 
 struct OnBoardingView: View {
     // Action when Start Scanning tapped
-    var onFinished: (() -> Void)? = nil
+    var onFinished: (() -> Void)?
 
     var body: some View {
         VStack {
@@ -54,7 +52,7 @@ struct OnBoardingView: View {
             // Start Scanning button
             Button(action: {
                 onFinished?()
-            }) {
+            }, label: {
                 Text("Start Scanning")
                     .font(.headline)
                     .foregroundColor(.white)
@@ -63,7 +61,7 @@ struct OnBoardingView: View {
                     .background(.aPrimaryGreen)
                     .cornerRadius(12)
                     .padding(.horizontal, 20)
-            }
+            })
             .padding(.bottom, 35)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Too Much.png",
+      "filename" : "Too Many.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Too Many 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Too Many 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

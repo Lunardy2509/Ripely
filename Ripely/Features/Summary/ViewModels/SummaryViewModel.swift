@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class SummaryViewModel: ObservableObject {
+internal class SummaryViewModel: ObservableObject {
     @Published var result: PredictionResult
     
     init(result: PredictionResult) {

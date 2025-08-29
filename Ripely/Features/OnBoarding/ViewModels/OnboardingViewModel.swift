@@ -4,11 +4,9 @@
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
-
 import SwiftUI
 
-class OnboardingViewModel: ObservableObject {
+internal class OnboardingViewModel: ObservableObject {
     @Published var currentPage = 0
     
     private var storageService: StorageServiceProtocol

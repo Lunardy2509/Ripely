@@ -4,8 +4,6 @@
 //
 //  Created by Jerry Febriano on 17/06/25.
 //
-
-
 import UIKit
 import PhotosUI
 import _PhotosUI_SwiftUI
@@ -16,10 +14,8 @@ protocol PhotoProcessingServiceProtocol {
     func loadAndProcessImage(from item: PhotosPickerItem, completion: @escaping (Result<PredictionResult, Error>) -> Void)
 }
 
-
-class PhotoProcessingService: PhotoProcessingServiceProtocol {
+final class PhotoProcessingService: PhotoProcessingServiceProtocol {
     private let mlService: MLServiceProtocol
-    
     init(mlService: MLServiceProtocol = MLService()) {
         self.mlService = mlService
     }

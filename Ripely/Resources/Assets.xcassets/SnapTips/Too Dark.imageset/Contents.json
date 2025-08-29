@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "Too Dark 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Too Dark 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

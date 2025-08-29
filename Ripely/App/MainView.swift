@@ -21,7 +21,7 @@ struct MainView: View {
         .environmentObject(orientationManager)
         .sheet(isPresented: $viewModel.showSummary, onDismiss: {
             viewModel.resetCapture()
-        }) {
+        }, content: {
             if let result = viewModel.capturedResult {
                 
                 let ripenessState = AppleRipenessState.from(rawLabel: result.label)
@@ -32,6 +32,6 @@ struct MainView: View {
                     .presentationDragIndicator(.visible)
                     .background(.aBackgroundPrimary)
             }
-        }
+        })
     }
 }

@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "fridge.svg",
+      "filename" : "light-10.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,11 +12,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "fridge_dark.svg",
+      "filename" : "Dark-09.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "light-10 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -27,10 +28,12 @@
           "value" : "dark"
         }
       ],
+      "filename" : "Dark-09 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "light-10 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -41,6 +44,7 @@
           "value" : "dark"
         }
       ],
+      "filename" : "Dark-09 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

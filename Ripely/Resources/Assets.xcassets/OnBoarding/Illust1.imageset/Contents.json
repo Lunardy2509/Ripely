@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Illust1.svg",
+      "filename" : "OnBoarding-01.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "OnBoarding-01 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "OnBoarding-01 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-class OrientationManager: ObservableObject {
+final class OrientationManager: ObservableObject {
     @Published var orientation: UIDeviceOrientation = UIDevice.current.orientation
     @Published var interfaceOrientation: UIInterfaceOrientation = .portrait
     

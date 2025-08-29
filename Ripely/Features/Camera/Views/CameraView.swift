@@ -4,8 +4,6 @@
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
-
 import SwiftUI
 import AVFoundation
 
@@ -26,7 +24,7 @@ struct CameraView: UIViewRepresentable {
     }
 }
 
-class CameraHostView: UIView {
+final class CameraHostView: UIView {
     weak var cameraService: CameraService?
     
     override func layoutSubviews() {

@@ -61,18 +61,24 @@ struct AppleDetailView: View {
             }
             .navigationTitle("Apple Detail")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
+            .navigationBarBackButtonHidden(false)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
+                    // Customize the default back button
                     Button(action: {
                         isPresented = false
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.primary)
-                    }
+                    }, label: {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.aAccentGreen)
+                            Text("Scan")
+                                .foregroundColor(.aAccentGreen)
+                        }
+                        .padding(10)
+                    })
+                    .padding(.leading, -10)
                 }
             }
-            .background(.aBackgroundPrimary)
         }
     }
 
@@ -217,7 +223,7 @@ struct AppleDetailView: View {
     private var scanAnotherButton: some View {
         Button(action: {
             isPresented = false
-        }) {
+        }, label: {
             Text("Scan Another")
                 .font(.headline)
                 .foregroundColor(.white)
@@ -225,7 +231,7 @@ struct AppleDetailView: View {
                 .padding()
                 .background(.aButtonGreen)
                 .cornerRadius(12)
-        }
+        })
     }
 
     private func getStatusText() -> String {

@@ -4,7 +4,6 @@
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
 import Foundation
 import SwiftUI
 import UIKit
@@ -25,18 +24,14 @@ struct Constants {
         static let captureBoxSize: CGFloat = {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 return CGFloat(500)
-            }
-            else if UIDevice.current.userInterfaceIdiom == .phone {
+            } else if UIDevice.current.userInterfaceIdiom == .phone {
                 return  CGFloat(250)
             }
                 return 0
         }()
-        
-        // Removed static offsets as they are now calculated dynamically
-        // based on the actual preview layer bounds and camera output
     }
 
-    struct UI {
+    struct UserInterfaceConstants {
         static let captureInstruction = "Place the Apple in Focus"
     }
 
@@ -63,7 +58,7 @@ struct Constants {
                 title: "Simpan buahmu ke basket",
                 description:
                     "Kamu bisa menyimpan buah yang kamu beli ke dalam basket agar kami dapat memantau estimasi hari apelmu."
-            ),
+            )
         ]
     }
 

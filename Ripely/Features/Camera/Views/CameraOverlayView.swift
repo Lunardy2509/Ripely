@@ -4,7 +4,6 @@
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
 import SwiftUI
 import PhotosUI
 
@@ -52,14 +51,14 @@ struct CameraOverlayView: View {
                     .padding(.bottom, 130)
                 
                 VStack {
-                    //MARK: Top Bar
-                    HStack() {
+                    // MARK: Top Bar
+                    HStack {
                         Spacer()
                         
-                        //MARK: Help Button
+                        // MARK: Help Button
                         Button(action: {
                             viewModel.isSheetOpened.toggle()
-                        }) {
+                        }, label: {
                             Image(systemName: "questionmark")
                                 .foregroundColor(.aWhite)
                                 .font(.system(size: 20))
@@ -70,12 +69,13 @@ struct CameraOverlayView: View {
                                         height: 40
                                     )
                                 )
-                        }
+                        })
                         .disabled(viewModel.isProcessing)
                         .padding(25)
                     }
-                    Spacer()
                     
+                    Spacer()
+
                     // Simplified dynamic instruction text
                     Text(viewModel.overlayText)
                         .frame(maxWidth: .infinity)
@@ -89,7 +89,7 @@ struct CameraOverlayView: View {
                         .animation(.easeInOut(duration: 0.3), value: viewModel.isTooDark)
                     
                     HStack {
-                        //MARK: Gallery Button
+                        // MARK: Gallery Button
                         PhotosPicker(
                             selection: $viewModel.selectedPhotoItem,
                             matching: .images,
@@ -103,7 +103,7 @@ struct CameraOverlayView: View {
                         
                         Spacer()
                         
-                        //MARK: Capture Button
+                        // MARK: Capture Button
                         Button(action: viewModel.captureImage) {
                             ZStack {
                                 Circle()
@@ -119,7 +119,7 @@ struct CameraOverlayView: View {
                         
                         Spacer()
                         
-                        //MARK: Flash Button
+                        // MARK: Flash Button
                         Button(action: viewModel.toggleFlash) {
                             Image(
                                 systemName: viewModel.isFlashOn

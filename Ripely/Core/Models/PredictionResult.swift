@@ -34,16 +34,22 @@ enum AppleRipenessState: String, CaseIterable {
     case overripe = "rotten apple"
     case notApple = "not apple"
     
-    var displayInfo: (title: String, description: String, color: String) {
+    struct DisplayInfo {
+        var title: String
+        var description: String
+        var color: String
+    }
+
+    var displayInfo: DisplayInfo {
         switch self {
         case .unripe:
-            return ("Belum Matang", "Apel masih keras dan belum manis", "orange")
+            return DisplayInfo(title: "Belum Matang", description: "Apel masih keras dan belum manis", color: "orange")
         case .ripe:
-            return ("Matang", "Siap dikonsumsi, rasa manis", "green")
+            return DisplayInfo(title: "Matang", description: "Siap dikonsumsi, rasa manis", color: "green")
         case .overripe:
-            return ("Terlalu Matang", "Apel mungkin terlalu lunak", "brown")
+            return DisplayInfo(title: "Terlalu Matang", description: "Apel mungkin terlalu lunak", color: "brown")
         case .notApple:
-            return ("Tidak Dikenal", "Tidak bisa mendeteksi kondisi apel", "gray")
+            return DisplayInfo(title: "Tidak Dikenal", description: "Tidak bisa mendeteksi kondisi apel", color: "gray")
         }
     }
     

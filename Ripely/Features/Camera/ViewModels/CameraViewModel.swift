@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 import Combine
 
-class CameraViewModel: ObservableObject {
+internal class CameraViewModel: ObservableObject {
     @Published var livePrediction = ""
     @Published var isFlashOn = false
     @Published var cropRectInView: CGRect = .zero
@@ -17,11 +17,11 @@ class CameraViewModel: ObservableObject {
     @Published var showSummary = false
     @Published var errorMessage: String?
     @Published var isSheetOpened = false
-    @Published var selectedPhotoItem: PhotosPickerItem? = nil
+    @Published var selectedPhotoItem: PhotosPickerItem?
     @Published var isProcessing = false
     @Published var isTooDark = false
     @Published var showCropper = false
-    @Published var selectedUIImage: UIImage? = nil
+    @Published var selectedUIImage: UIImage?
      
     let cameraService: CameraService
     let photoProcessingService: PhotoProcessingServiceProtocol

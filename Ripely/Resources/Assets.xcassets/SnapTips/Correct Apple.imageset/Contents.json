@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "Correct Apple 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Correct Apple 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
