@@ -12,7 +12,9 @@ struct SummaryView: View {
     
     @StateObject private var viewModel: SummaryViewModel
     @State private var showAppleDetail = false
-    @Environment(\.dismiss) private var dismiss
+    
+    private let isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
+    private let isIphone: Bool = UIDevice.current.userInterfaceIdiom == .phone
 
     init(result: PredictionResult, isPresented: Binding<Bool>) {
         self._viewModel = StateObject(
@@ -22,23 +24,59 @@ struct SummaryView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            headerSection
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    if viewModel.isPredictionValid {
-                        imageSection
-                        ApplePredictionResultView(viewModel: viewModel)
-                            .padding(.horizontal, 16)
-                        finishButton
-                    } else {
-                        errorSection
-                        finishButton
+        GeometryReader { geometry in
+            let isLandscape = geometry.size.width > geometry.size.height
+            let shouldUseTwoColumns = isIpad && isLandscape && geometry.size.width > 800
+            
+            VStack(spacing: 0) {
+                headerSection
+                
+                if shouldUseTwoColumns {
+                    // iPad Landscape: Two-column layout
+                    HStack(alignment: .top, spacing: 24) {
+                        // Left Column: Image + Apple Result
+                        VStack(alignment: .leading, spacing: 16) {
+                            if viewModel.isPredictionValid {
+                                imageSection(geometry: geometry, isTwoColumn: true)
+                                ApplePredictionResultView(viewModel: viewModel)
+                            } else {
+                                errorSection
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        
+                        // Right Column: Apple Detail + Finish Button
+                        VStack(spacing: 16) {
+                            if viewModel.isPredictionValid && viewModel.ripenessState != .notApple {
+                                ScrollView {
+                                    AppleDetailView(result: viewModel.result, isPresented: $isPresented)
+                                }
+                            }
+                            
+                            finishButton(isTwoColumn: true)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .padding(.horizontal, 32)
+                    .padding(.top, 20)
+                } else {
+                    // iPhone and iPad Portrait: Single column layout
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 16) {
+                            if viewModel.isPredictionValid {
+                                imageSection(geometry: geometry, isTwoColumn: false)
+                                ApplePredictionResultView(viewModel: viewModel)
+                                    .padding(.horizontal, 16)
+                                finishButton(isTwoColumn: false)
+                            } else {
+                                errorSection
+                                finishButton(isTwoColumn: false)
+                            }
+                        }
+                        .padding(.top, 5)
+                        .padding(.bottom, 32)
                     }
                 }
-                .padding(.top, 5)
-                .padding(.bottom, 32)
             }
         }
         .fullScreenCover(isPresented: $showAppleDetail) {
@@ -53,33 +91,58 @@ struct SummaryView: View {
             Text("Scan Result")
                 .font(.title)
                 .fontWeight(.bold)
-            
-            Spacer()
-            
-            Button(action: {
-                dismiss()
-            }, label: {
-                Image(systemName: "xmark.circle.fill")
-                    .resizable()
-                    .frame(width: 16, height: 16)
-            })
         }
         .padding()
+        .padding(.top, 10)
+    }
+    
+    private func getWidth(geometry: GeometryProxy, isTwoColumn: Bool) -> CGFloat {
+        if isTwoColumn {
+            // For iPad landscape two-column layout
+            return (geometry.size.width - 88) / 2 // Half width minus padding
+        } else if isIpad {
+            return min(geometry.size.width - 64, 600)
+        } else {
+            return geometry.size.width - 32
+        }
     }
 
-    private var imageSection: some View {
+    private func getHeight(geometry: GeometryProxy, isTwoColumn: Bool) -> CGFloat {
+        if isTwoColumn {
+            // For iPad landscape, use smaller height to fit both image and result
+            return min(geometry.size.height * 0.35, 280)
+        } else if isIpad {
+            return min(geometry.size.height * 0.4, 400)
+        } else {
+            return geometry.size.height - 200
+        }
+    }
+    
+    // Safely calculate width with fallback value
+    private func getValidWidth(geometry: GeometryProxy, isTwoColumn: Bool) -> CGFloat {
+        let width = getWidth(geometry: geometry, isTwoColumn: isTwoColumn)
+        return width.isFinite && width > 0 ? width : 100 // Default to 100 if invalid
+    }
+
+    // Safely calculate height with fallback value
+    private func getValidHeight(geometry: GeometryProxy, isTwoColumn: Bool) -> CGFloat {
+        let height = getHeight(geometry: geometry, isTwoColumn: isTwoColumn)
+        return height.isFinite && height > 0 ? height : 200 // Default to 200 if invalid
+    }
+    
+    private func imageSection(geometry: GeometryProxy, isTwoColumn: Bool) -> some View {
         Group {
             if let image = viewModel.result.image {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
                     .frame(
-                        width: UIScreen.main.bounds.width - 32,
-                        height: UIScreen.main.bounds.width - 32
+                        width: getValidWidth(geometry: geometry, isTwoColumn: isTwoColumn),
+                        height: getValidHeight(geometry: geometry, isTwoColumn: isTwoColumn)
                     )
                     .clipped()
                     .cornerRadius(16)
-                    .padding(.horizontal, 16)
+                    .frame(maxWidth: .infinity) // Center the image
             }
         }
     }
@@ -113,15 +176,21 @@ struct SummaryView: View {
         .padding(.horizontal, 16)
     }
     
-    private var finishButton: some View {
+    private func finishButton(isTwoColumn: Bool) -> some View {
         Button(action: {
             if viewModel.ripenessState != .notApple {
-                showAppleDetail = true
+                if isTwoColumn {
+                    // In iPad landscape, button action is different since detail is already shown
+                    isPresented = false
+                } else {
+                    showAppleDetail = true
+                }
             } else {
                 isPresented = false
             }
         }, label: {
-            Text(viewModel.ripenessState == .notApple ? "Scan Another" : "More Detail")
+            Text(viewModel.ripenessState == .notApple ? "Scan Another" : 
+                 (isTwoColumn ? "Scan Another" : "More Detail"))
                 .font(.headline)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
@@ -129,7 +198,7 @@ struct SummaryView: View {
                 .background(.aButtonGreen)
                 .cornerRadius(12)
         })
-        .padding(.horizontal, 16)
+        .padding(.horizontal, isTwoColumn ? 0 : 16)
     }}
 
 // MARK: - Previews with Sample Data

@@ -20,11 +20,14 @@ struct Constants {
     static let BGPrimaryGreen: Color = Color.aBackgroundGreen
     static let BGPrimaryOrange: Color = Color.aBackgroundOrange
     
+    private static let isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
+    private static let isIphone: Bool = UIDevice.current.userInterfaceIdiom == .phone
+    
     struct Camera {
         static let captureBoxSize: CGFloat = {
-            if UIDevice.current.userInterfaceIdiom == .pad {
+            if isIpad {
                 return CGFloat(500)
-            } else if UIDevice.current.userInterfaceIdiom == .phone {
+            } else if isIphone {
                 return  CGFloat(250)
             }
                 return 0
@@ -64,7 +67,7 @@ struct Constants {
 
     // MARK: - Apple Information
     struct AppleInfo {
-        let imageName: String
+        let imageName: Image
         let title: String
         let appleDescription: String
         let consumptionAdvice: String
@@ -76,7 +79,7 @@ struct Constants {
         let tips: AppleTips
 
         static let ripe = AppleInfo(
-            imageName: "red_apple",
+            imageName: RipelyIcon.ripeAppleIcon,
             title: "Apple is Likely Ripe",
             appleDescription:
                 "Consume soon for best taste, store in fridge if needed.",
@@ -89,7 +92,7 @@ struct Constants {
         )
 
         static let unripe = AppleInfo(
-            imageName: "green_apple",
+            imageName: RipelyIcon.unripeAppleIcon,
             title: "Apple is Likely Unripe",
             appleDescription:
                 "Firm and slightly tart, leave out to ripen or chill to keep fresh.",
@@ -102,7 +105,7 @@ struct Constants {
         )
 
         static let overripe = AppleInfo(
-            imageName: "brown_apple",
+            imageName: RipelyIcon.overripeAppleIcon,
             title: "Apple is Likely Overripe",
             appleDescription:
                 "Best eaten soon, may be too soft or sweet for some tastes.",
@@ -115,7 +118,7 @@ struct Constants {
         )
 
         static let notApple = AppleInfo(
-            imageName: "not_apple",
+            imageName: RipelyIcon.notAppleIcon,
             title: "Apel tidak terdeteksi",
             appleDescription: "Objek yang terdeteksi bukan merupakan buah apel.",
             consumptionAdvice: "Coba scan apel yang lain",
@@ -137,36 +140,36 @@ struct Constants {
     }
     
     struct AppleCharacteristic {
-        let oneIconName: ImageResource
+        let firstIcon: Image
         let oneDescription: String
         let onePrimaryColor: Color
-        let twoIconName: ImageResource
+        let secondIcon: Image
         let twoDescription: String
         let twoPrimaryColor: Color
-        let threeIconName: ImageResource
+        let thirdIcon: Image
         let threeDescription: AnyView
         let threePrimaryColor: Color
         
         static let ripe = AppleCharacteristic(
-            oneIconName: .ripeCandy,
+            firstIcon: RipelyIcon.ripeCandyIcon,
             oneDescription: "Sweet & Crisp",
             onePrimaryColor: PrimaryGreen,
-            twoIconName: .fridge,
+            secondIcon: RipelyIcon.fridgeIcon,
             twoDescription: "Chill in fridge",
             twoPrimaryColor: PrimaryGreen,
-            threeIconName: .noSunlight,
+            thirdIcon: RipelyIcon.noSunIcon,
             threeDescription: AnyView(Text("Avoid sunlight")),
             threePrimaryColor: PrimaryDarkOrange
         )
         
         static let unripe = AppleCharacteristic(
-            oneIconName: .unripeLemon,
+            firstIcon: RipelyIcon.unripeLemonIcon,
             oneDescription: "Sour & Firm",
             onePrimaryColor: PrimaryGreen,
-            twoIconName: .fridge,
+            secondIcon: RipelyIcon.fridgeIcon,
             twoDescription: "Chill in fridge",
             twoPrimaryColor: PrimaryGreen,
-            threeIconName: .thermometer,
+            thirdIcon: RipelyIcon.thermometerIcon,
             threeDescription: AnyView(VStack {
                 Text("Room Temp:")
                 Text("18–25°C").fontWeight(.semibold)
@@ -175,13 +178,13 @@ struct Constants {
         )
         
         static let overripe = AppleCharacteristic(
-            oneIconName: .overripeSugar,
+            firstIcon: RipelyIcon.overripeSugarIcon,
             oneDescription: "Sweet & Soft",
             onePrimaryColor: PrimaryGreen,
-            twoIconName: .noChill,
+            secondIcon: RipelyIcon.noChillIcon,
             twoDescription: "Do not chill",
             twoPrimaryColor: PrimaryDarkOrange,
-            threeIconName: .overripeBaking,
+            thirdIcon: RipelyIcon.overripeBakingIcon,
             threeDescription: AnyView(Text("For Baking")),
             threePrimaryColor: PrimaryGreen
         )

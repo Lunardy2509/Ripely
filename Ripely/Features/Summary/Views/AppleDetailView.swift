@@ -11,11 +11,28 @@ struct AppleDetailView: View {
     let result: PredictionResult
     @Binding var isPresented: Bool
     @State private var navigateToDetail = false
+    
+    // Environment properties to handle the device layout and size
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
+    // UIDevice Checks
+    private let isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
+    private let isIPhone: Bool = UIDevice.current.userInterfaceIdiom == .phone
+    
+    // UIScreen
+    private var UIWidth: CGFloat = UIScreen.main.bounds.width
+    private var UIHeight: CGFloat = UIScreen.main.bounds.height
 
     private var viewModel: SummaryViewModel {
         SummaryViewModel(result: result)
     }
 
+    init(result: PredictionResult, isPresented: Binding<Bool>) {
+        self.result = result
+        self._isPresented = isPresented
+    }
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -27,7 +44,10 @@ struct AppleDetailView: View {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()
-                                .frame(height: 300)
+                                .frame(
+                                    width: UIWidth - 32,
+                                    height: UIHeight - 500
+                                )
                                 .clipped()
                                 .cornerRadius(16)
                                 .padding(.horizontal, 16)
@@ -86,8 +106,17 @@ struct AppleDetailView: View {
         VStack(spacing: 16) {
             HStack(alignment: .center, spacing: 16) {
                 VStack(alignment: .center) {
-                    Image(viewModel.appleInfo.characteristics.oneIconName)
+                    viewModel.appleInfo.characteristics.firstIcon
+                        .resizable()
+                        .scaledToFit()
+                        .frame(
+                            width: isIpad ? 150 : 50,
+                            height: isIpad ? 150 : 50
+                        )
+                        .padding()
+                    
                     Spacer()
+                    
                     Text(viewModel.appleInfo.characteristics.oneDescription)
                         .font(.caption2)
                         .foregroundColor(
@@ -109,8 +138,17 @@ struct AppleDetailView: View {
                 .cornerRadius(16)
 
                 VStack(alignment: .center) {
-                    Image(viewModel.appleInfo.characteristics.twoIconName)
+                    viewModel.appleInfo.characteristics.secondIcon
+                        .resizable()
+                        .scaledToFit()
+                        .frame(
+                            width: isIpad ? 150 : 50,
+                            height: isIpad ? 150 : 50
+                        )
+                        .padding()
+                    
                     Spacer()
+                    
                     Text(viewModel.appleInfo.characteristics.twoDescription)
                         .font(.caption2)
                         .foregroundColor(
@@ -131,8 +169,17 @@ struct AppleDetailView: View {
                 .cornerRadius(16)
 
                 VStack(alignment: .center) {
-                    Image(viewModel.appleInfo.characteristics.threeIconName)
+                    viewModel.appleInfo.characteristics.thirdIcon
+                        .resizable()
+                        .scaledToFit()
+                        .frame(
+                            width: isIpad ? 150 : 50,
+                            height: isIpad ? 150 : 50
+                        )
+                        .padding()
+                    
                     Spacer()
+                    
                     viewModel.appleInfo.characteristics.threeDescription
                         .font(.caption2)
                         .foregroundColor(

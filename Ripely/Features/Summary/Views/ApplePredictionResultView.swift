@@ -16,7 +16,7 @@ struct ApplePredictionResultView: View {
         return VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .center, spacing: 16) {
                 // Dynamic apple image based on state
-                Image(appleInfo.imageName)
+                appleInfo.imageName
                     .resizable()
                     .scaledToFit()
                     .frame(width: 98, height: 98)

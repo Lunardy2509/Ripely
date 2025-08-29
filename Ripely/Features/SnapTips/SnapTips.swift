@@ -6,6 +6,8 @@ struct SnapTips: View {
     var body: some View {
          VStack(spacing: 12) {
              HStack {
+                 Spacer()
+                 
                  Text("Scan Tips")
                      .font(.title)
                      .fontWeight(.bold)
@@ -15,11 +17,10 @@ struct SnapTips: View {
                  Button(action: {
                      dismiss()
                  }, label: {
-                     Image(systemName: "xmark.circle.fill")
-                         .resizable()
-                         .frame(width: 16, height: 16)
+                     Text("Done")
                  })
              }
+             .padding()
              
              ExamplePhotos(
                 image: .correctApple,

@@ -25,11 +25,15 @@ final class CameraService: NSObject, ObservableObject {
     private var videoConnection: AVCaptureConnection?
     private var currentView: UIView?
     private var orientationManager: OrientationManager?
-
+    
     // Simplified brightness detection
     private var brightnessThreshold: Float = 0.25
     private var lastBrightnessCheck: TimeInterval = 0
     private let brightnessCheckInterval: TimeInterval = 0.5
+    
+    // UI Device Currently At
+    private let isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
+    private let isIphone: Bool = UIDevice.current.userInterfaceIdiom == .phone
 
     init(mlService: MLServiceProtocol = MLService()) {
         self.mlService = mlService
@@ -173,7 +177,7 @@ private extension CameraService {
                                         width: cropRect.size.width / previewLayerBounds.width,
                                         height: cropRect.size.height / previewLayerBounds.height)
 
-        let verticalOffset: CGFloat = (UIDevice.current.userInterfaceIdiom == .phone) ? -0.135 : -0.055
+        let verticalOffset: CGFloat = (isIphone) ? -0.135 : -0.055
         normalizedCropRect.origin.y += verticalOffset
         normalizedCropRect.origin.y = max(0, normalizedCropRect.origin.y)
         if normalizedCropRect.origin.y + normalizedCropRect.height > 1.0 {
@@ -218,9 +222,16 @@ private extension CameraService {
     func updateVideoOrientation() {
         guard let videoConnection = videoConnection, let previewLayer = previewLayer else { return }
 
-        _ = getCurrentInterfaceOrientation()
-        let rotationAngle = getVideoRotationAngle()
+        let rotationAngle: CGFloat
 
+        if isIpad {
+            rotationAngle = getiPadVideoRotationAngle()
+        } else if isIphone {
+            rotationAngle = getVideoRotationAngle()
+        } else {
+            rotationAngle = getVideoRotationAngle()
+        }
+        
         videoConnection.videoRotationAngle = rotationAngle
         previewLayer.connection?.videoRotationAngle = rotationAngle
     }
@@ -238,6 +249,16 @@ private extension CameraService {
         case .portraitUpsideDown: return 270.0
         case .landscapeLeft: return 0.0
         case .landscapeRight: return 180.0
+        default: return 90.0
+        }
+    }
+    
+    func getiPadVideoRotationAngle() -> CGFloat {
+        switch getCurrentInterfaceOrientation() {
+        case .portrait: return 90.0
+        case .portraitUpsideDown: return 270.0
+        case .landscapeLeft: return 180.0
+        case .landscapeRight: return 0.0
         default: return 90.0
         }
     }
