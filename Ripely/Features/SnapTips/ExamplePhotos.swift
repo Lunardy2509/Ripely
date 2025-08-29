@@ -31,7 +31,7 @@ struct ExamplePhotos: View {
                  .cornerRadius(12)
                 
                 // Status Icon
-                Image(systemName: status == .correct ? "checkmark.circle" : "xmark.circle")
+                Image(status == .correct ? RipelyIcon.icTick : RipelyIcon.icCross)
                     .foregroundColor(.white)
                     .background(
                         Circle()
