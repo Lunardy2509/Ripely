@@ -11,6 +11,7 @@ struct SummaryView: View {
     @StateObject private var viewModel: SummaryViewModel
     @Binding var isPresented: Bool
     @State private var showAppleDetail = false
+    @Environment(\.dismiss) var dismiss
 
     init(result: PredictionResult, isPresented: Binding<Bool>) {
         self._viewModel = StateObject(
@@ -51,6 +52,16 @@ struct SummaryView: View {
             Text("Scan Result")
                 .font(.title2)
                 .fontWeight(.bold)
+            
+            Spacer()
+            
+            Button(action:{
+                dismiss()
+            }, label:{
+                Image(systemName: "xmark.circle.fill")
+                    .resizable()
+                    .frame(width: 16, height: 16)
+            })
         }
         .padding()
     }
@@ -108,7 +119,7 @@ struct SummaryView: View {
             } else {
                 isPresented = false // Dismiss if not an apple
             }
-        }) {
+        }, label: {
             Text(viewModel.ripenessState == .notApple ? "Scan Another" : "More Detail")
                 .font(.headline)
                 .foregroundColor(.white)
@@ -116,7 +127,7 @@ struct SummaryView: View {
                 .padding()
                 .background(.aButtonGreen)
                 .cornerRadius(12)
-        }
+        })
         .padding(.horizontal, 16)
     }}
 

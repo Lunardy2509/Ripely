@@ -21,7 +21,7 @@ struct SnapTips: View {
                  ExamplePhotos(image: .tooNear, caption: "Too Close", status: .wrong, darkOverlay: false)
                  ExamplePhotos(image: .tooFar, caption: "Too Far", status: .wrong, darkOverlay: false)
                  ExamplePhotos(image: .tooDark, caption: "Too Dark", status: .wrong, darkOverlay: true)
-                 ExamplePhotos(image: .tooMuch, caption: "Many Apples Around", status: .wrong, darkOverlay: false)
+                 ExamplePhotos(image: .tooMany, caption: "Many Apples Around", status: .wrong, darkOverlay: false)
              }
          }
          .padding()

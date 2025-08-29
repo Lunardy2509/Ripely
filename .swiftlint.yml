@@ -1,0 +1,79 @@
+disabled_rules:
+  - trailing_whitespace        # Disable warning/error for trailing spaces at line ends
+  - explicit_acl               # Disable enforcement of explicit access control declarations
+
+opt_in_rules:
+  - nesting                   # Warn on deeply nested code blocks to improve readability
+  - duplicate_imports         # Warn when the same module is imported multiple times
+  - force_unwrapping          # Warn/error on usage of force unwrap (!) to avoid runtime crashes
+  - force_cast                # Warn/error on force casting (as!) to prevent potential crashes
+  - force_try                 # Warn/error on force try (try!) to encourage safe error handling
+
+excluded:
+  - Carthage                  # Ignore files in Carthage directory (3rd party dependencies)
+  - Pods                      # Ignore files in CocoaPods directory (3rd party dependencies)
+  - Vendor                    # Ignore files in Vendor directory (3rd party dependencies)
+  - Generated                 # Ignore auto-generated code files
+
+identifier_name:
+  min_length: 3               # Enforce minimum length of 3 characters for variable/constant names
+  validates_start_with_lowercase:
+    severity: warning         # Warn if identifier does not start with a lowercase letter
+
+type_name:
+  min_length: 3               # Enforce minimum length of 3 characters for types (classes, structs, enums)
+
+cyclomatic_complexity:
+  warning: 10                 # Warn if function/class complexity exceeds 10
+  error: 18                   # Error if complexity exceeds 18 (too complex, refactor recommended)
+
+function_parameter_count:
+  warning: 5                  # Warn if a function has more than 5 parameters (hard to read)
+  error: 7                    # Error if a function has more than 7 parameters (too many)
+
+nesting:
+  type_level: 3               # Warn if type declarations nested deeper than 3 levels
+  function_level: 3           # Warn if function bodies nested deeper than 3 levels
+
+line_length:
+  warning: 180                # Warn if a line is longer than 180 characters (reduce complexity)
+  error: 250                  # Error if line exceeds 250 characters (hard to read)
+  ignores_comments: true      # Ignore line length in comments
+  ignores_urls: true          # Ignore long URLs in code
+  ignores_interpolated_strings: true  # Ignore long string interpolations
+
+file_length:
+  warning: 500                # Warn if file is longer than 500 lines
+  error: 800                  # Error if file is longer than 800 lines (consider splitting)
+
+type_body_length:
+  warning: 250                # Warn if type (class/struct) body exceeds 250 lines
+  error: 500                  # Error if type body exceeds 500 lines
+
+function_body_length:
+  warning: 50                 # Warn if function body is longer than 50 lines
+  error: 100                  # Error if function body exceeds 100 lines (split function)
+
+force_unwrapping:
+  severity: error             # Treat force unwrap (!) usage as an error
+
+force_cast:
+  severity: error             # Treat force cast (as!) usage as an error
+
+force_try:
+  severity: error             # Treat force try (try!) usage as an error
+
+custom_rules:
+  if_statement_string_comparison:
+    name: "If Statement String Literal Comparison"
+    message: "Prefer using enums over string literals for comparisons in if statements to improve type safety and maintainability."
+    regex: '^\s*if\s+.*\b([a-zA-Z_][\w\.]*\??\s*(?:==|!=)\s*"[^"]*"|\"[^"]*\"\s*(?:==|!=)\s*[a-zA-Z_][\w\.]*\??)\b.*\{'
+    severity: warning
+    # Warns on string literal comparisons in if statements, encouraging enums for safer code
+
+  missing_acl:
+    name: "Class Missing Access Control"
+    regex: '^\s*(?!public|internal|private|fileprivate)\s*(class)\s+\w+'
+    message: "Class is complex, better explicitly declare access control (e.g., public, private, internal)."
+    severity: warning
+    # Warns if a class declaration is missing explicit access control modifier

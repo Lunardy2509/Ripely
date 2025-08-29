@@ -36,9 +36,7 @@ class CameraService: NSObject, ObservableObject {
         self.mlService = mlService
         super.init()
         
-        if #available(iOS 14.0, *) {
-            orientationManager = OrientationManager()
-        }
+        orientationManager = OrientationManager()
         
         setupOrientationObserver()
     }
@@ -55,27 +53,22 @@ class CameraService: NSObject, ObservableObject {
             object: nil
         )
         
-        // Use modern scene-based notifications for interface orientation changes
-        if #available(iOS 13.0, *) {
-            // Listen for window scene changes which is more reliable than status bar changes
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(sceneDidChange),
-                name: UIScene.didActivateNotification,
-                object: nil
-            )
-            
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(sceneDidChange),
-                name: UIScene.willDeactivateNotification,
-                object: nil
-            )
-        }
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(sceneDidChange),
+            name: UIScene.didActivateNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(sceneDidChange),
+            name: UIScene.willDeactivateNotification,
+            object: nil
+        )
     }
     
     @objc private func sceneDidChange() {
-        // Use a small delay to ensure the scene transition is complete
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.updateVideoOrientation()
             self.updatePreviewLayerFrame()
@@ -83,8 +76,6 @@ class CameraService: NSObject, ObservableObject {
     }
     
     @objc private func orientationDidChange() {
-        // For iPad, we need to be more responsive to orientation changes
-        // Use a shorter delay for better user experience
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
             self.updateVideoOrientation()
             self.updatePreviewLayerFrame()
@@ -197,22 +188,15 @@ class CameraService: NSObject, ObservableObject {
         
         // Apply device-specific offset adjustments for iPhone
         if UIDevice.current.userInterfaceIdiom == .phone {
-            // Move the crop area slightly upward for iPhone to capture the whole apple
             let verticalOffset: CGFloat = -0.135
             normalizedCropRect.origin.y += verticalOffset
-            
-            // Ensure the crop rect doesn't go out of bounds
             normalizedCropRect.origin.y = max(0, normalizedCropRect.origin.y)
             if normalizedCropRect.origin.y + normalizedCropRect.height > 1.0 {
                 normalizedCropRect.origin.y = 1.0 - normalizedCropRect.height
             }
-        }
-        else if UIDevice.current.userInterfaceIdiom == .pad {
-            // Move the crop area slightly upward for iPhone to capture the whole apple
+        } else if UIDevice.current.userInterfaceIdiom == .pad {
             let verticalOffset: CGFloat = -0.055
             normalizedCropRect.origin.y += verticalOffset
-            
-            // Ensure the crop rect doesn't go out of bounds
             normalizedCropRect.origin.y = max(0, normalizedCropRect.origin.y)
             if normalizedCropRect.origin.y + normalizedCropRect.height > 1.0 {
                 normalizedCropRect.origin.y = 1.0 - normalizedCropRect.height
@@ -243,39 +227,32 @@ class CameraService: NSObject, ObservableObject {
         }
     }
     
-    // MARK: - Orientation Handling
     private func calculateVisibleRect(imageSize: CGSize, previewSize: CGSize, videoGravity: AVLayerVideoGravity) -> CGRect {
-        // Calculate how the image is displayed in the preview layer based on video gravity
         let imageAspectRatio = imageSize.width / imageSize.height
         let previewAspectRatio = previewSize.width / previewSize.height
         
         switch videoGravity {
         case .resizeAspectFill:
             if imageAspectRatio > previewAspectRatio {
-                // Image is wider than preview, so height fills and width is cropped
                 let visibleWidth = imageSize.height * previewAspectRatio
                 let cropX = (imageSize.width - visibleWidth) / 2
                 return CGRect(x: cropX, y: 0, width: visibleWidth, height: imageSize.height)
             } else {
-                // Image is taller than preview, so width fills and height is cropped
                 let visibleHeight = imageSize.width / previewAspectRatio
                 let cropY = (imageSize.height - visibleHeight) / 2
                 return CGRect(x: 0, y: cropY, width: imageSize.width, height: visibleHeight)
             }
         case .resizeAspect:
             if imageAspectRatio > previewAspectRatio {
-                // Image is wider, so width fills and height is letterboxed
                 let visibleHeight = imageSize.width / previewAspectRatio
                 let offsetY = (imageSize.height - visibleHeight) / 2
                 return CGRect(x: 0, y: offsetY, width: imageSize.width, height: visibleHeight)
             } else {
-                // Image is taller, so height fills and width is pillarboxed
                 let visibleWidth = imageSize.height * previewAspectRatio
                 let offsetX = (imageSize.width - visibleWidth) / 2
                 return CGRect(x: offsetX, y: 0, width: visibleWidth, height: imageSize.height)
             }
         default:
-            // For .resize and other cases, assume full image is visible
             return CGRect(origin: .zero, size: imageSize)
         }
     }
@@ -284,24 +261,16 @@ class CameraService: NSObject, ObservableObject {
         guard let videoConnection = videoConnection,
               let previewLayer = previewLayer else { return }
         
-        // Get the correct interface orientation from window scene
-        let interfaceOrientation = getCurrentInterfaceOrientation()
+        _ = getCurrentInterfaceOrientation()
+        let rotationAngle = getVideoRotationAngle()
         
-        // Use the more reliable AVCaptureVideoOrientation enum for proper iPad support
-        let videoOrientation = getVideoOrientation(for: interfaceOrientation)
+        videoConnection.videoRotationAngle = rotationAngle
         
-        // Set video connection orientation using the legacy but more reliable API
-        if videoConnection.isVideoOrientationSupported {
-            videoConnection.videoOrientation = videoOrientation
-        }
-        
-        // Set preview layer orientation
-        if let connection = previewLayer.connection,
-           connection.isVideoOrientationSupported {
-            connection.videoOrientation = videoOrientation
+        if let connection = previewLayer.connection {
+            connection.videoRotationAngle = rotationAngle
         }
     }
-    
+
     private func updatePreviewLayerFrame() {
         guard let previewLayer = previewLayer,
               let currentView = currentView else { return }
@@ -318,45 +287,26 @@ class CameraService: NSObject, ObservableObject {
         return .portrait
     }
     
-    private func getVideoOrientation(for interfaceOrientation: UIInterfaceOrientation) -> AVCaptureVideoOrientation {
-        // This matches the native iOS Camera app behavior on iPad
-        switch interfaceOrientation {
-        case .portrait:
-            return .portrait
-        case .portraitUpsideDown:
-            return .portraitUpsideDown
-        case .landscapeLeft:
-            return .landscapeLeft
-        case .landscapeRight:
-            return .landscapeRight
-        default:
-            return .portrait
-        }
-    }
-    
     private func getVideoRotationAngle() -> CGFloat {
         let interfaceOrientation = getCurrentInterfaceOrientation()
         
-        // Match native Camera app rotation behavior for iPad
         switch interfaceOrientation {
         case .portrait:
-            return 0.0
-        case .portraitUpsideDown:
-            return 180.0
-        case .landscapeLeft:
-            return 270.0
-        case .landscapeRight:
             return 90.0
-        default:
+        case .portraitUpsideDown:
+            return 270.0
+        case .landscapeLeft:
             return 0.0
+        case .landscapeRight:
+            return 180.0
+        default:
+            return 90.0
         }
     }
     
     private func getCurrentImageOrientation() -> UIImage.Orientation {
         let interfaceOrientation = getCurrentInterfaceOrientation()
         
-        // This ensures captured images appear in the same orientation as the live preview
-        // Updated to match exactly what the user sees in the preview
         switch interfaceOrientation {
         case .portrait:
             return .up
@@ -374,7 +324,6 @@ class CameraService: NSObject, ObservableObject {
     private func getCurrentImageRotationAngle() -> CGFloat {
         let interfaceOrientation = getCurrentInterfaceOrientation()
         
-        // Match the video rotation angles for consistency
         switch interfaceOrientation {
         case .portrait:
             return 90.0
@@ -389,11 +338,9 @@ class CameraService: NSObject, ObservableObject {
         }
     }
     
-    // MARK: - Simplified Brightness Analysis
     private func analyzeBrightness(from pixelBuffer: CVPixelBuffer) -> Float {
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         
-        // Sample from center region
         let centerRect = CGRect(
             x: ciImage.extent.width * 0.3,
             y: ciImage.extent.height * 0.3,
@@ -403,23 +350,21 @@ class CameraService: NSObject, ObservableObject {
         
         let croppedImage = ciImage.cropped(to: centerRect)
         
-        // Use CIAreaAverage filter for quick brightness calculation
-        let filter = CIFilter(name: "CIAreaAverage")!
-        filter.setValue(croppedImage, forKey: kCIInputImageKey)
-        filter.setValue(CIVector(cgRect: croppedImage.extent), forKey: kCIInputExtentKey)
+        let filter = CIFilter(name: "CIAreaAverage")
+        filter?.setValue(croppedImage, forKey: kCIInputImageKey)
+        filter?.setValue(CIVector(cgRect: croppedImage.extent), forKey: kCIInputExtentKey)
         
-        guard let outputImage = filter.outputImage else { return 0.5 }
+        guard let outputImage = filter?.outputImage else { return 0.5 }
         
         let context = CIContext()
         var bitmap = [UInt8](repeating: 0, count: 4)
         context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
         
-        // Calculate luminance from RGB
-        let r = Float(bitmap[0]) / 255.0
-        let g = Float(bitmap[1]) / 255.0
-        let b = Float(bitmap[2]) / 255.0
+        let red = Float(bitmap[0]) / 255.0
+        let green = Float(bitmap[1]) / 255.0
+        let blue = Float(bitmap[2]) / 255.0
         
-        return 0.299 * r + 0.587 * g + 0.114 * b
+        return 0.299 * red + 0.587 * green + 0.114 * blue
     }
 }
 
@@ -429,7 +374,6 @@ extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         
-        // Check brightness periodically
         let currentTime = CACurrentMediaTime()
         if currentTime - lastBrightnessCheck >= brightnessCheckInterval {
             lastBrightnessCheck = currentTime
@@ -442,7 +386,6 @@ extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
             }
         }
         
-        // Continue with ML prediction
         mlService.predict(from: pixelBuffer) { [weak self] result in
             guard let self = self else { return }
             
@@ -463,4 +406,5 @@ enum CameraError: Error {
     case captureError
     case imageProcessingFailed
     case croppingFailed
+    case predictionFailed
 }
