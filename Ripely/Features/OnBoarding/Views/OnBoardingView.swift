@@ -55,10 +55,10 @@ struct OnBoardingView: View {
             }, label: {
                 Text("Start Scanning")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(Token.Color.regularWhite)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(.aPrimaryGreen)
+                    .background(Token.Color.primaryGreen)
                     .cornerRadius(12)
                     .padding(.horizontal, 20)
             })
@@ -94,7 +94,7 @@ struct InfoCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.aBackgroundSecondary)
         .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 6)
+        .shadow(color: Token.Color.regularBlack.opacity(0.1), radius: 8, x: 0, y: 6)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
                 .stroke(.aStroke)

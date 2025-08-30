@@ -1,10 +1,9 @@
 //
-//  MainView 2.swift
+//  MainView.swift
 //  Aripe
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
 import SwiftUI
 
 struct MainView: View {

@@ -6,10 +6,6 @@
 //
 import Foundation
 
-protocol StorageServiceProtocol {
-    var hasSeenOnboarding: Bool { get set }
-}
-
 final class StorageService: StorageServiceProtocol, ObservableObject {
     @Published var hasSeenOnboarding: Bool {
         didSet {

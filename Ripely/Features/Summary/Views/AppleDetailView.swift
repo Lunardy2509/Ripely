@@ -4,7 +4,6 @@
 //
 //  Created by Jerry Febriano on 17/06/25.
 //
-
 import SwiftUI
 
 struct AppleDetailView: View {
@@ -273,7 +272,7 @@ struct AppleDetailView: View {
         }, label: {
             Text("Scan Another")
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(Token.Color.regularWhite)
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(.aButtonGreen)
@@ -352,7 +351,7 @@ struct AppleInfoCard: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)
-        .background(Color.gray.opacity(0.05))
+        .background(Token.Color.regularGray.opacity(0.05))
         .cornerRadius(12)
     }
 }
@@ -426,7 +425,7 @@ struct TipCard: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .topLeading)
-        .background(Color.gray.opacity(0.05))
+        .background(Token.Color.regularGray.opacity(0.05))
         .cornerRadius(12)
     }
 }

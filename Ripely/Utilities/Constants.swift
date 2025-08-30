@@ -9,15 +9,7 @@ import SwiftUI
 import UIKit
 
 struct Constants {
-    static let MiscellaneousFloatingTabPillShadow: Color = .black.opacity(0.08)
-    static let NeutralBlack: Color = Color.aBlack
-    static let PrimaryRed: Color = Color.aRed
-    static let PrimaryBrown: Color = Color.aBrown
-    static let PrimaryGreen: Color = Color.aPrimaryGreen
-    static let NeutralWhite: Color = Color.aWhite
-    static let NeutralLightGray: Color = Color.aLightGray
-    static let PrimaryDarkOrange: Color = Color.aOrange
-    static let BGPrimaryGreen: Color = Color.aBackgroundGreen
+    static let MiscellaneousFloatingTabPillShadow: Color = Token.Color.regularBlack.opacity(0.08)
     static let BGPrimaryOrange: Color = Color.aBackgroundOrange
     
     private static let isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
@@ -84,8 +76,8 @@ struct Constants {
             appleDescription:
                 "Consume soon for best taste, store in fridge if needed.",
             consumptionAdvice: "Best eaten before 5 days",
-            adviceColor: PrimaryGreen,
-            backgroundColor: BGPrimaryGreen,
+            adviceColor: Token.Color.primaryGreen,
+            backgroundColor: Token.Color.backgroundGreen,
             characteristics: AppleCharacteristic.ripe,
             detail: AppleDetail.ripe,
             tips: AppleTips.ripe
@@ -97,8 +89,8 @@ struct Constants {
             appleDescription:
                 "Firm and slightly tart, leave out to ripen or chill to keep fresh.",
             consumptionAdvice: "Ripens in 3–5 days",
-            adviceColor: PrimaryGreen,
-            backgroundColor: BGPrimaryGreen,
+            adviceColor: Token.Color.primaryGreen,
+            backgroundColor: Token.Color.backgroundGreen,
             characteristics: AppleCharacteristic.unripe,
             detail: AppleDetail.unripe,
             tips: AppleTips.unripe
@@ -110,8 +102,8 @@ struct Constants {
             appleDescription:
                 "Best eaten soon, may be too soft or sweet for some tastes.",
             consumptionAdvice: "Eat Immediately",
-            adviceColor: PrimaryDarkOrange,
-            backgroundColor: BGPrimaryOrange,
+            adviceColor: Token.Color.regularOrange,
+            backgroundColor: Token.Color.backgroundOrange,
             characteristics: AppleCharacteristic.overripe,
             detail: AppleDetail.overripe,
             tips: AppleTips.overripe
@@ -122,8 +114,8 @@ struct Constants {
             title: "Apel tidak terdeteksi",
             appleDescription: "Objek yang terdeteksi bukan merupakan buah apel.",
             consumptionAdvice: "Coba scan apel yang lain",
-            adviceColor: .gray,
-            backgroundColor: Color.gray.opacity(0.1),
+            adviceColor: Token.Color.regularGray,
+            backgroundColor: Token.Color.regularGray.opacity(0.1),
             characteristics: AppleCharacteristic.overripe,
             detail: AppleDetail.overripe,
             tips: AppleTips.overripe
@@ -153,40 +145,40 @@ struct Constants {
         static let ripe = AppleCharacteristic(
             firstIcon: RipelyIcon.ripeCandyIcon,
             oneDescription: "Sweet & Crisp",
-            onePrimaryColor: PrimaryGreen,
+            onePrimaryColor: Token.Color.primaryGreen,
             secondIcon: RipelyIcon.fridgeIcon,
             twoDescription: "Chill in fridge",
-            twoPrimaryColor: PrimaryGreen,
+            twoPrimaryColor: Token.Color.primaryGreen,
             thirdIcon: RipelyIcon.noSunIcon,
             threeDescription: AnyView(Text("Avoid sunlight")),
-            threePrimaryColor: PrimaryDarkOrange
+            threePrimaryColor: Token.Color.regularOrange
         )
         
         static let unripe = AppleCharacteristic(
             firstIcon: RipelyIcon.unripeLemonIcon,
             oneDescription: "Sour & Firm",
-            onePrimaryColor: PrimaryGreen,
+            onePrimaryColor: Token.Color.primaryGreen,
             secondIcon: RipelyIcon.fridgeIcon,
             twoDescription: "Chill in fridge",
-            twoPrimaryColor: PrimaryGreen,
+            twoPrimaryColor: Token.Color.primaryGreen,
             thirdIcon: RipelyIcon.thermometerIcon,
             threeDescription: AnyView(VStack {
                 Text("Room Temp:")
                 Text("18–25°C").fontWeight(.semibold)
             }),
-            threePrimaryColor: PrimaryGreen
+            threePrimaryColor: Token.Color.primaryGreen
         )
         
         static let overripe = AppleCharacteristic(
             firstIcon: RipelyIcon.overripeSugarIcon,
             oneDescription: "Sweet & Soft",
-            onePrimaryColor: PrimaryGreen,
+            onePrimaryColor: Token.Color.primaryGreen,
             secondIcon: RipelyIcon.noChillIcon,
             twoDescription: "Do not chill",
-            twoPrimaryColor: PrimaryDarkOrange,
+            twoPrimaryColor: Token.Color.regularOrange,
             thirdIcon: RipelyIcon.overripeBakingIcon,
             threeDescription: AnyView(Text("For Baking")),
-            threePrimaryColor: PrimaryGreen
+            threePrimaryColor: Token.Color.primaryGreen
         )
     }
     

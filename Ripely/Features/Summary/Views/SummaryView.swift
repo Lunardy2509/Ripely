@@ -4,7 +4,6 @@
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
 import SwiftUI
 
 struct SummaryView: View {
@@ -192,7 +191,7 @@ struct SummaryView: View {
             Text(viewModel.ripenessState == .notApple ? "Scan Another" : 
                  (isTwoColumn ? "Scan Another" : "More Detail"))
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(Token.Color.regularWhite)
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(.aButtonGreen)

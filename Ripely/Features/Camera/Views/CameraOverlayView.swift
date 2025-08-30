@@ -14,7 +14,7 @@ struct CameraOverlayView: View {
         GeometryReader { geometry in
             ZStack {
                 // Overlay mask
-                Color.black.opacity(0.5)
+                Token.Color.regularBlack.opacity(0.5)
                     .mask(
                         Rectangle()
                             .overlay(
@@ -30,7 +30,7 @@ struct CameraOverlayView: View {
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(style: StrokeStyle(lineWidth: 3, dash: [8]))
                     .frame(width: Constants.Camera.captureBoxSize, height: Constants.Camera.captureBoxSize)
-                    .foregroundColor(.white)
+                    .foregroundColor(Token.Color.regularWhite)
                     .background(
                         GeometryReader { rectGeo in
                             Color.clear
@@ -96,7 +96,7 @@ struct CameraOverlayView: View {
                             photoLibrary: .shared()
                         ) {
                             Image(systemName: "photo.on.rectangle")
-                                .foregroundColor(viewModel.isProcessing ? .gray : .aPrimaryGreen)
+                                .foregroundColor(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen)
                                 .font(.system(size: 30))
                         }
                         .disabled(viewModel.isProcessing)
@@ -107,10 +107,10 @@ struct CameraOverlayView: View {
                         Button(action: viewModel.captureImage) {
                             ZStack {
                                 Circle()
-                                    .stroke(viewModel.isProcessing ? Color.gray : Color.aPrimaryGreen, lineWidth: 5)
+                                    .stroke(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen, lineWidth: 5)
                                     .frame(width: 75, height: 75)
                                 Circle()
-                                    .fill(viewModel.isProcessing ? Color.gray : Color.aPrimaryGreen)
+                                    .fill(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen)
                                     .frame(width: 65, height: 65)
                             }
                         }
@@ -128,7 +128,7 @@ struct CameraOverlayView: View {
                             .foregroundColor(.aWhite)
                             .font(.system(size: 25))
                             .background(
-                                Circle().fill(Color.aPrimaryGreen).frame(
+                                Circle().fill(Token.Color.primaryGreen).frame(
                                     width: 40,
                                     height: 40
                                 )

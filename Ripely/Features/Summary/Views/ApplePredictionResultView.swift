@@ -4,7 +4,6 @@
 //
 //  Created by Jerry Febriano on 17/06/25.
 //
-
 import SwiftUI
 
 struct ApplePredictionResultView: View {

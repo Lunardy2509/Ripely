@@ -2,9 +2,8 @@
 //  OrientationManager.swift
 //  Ripely
 //
-//  Created by GitHub Copilot on 14/08/25.
+//  Created by Ferdinand Lunardy on 14/08/25.
 //
-
 import SwiftUI
 import Combine
 

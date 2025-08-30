@@ -1,11 +1,12 @@
+//
+//  ExamplePhotos.swift
+//  Aripe
+//
+//  Created by Jerry Febriano on 16/06/25.
+//
 import SwiftUI
 
 struct ExamplePhotos: View {
-    enum PhotoStatus {
-        case correct
-        case wrong
-    }
-    
     let image: ImageResource
     let caption: String
     let status: PhotoStatus
@@ -23,7 +24,7 @@ struct ExamplePhotos: View {
                      
                      if darkOverlay {
                          // semi-transparent black overlay matching the same corner radius
-                         Color.black
+                         Token.Color.regularBlack
                              .opacity(0.4)
                              .frame(width: 150, height: 150)
                      }
@@ -32,7 +33,7 @@ struct ExamplePhotos: View {
                 
                 // Status Icon
                 Image(status == .correct ? RipelyIcon.icTick : RipelyIcon.icCross)
-                    .foregroundColor(.white)
+                    .foregroundColor(Token.Color.regularWhite)
                     .background(
                         Circle()
                             .fill(status == .correct ? .green : .red)

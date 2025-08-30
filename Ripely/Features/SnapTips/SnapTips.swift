@@ -1,3 +1,9 @@
+//
+//  SnapTips.swift
+//  Aripe
+//
+//  Created by Jerry Febriano on 16/06/25.
+//
 import SwiftUI
 
 struct SnapTips: View {

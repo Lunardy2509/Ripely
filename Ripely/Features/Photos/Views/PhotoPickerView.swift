@@ -4,7 +4,6 @@
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
 import SwiftUI
 import PhotosUI
 
@@ -58,13 +57,13 @@ struct PhotoPickerView: View {
                     .cornerRadius(12)
             } else {
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.gray.opacity(0.2))
+                    .fill(Token.Color.regularGray.opacity(0.2))
                     .frame(height: 300)
                     .overlay(
                         VStack {
                             Image(systemName: "photo")
                                 .font(.system(size: 50))
-                                .foregroundColor(.gray)
+                                .foregroundColor(Token.Color.regularGray)
                             Text("No image selected")
                                 .foregroundColor(.secondary)
                                 .padding(.top, 8)
@@ -82,7 +81,7 @@ struct PhotoPickerView: View {
         ) {
             Label("Choose from Library", systemImage: "photo.on.rectangle")
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(Token.Color.regularWhite)
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(Color.blue)

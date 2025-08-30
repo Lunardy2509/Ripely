@@ -8,13 +8,6 @@ import AVFoundation
 import UIKit
 import Vision
 
-protocol CameraServiceDelegate: AnyObject {
-    func cameraService(_ service: CameraService, didOutput prediction: String)
-    func cameraService(_ service: CameraService, didCaptureImage image: UIImage)
-    func cameraService(_ service: CameraService, didFailWithError error: Error)
-    func cameraService(_ service: CameraService, didUpdateBrightness isTooDark: Bool)
-}
-
 final class CameraService: NSObject, ObservableObject {
     weak var delegate: CameraServiceDelegate?
 
@@ -327,12 +320,4 @@ extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
             }
         }
     }
-}
-
-enum CameraError: Error {
-    case setupFailed
-    case captureError
-    case imageProcessingFailed
-    case croppingFailed
-    case predictionFailed
 }

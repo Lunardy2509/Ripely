@@ -9,11 +9,6 @@ import Vision
 import CoreML
 import UIKit
 
-protocol MLServiceProtocol {
-    func predict(from image: UIImage, completion: @escaping (Result<PredictionResult, Error>) -> Void)
-    func predict(from pixelBuffer: CVPixelBuffer, completion: @escaping (Result<String, Error>) -> Void)
-}
-
 final class MLService: MLServiceProtocol {
     private var model: VNCoreMLModel?
     
@@ -95,10 +90,4 @@ final class MLService: MLServiceProtocol {
             completion(.failure(error))
         }
     }
-}
-
-enum MLError: Error {
-    case modelNotLoaded
-    case predictionFailed
-    case imageProcessingFailed
 }

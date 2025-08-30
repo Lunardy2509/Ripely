@@ -4,7 +4,6 @@
 //
 //  Created by Ferdinand Lunardy on 18/06/25.
 //
-
 import SwiftUI
 import TOCropViewController
 
@@ -24,7 +23,7 @@ struct CropView: UIViewControllerRepresentable {
         Coordinator(self)
     }
 
-    internal class Coordinator: NSObject, TOCropViewControllerDelegate {
+    final class Coordinator: NSObject, TOCropViewControllerDelegate {
         let parent: CropView
 
         init(_ parent: CropView) {

@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD6B046E2E629BDA00E78015 /* RipelyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B042D2E629BDA00E78015 /* RipelyApp.swift */; };
 		BD7A08742E031047005925AC /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BD7A08732E031047005925AC /* CropViewController */; };
 		BD7A08762E031047005925AC /* TOCropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BD7A08752E031047005925AC /* TOCropViewController */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BD4965832DF830AF0034C769 /* Ripely.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ripely.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD6B042D2E629BDA00E78015 /* RipelyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RipelyApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -41,6 +43,7 @@
 			children = (
 				BDAA24B52E432FD8005C92C7 /* Ripely */,
 				BD4965842DF830AF0034C769 /* Products */,
+				BD6B042D2E629BDA00E78015 /* RipelyApp.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,6 +159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD6B046E2E629BDA00E78015 /* RipelyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

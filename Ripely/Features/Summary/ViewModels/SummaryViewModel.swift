@@ -4,10 +4,9 @@
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
 import SwiftUI
 
-internal class SummaryViewModel: ObservableObject {
+final class SummaryViewModel: ObservableObject {
     @Published var result: PredictionResult
     
     init(result: PredictionResult) {

@@ -1,15 +1,14 @@
 //
-//  CameraViewModel 2.swift
+//  CameraViewModel.swift
 //  Aripe
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
 import SwiftUI
 import PhotosUI
 import Combine
 
-internal class CameraViewModel: ObservableObject {
+final class CameraViewModel: ObservableObject {
     @Published var livePrediction = ""
     @Published var isFlashOn = false
     @Published var cropRectInView: CGRect = .zero

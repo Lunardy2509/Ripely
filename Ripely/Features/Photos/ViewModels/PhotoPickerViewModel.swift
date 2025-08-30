@@ -4,11 +4,10 @@
 //
 //  Created by Jerry Febriano on 16/06/25.
 //
-
 import SwiftUI
 import PhotosUI
 
-internal class PhotoPickerViewModel: ObservableObject {
+final class PhotoPickerViewModel: ObservableObject {
     @Published var selectedItem: PhotosPickerItem?
     
     @MainActor
