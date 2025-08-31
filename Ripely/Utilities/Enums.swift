@@ -51,6 +51,17 @@ enum PhotoProcessingError: Error, LocalizedError {
     }
 }
 
+enum Dock {
+    static let dockCorner: CGFloat = 28
+    static let dockPadding: CGFloat = 12
+    static let smallButtonOuter: CGFloat = 44
+    static let shutterOuter: CGFloat = 78
+    static let shutterInner: CGFloat = 66
+    static let captureBoxBottomPadding: CGFloat = 130
+    static let rightDockTrailing: CGFloat = -20
+    static let rightDockVerticalInset: CGFloat = 80
+}
+
 enum CameraError: Error {
     case setupFailed
     case captureError

@@ -10,135 +10,79 @@ import PhotosUI
 struct CameraOverlayView: View {
     @ObservedObject var viewModel: CameraViewModel
     
+    private var isIpad: Bool { UIDevice.current.isIpad }
+    private var isIphone: Bool { UIDevice.current.isIphone }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Overlay mask
+                // Dark overlay with hole
                 Token.Color.regularBlack.opacity(0.5)
                     .mask(
                         Rectangle()
                             .overlay(
                                 RoundedRectangle(cornerRadius: 16)
-                                    .frame(width: Constants.Camera.captureBoxSize, height: Constants.Camera.captureBoxSize)
+                                    .frame(width: Constants.Camera.captureBoxSize,
+                                           height: Constants.Camera.captureBoxSize)
                                     .blendMode(.destinationOut)
                             )
                             .compositingGroup()
                     )
-                    .padding(.bottom, 130)
+                    .padding(.bottom, Dock.captureBoxBottomPadding)
                 
                 // Capture box
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(style: StrokeStyle(lineWidth: 3, dash: [8]))
-                    .frame(width: Constants.Camera.captureBoxSize, height: Constants.Camera.captureBoxSize)
+                    .frame(width: Constants.Camera.captureBoxSize,
+                           height: Constants.Camera.captureBoxSize)
                     .foregroundColor(Token.Color.regularWhite)
                     .background(
                         GeometryReader { rectGeo in
                             Color.clear
                                 .onAppear {
-                                    let frame = rectGeo.frame(in: .named("cameraPreview"))
-                                    viewModel.cropRectInView = frame
+                                    viewModel.cropRectInView = rectGeo.frame(in: .named("cameraPreview"))
                                 }
                                 .onChange(of: geometry.size) { _, _ in
-                                    // Update when the parent geometry changes (orientation)
-                                    let frame = rectGeo.frame(in: .named("cameraPreview"))
-                                    viewModel.cropRectInView = frame
+                                    viewModel.cropRectInView = rectGeo.frame(in: .named("cameraPreview"))
                                 }
                                 .onChange(of: rectGeo.frame(in: .named("cameraPreview"))) { _, newValue in
                                     viewModel.cropRectInView = newValue
                                 }
                         }
                     )
-                    .padding(.bottom, 130)
+                    .padding(.bottom, Dock.captureBoxBottomPadding)
                 
+                // Instruction banner
                 VStack {
-                    // MARK: Top Bar
-                    HStack {
-                        Spacer()
-                        
-                        // MARK: Help Button
-                        Button(action: {
-                            viewModel.isSheetOpened.toggle()
-                        }, label: {
-                            Image(systemName: "questionmark")
-                                .foregroundColor(.aWhite)
-                                .font(.system(size: 20))
-                                .bold()
-                                .background(
-                                    Circle().fill(Color.aBlack.opacity(0.5)).frame(
-                                        width: 40,
-                                        height: 40
-                                    )
-                                )
-                        })
-                        .disabled(viewModel.isProcessing)
-                        .padding(25)
-                    }
-                    
                     Spacer()
-
-                    // Simplified dynamic instruction text
+                    
                     Text(viewModel.overlayText)
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(.aWhite)
+                        .foregroundColor(Token.Color.regularWhite)
                         .background(
                             Rectangle()
-                                .fill(viewModel.isTooDark ? Color(red: 0.87, green: 0.18, blue: 0.27).opacity(0.4) : Color.aBlack.opacity(0.5))
-                                .frame(height: 30)
+                                .fill(viewModel.isTooDark
+                                      ? Color(red: 0.87, green: 0.18, blue: 0.27).opacity(0.4)
+                                      : Color.aBlack.opacity(0.5))
+                                .frame(height: 70)
                         )
-                        .font(.caption)
+                        .font(isIpad ? .body : .caption)
                         .animation(.easeInOut(duration: 0.3), value: viewModel.isTooDark)
-                    
-                    HStack {
-                        // MARK: Gallery Button
-                        PhotosPicker(
-                            selection: $viewModel.selectedPhotoItem,
-                            matching: .images,
-                            photoLibrary: .shared()
-                        ) {
-                            Image(systemName: "photo.on.rectangle")
-                                .foregroundColor(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen)
-                                .font(.system(size: 30))
-                        }
-                        .disabled(viewModel.isProcessing)
-                        
-                        Spacer()
-                        
-                        // MARK: Capture Button
-                        Button(action: viewModel.captureImage) {
-                            ZStack {
-                                Circle()
-                                    .stroke(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen, lineWidth: 5)
-                                    .frame(width: 75, height: 75)
-                                Circle()
-                                    .fill(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen)
-                                    .frame(width: 65, height: 65)
-                            }
-                        }
-                        .disabled(viewModel.isProcessing)
-                        .padding(.trailing, 20)
-                        
-                        Spacer()
-                        
-                        // MARK: Flash Button
-                        Button(action: viewModel.toggleFlash) {
-                            Image(
-                                systemName: viewModel.isFlashOn
-                                ? "bolt.fill" : "bolt.slash.fill"
-                            )
-                            .foregroundColor(.aWhite)
-                            .font(.system(size: 25))
-                            .background(
-                                Circle().fill(Token.Color.primaryGreen).frame(
-                                    width: 40,
-                                    height: 40
-                                )
-                            )
-                        }
-                        .disabled(viewModel.isProcessing)
-                    }
-                    .padding(.horizontal, 30)
-                    .padding(.vertical, 40)
-                    .background(.aBackgroundPrimary)
+                        .padding(.bottom, isIpad ? 0 : 16)
+                }
+            }
+            // ===== Controls =====
+            .overlay(alignment: .trailing) {
+                if isIpad {
+                    RightDock(viewModel: viewModel)
+                        .padding(.trailing, Dock.rightDockTrailing)
+                        .padding(.vertical, Dock.rightDockVerticalInset)
+                        .padding(.bottom, 150)
+                }
+            }
+            .safeAreaInset(edge: .bottom) {
+                if isIphone {
+                    BottomDock(viewModel: viewModel)
                 }
             }
             .navigationTitle("Scan Your Apple")
@@ -172,15 +116,131 @@ struct CameraOverlayView: View {
                 }
             }
             .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
-                Button("OK") {
-                    viewModel.errorMessage = nil
-                }
+                Button("OK") { viewModel.errorMessage = nil }
             } message: {
-                if let errorMessage = viewModel.errorMessage {
-                    Text(errorMessage)
+                if let errorMessage = viewModel.errorMessage { Text(errorMessage) }
+            }
+            .coordinateSpace(name: "cameraPreview")
+        }
+    }
+}
+
+// MARK: - iPad Right Dock
+private struct RightDock: View {
+    @ObservedObject var viewModel: CameraViewModel
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            Button {
+                viewModel.isSheetOpened.toggle()
+            } label: {
+                Image(systemName: "questionmark")
+                    .foregroundColor(Token.Color.regularWhite)
+                    .font(.system(size: 20).bold())
+                    .background(
+                        Circle()
+                            .fill(Color.aBlack.opacity(0.5))
+                            .frame(width: 40, height: 40)
+                    )
+            }
+            .disabled(viewModel.isProcessing)
+            .padding(25)
+            .padding(.trailing, 20)
+            
+            VStack(spacing: 50) {
+                // Flash
+                Button(action: viewModel.toggleFlash) {
+                    Circle()
+                        .fill(Token.Color.primaryGreen)
+                        .frame(width: 44, height: 44)
+                        .overlay(
+                            Image(systemName: viewModel.isFlashOn ? "bolt.fill" : "bolt.slash.fill")
+                                .foregroundColor(Token.Color.regularWhite)
+                                .font(.system(size: 20))
+                        )
+                }
+                .disabled(viewModel.isProcessing)
+                .opacity(viewModel.isProcessing ? 0.5 : 1)
+                .padding()
+                
+                // Shutter
+                Button(action: viewModel.captureImage) {
+                    ZStack {
+                        Circle()
+                            .stroke(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen, lineWidth: 5)
+                            .frame(width: 78, height: 78)
+                        Circle()
+                            .fill(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen)
+                            .frame(width: 66, height: 66)
+                    }
+                }
+                .disabled(viewModel.isProcessing)
+                .opacity(viewModel.isProcessing ? 0.7 : 1)
+                .padding(.vertical, 4)
+                
+                // Gallery
+                PhotosPicker(selection: $viewModel.selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
+                    Image(systemName: "photo.on.rectangle")
+                        .foregroundColor(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen)
+                        .font(.system(size: 30))
+                }
+                .disabled(viewModel.isProcessing)
+                .padding()
+            }
+            .padding()
+            .padding(.trailing, 20)
+            .background(
+                RoundedRectangle(cornerRadius: 28, style: .continuous)
+                    .fill(Color.aBackgroundPrimary)
+                    .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 4)
+            )
+        }
+    }
+}
+
+// MARK: - iPhone Bottom Dock (unchanged look, consolidated)
+private struct BottomDock: View {
+    @ObservedObject var viewModel: CameraViewModel
+    
+    var body: some View {
+        HStack {
+            PhotosPicker(selection: $viewModel.selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
+                Image(systemName: "photo.on.rectangle")
+                    .foregroundColor(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen)
+                    .font(.system(size: 30))
+            }
+            .disabled(viewModel.isProcessing)
+            
+            Spacer()
+            
+            Button(action: viewModel.captureImage) {
+                ZStack {
+                    Circle()
+                        .stroke(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen, lineWidth: 5)
+                        .frame(width: 75, height: 75)
+                    Circle()
+                        .fill(viewModel.isProcessing ? Token.Color.regularGray : Token.Color.primaryGreen)
+                        .frame(width: 65, height: 65)
                 }
             }
+            .disabled(viewModel.isProcessing)
+            .padding(.trailing, 20)
+            
+            Spacer()
+            
+            Button(action: viewModel.toggleFlash) {
+                Image(systemName: viewModel.isFlashOn ? "bolt.fill" : "bolt.slash.fill")
+                    .foregroundColor(Token.Color.regularWhite)
+                    .font(.system(size: 25))
+                    .background(
+                        Circle().fill(Token.Color.primaryGreen).frame(width: 40, height: 40)
+                    )
+            }
+            .disabled(viewModel.isProcessing)
         }
+        .padding(.horizontal, 30)
+        .padding(.vertical, 40)
+        .background(Token.Color.backgroundPrimary)
     }
 }
 
