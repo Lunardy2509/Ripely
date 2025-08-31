@@ -12,18 +12,11 @@ struct Constants {
     static let MiscellaneousFloatingTabPillShadow: Color = Token.Color.regularBlack.opacity(0.08)
     static let BGPrimaryOrange: Color = Color.aBackgroundOrange
     
-    private static let isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
-    private static let isIphone: Bool = UIDevice.current.userInterfaceIdiom == .phone
+    private static var isIpad: Bool { UIDevice.current.isIpad }
+    private static var isIphone: Bool { UIDevice.current.isIphone }
     
     struct Camera {
-        static let captureBoxSize: CGFloat = {
-            if isIpad {
-                return CGFloat(500)
-            } else if isIphone {
-                return  CGFloat(250)
-            }
-                return 0
-        }()
+        static let captureBoxSize: CGFloat = isIpad ? CGFloat(500) : CGFloat(250)
     }
 
     struct UserInterfaceConstants {

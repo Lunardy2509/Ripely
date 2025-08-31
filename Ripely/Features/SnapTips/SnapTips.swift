@@ -10,23 +10,22 @@ struct SnapTips: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-         VStack(spacing: 12) {
-             HStack {
-                 Spacer()
-                 
-                 Text("Scan Tips")
-                     .font(.title)
-                     .fontWeight(.bold)
-                 
-                 Spacer()
-                 
-                 Button(action: {
-                     dismiss()
-                 }, label: {
-                     Text("Done")
-                 })
-             }
-             .padding()
+        VStack(spacing: 12) {
+            HStack(alignment: .center) {
+                Text("Scan Tips")
+                    .font(.title)
+                    .fontWeight(.bold)
+                
+                Spacer()
+
+                Button(action: {
+                    dismiss()
+                }, label: {
+                    Text("Done")
+                })
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding()
              
              ExamplePhotos(
                 image: .correctApple,

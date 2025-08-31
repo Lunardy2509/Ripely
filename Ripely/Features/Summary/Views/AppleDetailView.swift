@@ -16,12 +16,12 @@ struct AppleDetailView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
     // UIDevice Checks
-    private let isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
-    private let isIPhone: Bool = UIDevice.current.userInterfaceIdiom == .phone
+    private var isIpad: Bool { UIDevice.current.isIpad }
+    private var isIphone: Bool { UIDevice.current.isIphone }
     
     // UIScreen
-    private var UIWidth: CGFloat = UIScreen.main.bounds.width
-    private var UIHeight: CGFloat = UIScreen.main.bounds.height
+    private var UIWidth: CGFloat { UIScreen.main.UIWidth }
+    private var UIHeight: CGFloat { UIScreen.main.UILength }
 
     private var viewModel: SummaryViewModel {
         SummaryViewModel(result: result)

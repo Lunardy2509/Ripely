@@ -12,8 +12,11 @@ struct SummaryView: View {
     @StateObject private var viewModel: SummaryViewModel
     @State private var showAppleDetail = false
     
-    private let isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
-    private let isIphone: Bool = UIDevice.current.userInterfaceIdiom == .phone
+    @Environment(\.dismiss) private var dismiss
+    
+    private var isIpad: Bool { UIDevice.current.isIpad }
+    private var isIphone: Bool { UIDevice.current.isIphone }
+    private var isLandscape: Bool { UIDevice.current.isLandscape }
 
     init(result: PredictionResult, isPresented: Binding<Bool>) {
         self._viewModel = StateObject(
@@ -86,11 +89,20 @@ struct SummaryView: View {
     }
 
     private var headerSection: some View {
-        HStack {
+        HStack(alignment: .center) {
             Text("Scan Result")
                 .font(.title)
                 .fontWeight(.bold)
+            
+            Spacer()
+           
+            Button(action: {
+                dismiss()
+            }, label: {
+                Text("Done")
+            })
         }
+        .frame(maxWidth: .infinity, alignment: .center)
         .padding()
         .padding(.top, 10)
     }

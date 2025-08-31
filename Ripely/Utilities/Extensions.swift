@@ -72,4 +72,23 @@ extension UIDevice {
         }
         return .portrait
     }
+    
+    var isIpad: Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
+    var isIphone: Bool {
+        return UIDevice.current.userInterfaceIdiom == .phone
+    }
+}
+
+// MARK: - UIScreen Extensions
+extension UIScreen {
+    var UIWidth: CGFloat {
+        return UIScreen.main.bounds.width
+    }
+    
+    var UILength: CGFloat {
+        return UIScreen.main.bounds.height
+    }
 }
