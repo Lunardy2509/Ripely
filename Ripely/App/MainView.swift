@@ -10,10 +10,20 @@ struct MainView: View {
     @StateObject private var viewModel = CameraViewModel()
     @StateObject private var orientationManager = OrientationManager()
     
+    private var isIpad: Bool { UIDevice.current.isIpad }
+    
     var body: some View {
         ZStack {
-            CameraView(viewModel: viewModel)
-                .coordinateSpace(name: "cameraPreview")
+            Group {
+                if isIpad {
+                    CameraView(viewModel: viewModel)
+                        .coordinateSpace(name: "cameraPreview")
+                        .ignoresSafeArea(.all, edges: .bottom)
+                } else {
+                    CameraView(viewModel: viewModel)
+                        .coordinateSpace(name: "cameraPreview")
+                }
+            }
             
             CameraOverlayView(viewModel: viewModel)
         }
@@ -33,4 +43,8 @@ struct MainView: View {
             }
         })
     }
+}
+
+#Preview {
+    MainView()
 }

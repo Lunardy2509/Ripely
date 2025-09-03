@@ -64,11 +64,11 @@ struct CameraOverlayView: View {
                                 .fill(viewModel.isTooDark
                                       ? Color(red: 0.87, green: 0.18, blue: 0.27).opacity(0.4)
                                       : Color.aBlack.opacity(0.5))
-                                .frame(height: 70)
+                                .frame(height: isIpad ? 60 : 40)
                         )
                         .font(isIpad ? .body : .caption)
                         .animation(.easeInOut(duration: 0.3), value: viewModel.isTooDark)
-                        .padding(.bottom, isIpad ? 0 : 16)
+                        .padding(.bottom, isIpad ? 20 : 165)
                 }
             }
             // ===== Controls =====
@@ -80,14 +80,14 @@ struct CameraOverlayView: View {
                         .padding(.bottom, 150)
                 }
             }
-            .safeAreaInset(edge: .bottom) {
+            .overlay(alignment: .bottom) {
                 if isIphone {
                     BottomDock(viewModel: viewModel)
                 }
             }
             .navigationTitle("Scan Your Apple")
             .navigationBarTitleDisplayMode(.inline)
-            .edgesIgnoringSafeArea(.bottom)
+            .ignoresSafeArea(.all, edges: .bottom)
             .sheet(isPresented: $viewModel.isSheetOpened) {
                 SnapTips()
                     .presentationDragIndicator(.visible)

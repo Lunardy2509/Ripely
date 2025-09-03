@@ -5,6 +5,9 @@
 //  Created by Ferdinand Lunardy on 30/08/25.
 //
 import Foundation
+import SwiftUI
+
+let isIpad: Bool = UIDevice.current.isIpad
 
 enum AppleRipenessState: String, CaseIterable {
     case unripe = "unripe apple"
@@ -57,7 +60,7 @@ enum Dock {
     static let smallButtonOuter: CGFloat = 44
     static let shutterOuter: CGFloat = 78
     static let shutterInner: CGFloat = 66
-    static let captureBoxBottomPadding: CGFloat = 130
+    static let captureBoxBottomPadding: CGFloat = { isIpad ? 0 : -8 }()
     static let rightDockTrailing: CGFloat = -20
     static let rightDockVerticalInset: CGFloat = 80
 }
