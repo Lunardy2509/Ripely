@@ -89,20 +89,21 @@ struct SummaryView: View {
     }
 
     private var headerSection: some View {
-        HStack(alignment: .center) {
-            Text("Scan Result")
-                .font(.title)
+        ZStack {
+            Text("Scan Results")
+                .font(.title3)
                 .fontWeight(.bold)
-            
-            Spacer()
-           
-            Button(action: {
-                dismiss()
-            }, label: {
-                Text("Done")
-            })
+            HStack {
+                Spacer()
+               
+                Button(action: {
+                    dismiss()
+                }, label: {
+                    Text("Done")
+                })
+            }
         }
-        .frame(maxWidth: .infinity, alignment: .center)
+        .frame(maxWidth: .infinity)
         .padding()
         .padding(.top, 10)
     }

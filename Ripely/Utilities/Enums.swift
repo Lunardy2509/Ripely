@@ -60,7 +60,7 @@ enum Dock {
     static let smallButtonOuter: CGFloat = 44
     static let shutterOuter: CGFloat = 78
     static let shutterInner: CGFloat = 66
-    static let captureBoxBottomPadding: CGFloat = { isIpad ? 0 : -8 }()
+    static let captureBoxBottomPadding: CGFloat = { isIpad ? 0 : 120 }()
     static let rightDockTrailing: CGFloat = -20
     static let rightDockVerticalInset: CGFloat = 80
 }

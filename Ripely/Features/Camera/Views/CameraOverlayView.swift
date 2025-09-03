@@ -80,6 +80,25 @@ struct CameraOverlayView: View {
                         .padding(.bottom, 150)
                 }
             }
+            .overlay(alignment: .topTrailing) {
+                if isIphone {
+                    Button {
+                        viewModel.isSheetOpened.toggle()
+                    } label: {
+                        Image(systemName: "questionmark")
+                            .foregroundColor(Token.Color.regularWhite)
+                            .font(.system(size: 20).bold())
+                            .background(
+                                Circle()
+                                    .fill(Color.aBlack.opacity(0.5))
+                                    .frame(width: 40, height: 40)
+                            )
+                    }
+                    .disabled(viewModel.isProcessing)
+                    .padding(.top, 20)
+                    .padding(.trailing, 20)
+                }
+            }
             .overlay(alignment: .bottom) {
                 if isIphone {
                     BottomDock(viewModel: viewModel)

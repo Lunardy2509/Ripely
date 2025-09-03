@@ -11,20 +11,21 @@ struct SnapTips: View {
     
     var body: some View {
         VStack(spacing: 12) {
-            HStack(alignment: .center) {
+            ZStack {
                 Text("Scan Tips")
-                    .font(.title)
+                    .font(.title3)
                     .fontWeight(.bold)
                 
-                Spacer()
-
-                Button(action: {
-                    dismiss()
-                }, label: {
-                    Text("Done")
-                })
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        dismiss()
+                    }, label: {
+                        Text("Done")
+                    })
+                }
             }
-            .frame(maxWidth: .infinity, alignment: .center)
+            .frame(maxWidth: .infinity)
             .padding()
              
              ExamplePhotos(
