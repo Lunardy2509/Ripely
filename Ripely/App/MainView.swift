@@ -32,14 +32,26 @@ struct MainView: View {
             viewModel.resetCapture()
         }, content: {
             if let result = viewModel.capturedResult {
-                
-                let ripenessState = AppleRipenessState.from(rawLabel: result.label)
-                let detentHeight: CGFloat = (ripenessState == .notApple) ? 0.40 : 0.85
-                
-                SummaryView(result: result, isPresented: $viewModel.showSummary)
-                    .presentationDetents([.fraction(detentHeight)])
-                    .presentationDragIndicator(.visible)
-                    .background(.aBackgroundPrimary)
+                if isIpad {
+                    // iPad: Show AppleDetailView as sheet with different detents for portrait/landscape
+                    let isLandscape = orientationManager.orientation.isLandscape
+                    let detentHeight: CGFloat = isLandscape ? 0.8 : 0.99
+                    
+                    AppleDetailView(result: result, isPresented: $viewModel.showSummary)
+                        .presentationDetents([.fraction(detentHeight)])
+                        .presentationDragIndicator(.visible)
+                        .presentationCornerRadius(20)
+                        .background(Token.Color.backgroundPrimary)
+                } else {
+                    // iPhone: Keep original SummaryView behavior
+                    let ripenessState = AppleRipenessState.from(rawLabel: result.label)
+                    let detentHeight: CGFloat = (ripenessState == .notApple) ? 0.40 : 0.85
+                    
+                    SummaryView(result: result, isPresented: $viewModel.showSummary)
+                        .presentationDetents([.fraction(detentHeight)])
+                        .presentationDragIndicator(.visible)
+                        .background(Token.Color.backgroundPrimary)
+                }
             }
         })
     }

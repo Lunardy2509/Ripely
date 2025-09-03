@@ -65,7 +65,7 @@ struct OnBoardingView: View {
             .padding(.bottom, 35)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.aBackgroundPrimary)
+        .background(Token.Color.backgroundPrimary)
         .ignoresSafeArea(edges: .bottom)
     }
 }
@@ -82,7 +82,7 @@ struct InfoCard: View {
                     .resizable()
                     .scaledToFit()
                     .frame(height: 100)
-                    .background(.aCream)
+                    .background(Token.Color.regularCream)
 
             Text(title)
                 .font(.footnote)
@@ -92,12 +92,12 @@ struct InfoCard: View {
 
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.aBackgroundSecondary)
+        .background(Token.Color.backgroundSecondary)
         .cornerRadius(16)
         .shadow(color: Token.Color.regularBlack.opacity(0.1), radius: 8, x: 0, y: 6)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(.aStroke)
+                .stroke(Token.Color.stroke)
         )
     }
 }

@@ -10,7 +10,6 @@ import UIKit
 
 struct Constants {
     static let MiscellaneousFloatingTabPillShadow: Color = Token.Color.regularBlack.opacity(0.08)
-    static let BGPrimaryOrange: Color = Color.aBackgroundOrange
     
     private static var isIpad: Bool { UIDevice.current.isIpad }
     private static var isIphone: Bool { UIDevice.current.isIphone }

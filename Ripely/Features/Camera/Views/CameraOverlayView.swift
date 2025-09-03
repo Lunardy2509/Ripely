@@ -62,8 +62,8 @@ struct CameraOverlayView: View {
                         .background(
                             Rectangle()
                                 .fill(viewModel.isTooDark
-                                      ? Color(red: 0.87, green: 0.18, blue: 0.27).opacity(0.4)
-                                      : Color.aBlack.opacity(0.5))
+                                      ? Token.Color.regularRed.opacity(0.4)
+                                      : Token.Color.regularBlack.opacity(0.5))
                                 .frame(height: isIpad ? 60 : 40)
                         )
                         .font(isIpad ? .body : .caption)
@@ -210,7 +210,7 @@ private struct RightDock: View {
             .padding(.trailing, 20)
             .background(
                 RoundedRectangle(cornerRadius: 28, style: .continuous)
-                    .fill(Color.aBackgroundPrimary)
+                    .fill(Token.Color.backgroundPrimary)
                     .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 4)
             )
         }

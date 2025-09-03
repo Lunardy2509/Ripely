@@ -167,13 +167,13 @@ struct SummaryView: View {
                 .frame(width: 100, height: 100)
             
             Text("Apple not detected")
-                .foregroundColor(.aTextPrimary)
+                .foregroundColor(Token.Color.textPrimary)
                 .fontWeight(.semibold)
                 .font(.title2)
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .background(.aBackgroundSecondary)
+        .background(Token.Color.backgroundSecondary)
         .cornerRadius(16)
         .shadow(
             color: Constants.MiscellaneousFloatingTabPillShadow,
@@ -183,7 +183,7 @@ struct SummaryView: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(.aStroke)
+                .stroke(Token.Color.stroke)
         )
         .padding(.horizontal, 16)
     }
@@ -207,7 +207,7 @@ struct SummaryView: View {
                 .foregroundColor(Token.Color.regularWhite)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(.aButtonGreen)
+                .background(Token.Color.buttonGreen)
                 .cornerRadius(12)
         })
         .padding(.horizontal, isTwoColumn ? 0 : 16)

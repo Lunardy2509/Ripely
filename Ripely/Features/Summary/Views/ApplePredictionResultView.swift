@@ -33,7 +33,7 @@ struct ApplePredictionResultView: View {
                         // Dynamic characteristics
                         Text(appleInfo.appleDescription)
                             .font(.footnote)
-                            .foregroundColor(.aTextSecondary)
+                            .foregroundColor(Token.Color.textSecondary)
                             .frame(
                                 maxWidth: .infinity,
                                 alignment: .topLeading
@@ -65,7 +65,7 @@ struct ApplePredictionResultView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding()
-        .background(.aBackgroundSecondary)
+        .background(Token.Color.backgroundSecondary)
         .cornerRadius(16)
         .shadow(
             color: Constants.MiscellaneousFloatingTabPillShadow,
@@ -75,7 +75,7 @@ struct ApplePredictionResultView: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(.aStroke)
+                .stroke(Token.Color.stroke)
         )
     }
 }
