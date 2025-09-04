@@ -170,7 +170,7 @@ private extension CameraService {
                                         width: cropRect.size.width / previewLayerBounds.width,
                                         height: cropRect.size.height / previewLayerBounds.height)
 
-        let verticalOffset: CGFloat = (isIphone) ? -0.135 : -0.055
+        let verticalOffset: CGFloat = -0.005
         normalizedCropRect.origin.y += verticalOffset
         normalizedCropRect.origin.y = max(0, normalizedCropRect.origin.y)
         if normalizedCropRect.origin.y + normalizedCropRect.height > 1.0 {

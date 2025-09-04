@@ -103,7 +103,7 @@ struct Constants {
 
         static let notApple = AppleInfo(
             imageName: RipelyIcon.notAppleIcon,
-            title: "Apel tidak terdeteksi",
+            title: "Apple Not Detected",
             appleDescription: "Objek yang terdeteksi bukan merupakan buah apel.",
             consumptionAdvice: "Coba scan apel yang lain",
             adviceColor: Token.Color.regularGray,

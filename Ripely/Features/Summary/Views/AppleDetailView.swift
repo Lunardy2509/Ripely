@@ -11,35 +11,38 @@ struct AppleDetailView: View {
     @Binding var isPresented: Bool
     @State private var navigateToDetail = false
     
+    // Cache the view model to prevent recreation on each render
+    @StateObject private var summaryViewModel: SummaryViewModel
+    
     // Environment properties to handle the device layout and size
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @EnvironmentObject var orientationManager: OrientationManager
     
-    // UIDevice Checks
-    private var isIpad: Bool { UIDevice.current.isIpad }
-    private var isIphone: Bool { UIDevice.current.isIphone }
+    // Cached device type checks (computed once)
+    private var isIpad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
+    private var isIphone: Bool { UIDevice.current.userInterfaceIdiom == .phone }
     
-    // Layout helper
-    private var isLandscape: Bool { orientationManager.orientation.isLandscape }
+    // Layout helper - improved landscape detection for iPad
+    private var isLandscape: Bool { 
+        orientationManager.isEffectiveLandscape
+    }
     private var isTwoColumn: Bool { isIpad && isLandscape }
     
-    // UIScreen
-    private var UIWidth: CGFloat { UIScreen.main.UIWidth }
-    private var UIHeight: CGFloat { UIScreen.main.UILength }
-
-    private var viewModel: SummaryViewModel {
-        SummaryViewModel(result: result)
-    }
+    // Cache UIScreen dimensions to avoid repeated calls
+    private var UIWidth: CGFloat { UIScreen.main.bounds.width }
+    private var UIHeight: CGFloat { UIScreen.main.bounds.height }
 
     init(result: PredictionResult, isPresented: Binding<Bool>) {
         self.result = result
         self._isPresented = isPresented
+        // Initialize the cached view model with the result
+        self._summaryViewModel = StateObject(wrappedValue: SummaryViewModel(result: result))
     }
     
     var body: some View {
         if isIpad {
-            // iPad: Sheet presentation with Done button
+            // iPad: Full screen sheet presentation with Done button
             VStack(spacing: 0) {
                 // Custom navigation bar for sheet presentation
                 ZStack {
@@ -59,13 +62,14 @@ struct AppleDetailView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
+                .padding(.top, 8) // Add extra top padding for full screen presentation
                 .background(Token.Color.backgroundPrimary)
                 
                 Divider()
                 
                 if isTwoColumn {
                     // Two-column layout for iPad landscape
-                    TwoColumnLayoutView(result: result, viewModel: viewModel, isPresented: $isPresented)
+                    TwoColumnLayoutView(result: result, viewModel: summaryViewModel, isPresented: $isPresented)
                 } else {
                     // Single column layout for iPad portrait
                     ScrollView {
@@ -85,17 +89,17 @@ struct AppleDetailView: View {
                             }
 
                             // Apple Status Section
-                            ApplePredictionResultView(viewModel: viewModel)
+                            ApplePredictionResultView(viewModel: summaryViewModel)
                                 .padding(.horizontal, 16)
 
                             // Info Cards Section
-                            InfoCardsSection(viewModel: viewModel).padding(.horizontal, 16)
+                            InfoCardsSection(viewModel: summaryViewModel).padding(.horizontal, 16)
 
                             // After Slicing Section
-                            DetailSection(viewModel: viewModel)
+                            DetailSection(viewModel: summaryViewModel)
 
                             // Tips Section
-                            TipsSection(viewModel: viewModel)
+                            TipsSection(viewModel: summaryViewModel)
                         }
                         .padding(.bottom, 16)
                     }
@@ -112,6 +116,7 @@ struct AppleDetailView: View {
                 }
             }
             .background(Token.Color.backgroundPrimary)
+            .ignoresSafeArea(edges: .bottom) // Allow content to extend to bottom edge for full screen feel
         } else {
             // iPhone: Navigation view with back button
             NavigationView {
@@ -134,17 +139,17 @@ struct AppleDetailView: View {
                             }
 
                             // Apple Status Section
-                            ApplePredictionResultView(viewModel: viewModel)
+                            ApplePredictionResultView(viewModel: summaryViewModel)
                                 .padding(.horizontal, 16)
 
                             // Info Cards Section
-                            InfoCardsSection(viewModel: viewModel).padding(.horizontal, 16)
+                            InfoCardsSection(viewModel: summaryViewModel).padding(.horizontal, 16)
 
                             // After Slicing Section
-                            DetailSection(viewModel: viewModel)
+                            DetailSection(viewModel: summaryViewModel)
 
                             // Tips Section
-                            TipsSection(viewModel: viewModel)
+                            TipsSection(viewModel: summaryViewModel)
                         }
                         .padding(.bottom, 16)  // Add bottom padding to avoid button overlap
                     }
@@ -184,7 +189,7 @@ struct AppleDetailView: View {
     }
 
     private func getStatusText() -> String {
-        switch viewModel.ripenessState {
+        switch summaryViewModel.ripenessState {
         case .ripe: return "Ripe"
         case .unripe: return "Unripe"
         case .overripe: return "Overripe"
@@ -194,7 +199,7 @@ struct AppleDetailView: View {
     }
 
     private func getStatusDescription() -> String {
-        switch viewModel.ripenessState {
+        switch summaryViewModel.ripenessState {
         case .ripe:
             return "Consume soon for best taste, store in the fridge if needed."
         case .unripe: return "Wait a few more days before consuming."

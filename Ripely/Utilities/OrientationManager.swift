@@ -13,6 +13,30 @@ final class OrientationManager: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
+    // Computed property for better landscape detection, especially for iPad
+    var isEffectiveLandscape: Bool {
+        let deviceType = UIDevice.current.userInterfaceIdiom
+        
+        if deviceType == .pad {
+            // For iPad, prioritize interface orientation and screen dimensions
+            let screenBounds = UIScreen.main.bounds
+            let isScreenWiderThanTall = screenBounds.width > screenBounds.height
+            let isInterfaceLandscape = interfaceOrientation.isLandscape
+            
+            // Also check if device is face up/down (flat) - in this case, use screen dimensions
+            let isFlatOrientation = orientation == .faceUp || orientation == .faceDown || orientation == .unknown
+            
+            if isFlatOrientation {
+                return isScreenWiderThanTall
+            }
+            
+            return isInterfaceLandscape || isScreenWiderThanTall
+        } else {
+            // For iPhone, use standard device orientation
+            return orientation.isLandscape
+        }
+    }
+    
     init() {
         setupOrientationObserver()
         updateInterfaceOrientation()
