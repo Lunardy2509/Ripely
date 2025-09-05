@@ -16,9 +16,10 @@ struct AppleDetailView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @EnvironmentObject var orientationManager: OrientationManager
     
-    // Cached device type checks (computed once for better performance)
-    private lazy var isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
-    private lazy var isIphone: Bool = UIDevice.current.userInterfaceIdiom == .phone
+    // Static cached device type checks (computed once per app launch)
+    private static let deviceType = UIDevice.current.userInterfaceIdiom
+    private var isIpad: Bool { Self.deviceType == .pad }
+    private var isIphone: Bool { Self.deviceType == .phone }
     
     // Dynamic properties that depend on orientation changes
     private var isLandscape: Bool {
@@ -26,10 +27,10 @@ struct AppleDetailView: View {
     }
     private var isTwoColumn: Bool { isIpad && isLandscape }
     
-    // Cache screen dimensions (computed once to avoid repeated UIScreen calls)
-    private lazy var screenBounds: CGRect = UIScreen.main.bounds
-    private var UIWidth: CGFloat { screenBounds.width }
-    private var UIHeight: CGFloat { screenBounds.height }
+    // Cache screen dimensions using GeometryReader-free approach
+    @State private var screenSize = UIScreen.main.bounds.size
+    private var UIWidth: CGFloat { screenSize.width }
+    private var UIHeight: CGFloat { screenSize.height }
 
     init(result: PredictionResult, isPresented: Binding<Bool>) {
         self.result = result
@@ -83,7 +84,7 @@ struct AppleDetailView: View {
                                     .clipped()
                                     .cornerRadius(16)
                                     .padding(.horizontal, 16)
-                                    .drawingGroup() // Rasterize for better scroll performance
+                                    .drawingGroup()
                             }
 
                             // Apple Status Section
