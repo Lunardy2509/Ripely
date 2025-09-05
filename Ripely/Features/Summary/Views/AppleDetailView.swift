@@ -1,17 +1,5 @@
 //
-//  AppleDetailVie    // Cached device type checks (computed once)
-    private var isIpad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
-    private var isIphone: Bool { UIDevice.current.userInterfaceIdiom == .phone }
-    
-    // Layout helper - improved landscape detection for iPad
-    private var isLandscape: Bool { 
-        orientationManager.isEffectiveLandscape
-    }
-    private var isTwoColumn: Bool { isIpad && isLandscape }
-    
-    // Cache UIScreen dimensions to avoid repeated calls
-    private var UIWidth: CGFloat { UIScreen.main.bounds.width }
-    private var UIHeight: CGFloat { UIScreen.main.bounds.height }/  Aripe
+//  AppleDetailView
 //
 //  Created by Jerry Febriano on 17/06/25.
 //
@@ -22,32 +10,30 @@ struct AppleDetailView: View {
     @Binding var isPresented: Bool
     @State private var navigateToDetail = false
     
-    // Cache the view model to prevent recreation on each render
     @StateObject private var summaryViewModel: SummaryViewModel
     
-    // Environment properties to handle the device layout and size
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @EnvironmentObject var orientationManager: OrientationManager
     
-    // Cached device type checks (computed once)
-    private var isIpad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
-    private var isIphone: Bool { UIDevice.current.userInterfaceIdiom == .phone }
+    // Cached device type checks (computed once for better performance)
+    private lazy var isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
+    private lazy var isIphone: Bool = UIDevice.current.userInterfaceIdiom == .phone
     
-    // Layout helper - improved landscape detection for iPad
-    private var isLandscape: Bool { 
+    // Dynamic properties that depend on orientation changes
+    private var isLandscape: Bool {
         orientationManager.isEffectiveLandscape
     }
     private var isTwoColumn: Bool { isIpad && isLandscape }
     
-    // Cache UIScreen dimensions to avoid repeated calls
-    private var UIWidth: CGFloat { UIScreen.main.bounds.width }
-    private var UIHeight: CGFloat { UIScreen.main.bounds.height }
+    // Cache screen dimensions (computed once to avoid repeated UIScreen calls)
+    private lazy var screenBounds: CGRect = UIScreen.main.bounds
+    private var UIWidth: CGFloat { screenBounds.width }
+    private var UIHeight: CGFloat { screenBounds.height }
 
     init(result: PredictionResult, isPresented: Binding<Bool>) {
         self.result = result
         self._isPresented = isPresented
-        // Initialize the cached view model with the result
         self._summaryViewModel = StateObject(wrappedValue: SummaryViewModel(result: result))
     }
     
@@ -84,8 +70,8 @@ struct AppleDetailView: View {
                 } else {
                     // Single column layout for iPad portrait
                     ScrollView {
-                        VStack(spacing: 20) {
-                            // Apple Image
+                        LazyVStack(spacing: 20) {
+                            // Apple Image - Optimized for performance
                             if let image = result.image {
                                 Image(uiImage: image)
                                     .resizable()
@@ -97,6 +83,7 @@ struct AppleDetailView: View {
                                     .clipped()
                                     .cornerRadius(16)
                                     .padding(.horizontal, 16)
+                                    .drawingGroup() // Rasterize for better scroll performance
                             }
 
                             // Apple Status Section
@@ -114,6 +101,7 @@ struct AppleDetailView: View {
                         }
                         .padding(.bottom, 16)
                     }
+                    .scrollIndicators(.hidden) // Hide scroll indicators for cleaner look and better performance
 
                     // Fixed bottom button
                     VStack(spacing: 0) {
@@ -134,8 +122,8 @@ struct AppleDetailView: View {
                 VStack(spacing: 0) {
                     // Scrollable content
                     ScrollView {
-                        VStack(spacing: 20) {
-                            // Apple Image
+                        LazyVStack(spacing: 20) {
+                            // Apple Image - Optimized for performance
                             if let image = result.image {
                                 Image(uiImage: image)
                                     .resizable()
@@ -147,6 +135,7 @@ struct AppleDetailView: View {
                                     .clipped()
                                     .cornerRadius(16)
                                     .padding(.horizontal, 16)
+                                    .drawingGroup() // Rasterize for better scroll performance
                             }
 
                             // Apple Status Section
@@ -164,6 +153,7 @@ struct AppleDetailView: View {
                         }
                         .padding(.bottom, 16)  // Add bottom padding to avoid button overlap
                     }
+                    .scrollIndicators(.hidden) // Hide scroll indicators for cleaner look and better performance
 
                     // Fixed bottom button
                     VStack(spacing: 0) {
