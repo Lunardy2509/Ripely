@@ -2,7 +2,7 @@
   <h1>🍎 Ripely</h1>
   <img src="https://github.com/Lunardy2509/Ripely/blob/main/Ripely/Resources/Assets.xcassets/Ripely%20Icon.imageset/Matangin%20Icon%20Light.png" width="200" height="200" alt="Ripely Logo">
 
-  ![Version](https://img.shields.io/badge/version-1.0-green?style=for-the-badge)
+  ![Version](https://img.shields.io/badge/version-1.1-green?style=for-the-badge)
   ![iOS](https://img.shields.io/badge/iOS-17%2B-lightgrey?style=for-the-badge)
 
   <p><strong>Ripely</strong> is a CoreML-powered iOS app designed to help <em>Academy Learners</em> identify apple ripeness in real time using image classification.</p>
