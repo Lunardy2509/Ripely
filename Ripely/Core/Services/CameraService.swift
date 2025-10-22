@@ -20,9 +20,16 @@ final class CameraService: NSObject, ObservableObject {
     private var orientationManager: OrientationManager?
     
     // Simplified brightness detection
-    private var brightnessThreshold: Float = 0.25
+    private var brightnessThreshold: Float = 0.15 // Lowered threshold for better detection
     private var lastBrightnessCheck: TimeInterval = 0
     private let brightnessCheckInterval: TimeInterval = 0.5
+    
+    // LiDAR depth analysis
+    private var depthDataOutput: AVCaptureDepthDataOutput?
+    private var isLiDARAvailable: Bool = false
+    private var lastDepthData: AVDepthData?
+    private var lastDepthCheck: TimeInterval = 0
+    private let depthCheckInterval: TimeInterval = 0.5
     
     // UI Device Currently At
     private let isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
@@ -81,6 +88,9 @@ final class CameraService: NSObject, ObservableObject {
         if session.canAddOutput(output) {
             session.addOutput(output)
         }
+        
+        // Setup LiDAR if available
+        setupLiDARIfAvailable()
 
         videoConnection = output.connection(with: .video)
         let preview = AVCaptureVideoPreviewLayer(session: session)
@@ -120,6 +130,14 @@ final class CameraService: NSObject, ObservableObject {
         DispatchQueue.main.async {
             self.previewLayer?.frame = bounds
         }
+    }
+    
+    func isLiDARSupported() -> Bool {
+        return isLiDARAvailable
+    }
+    
+    func getCurrentDepthData() -> AVDepthData? {
+        return lastDepthData
     }
 
     func captureImage(cropRect: CGRect) {
@@ -287,6 +305,303 @@ private extension CameraService {
 
         return 0.299 * red + 0.587 * green + 0.114 * blue
     }
+    
+    func getAdaptiveBrightnessThreshold(foregroundBrightness: Float, backgroundBrightness: Float) -> Float {
+        let brightnessDifference = abs(foregroundBrightness - backgroundBrightness)
+        
+        // If there's a large difference between foreground and background (like black background),
+        // use a lower threshold focused on the subject
+        if brightnessDifference > 0.15 {
+            return 0.1 // Lower threshold for high contrast scenarios
+        } else {
+            return 0.15 // Standard threshold
+        }
+    }
+    
+    // MARK: - LiDAR Helper Functions
+    
+    private struct CoordinateMapping {
+        let imageWidth: Int
+        let imageHeight: Int
+        let depthWidth: Int
+        let depthHeight: Int
+        let scaleX: Float
+        let scaleY: Float
+        let centerX: Int
+        let centerY: Int
+        let centerWidth: Int
+        let centerHeight: Int
+    }
+    
+    private struct PixelBuffers {
+        let imageBaseAddress: UnsafeMutableRawPointer
+        let depthBaseAddress: UnsafeMutableRawPointer
+        let imageBytesPerRow: Int
+        let depthBytesPerRow: Int
+    }
+    
+    private struct BrightnessResults {
+        let totalBrightness: Float
+        let validPixels: Int
+        let foregroundBrightness: Float
+        let foregroundPixels: Int
+    }
+    
+    private func setupBrightnessAnalysisCoordinates(ciImage: CIImage, depthMap: CVPixelBuffer) -> CoordinateMapping? {
+        let imageWidth = Int(ciImage.extent.width)
+        let imageHeight = Int(ciImage.extent.height)
+        let depthWidth = CVPixelBufferGetWidth(depthMap)
+        let depthHeight = CVPixelBufferGetHeight(depthMap)
+        
+        let scaleX = Float(depthWidth) / Float(imageWidth)
+        let scaleY = Float(depthHeight) / Float(imageHeight)
+        
+        let centerX = Int(Float(imageWidth) * 0.3)
+        let centerY = Int(Float(imageHeight) * 0.3)
+        let centerWidth = Int(Float(imageWidth) * 0.4)
+        let centerHeight = Int(Float(imageHeight) * 0.4)
+        
+        return CoordinateMapping(imageWidth: imageWidth, imageHeight: imageHeight,
+                               depthWidth: depthWidth, depthHeight: depthHeight,
+                               scaleX: scaleX, scaleY: scaleY,
+                               centerX: centerX, centerY: centerY,
+                               centerWidth: centerWidth, centerHeight: centerHeight)
+    }
+    
+    private func lockPixelBuffers(pixelBuffer: CVPixelBuffer, depthMap: CVPixelBuffer) -> PixelBuffers? {
+        CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
+        CVPixelBufferLockBaseAddress(depthMap, .readOnly)
+        
+        guard let imageBaseAddress = CVPixelBufferGetBaseAddress(pixelBuffer),
+              let depthBaseAddress = CVPixelBufferGetBaseAddress(depthMap) else {
+            return nil
+        }
+        
+        let imageBytesPerRow = CVPixelBufferGetBytesPerRow(pixelBuffer)
+        let depthBytesPerRow = CVPixelBufferGetBytesPerRow(depthMap)
+        
+        return PixelBuffers(imageBaseAddress: imageBaseAddress, depthBaseAddress: depthBaseAddress,
+                          imageBytesPerRow: imageBytesPerRow, depthBytesPerRow: depthBytesPerRow)
+    }
+    
+    private func findSubjectDepthRange(coordinateMapping: CoordinateMapping, pixelBuffers: PixelBuffers) -> ClosedRange<Float> {
+        var depthHistogram: [Int: Int] = [:]
+        
+        for coordinateY in coordinateMapping.centerY..<(coordinateMapping.centerY + coordinateMapping.centerHeight) {
+            guard coordinateY < coordinateMapping.imageHeight else { break }
+            
+            for coordinateX in coordinateMapping.centerX..<(coordinateMapping.centerX + coordinateMapping.centerWidth) {
+                guard coordinateX < coordinateMapping.imageWidth else { break }
+                
+                let depthX = Int(Float(coordinateX) * coordinateMapping.scaleX)
+                let depthY = Int(Float(coordinateY) * coordinateMapping.scaleY)
+                
+                guard depthX < coordinateMapping.depthWidth && depthY < coordinateMapping.depthHeight else { continue }
+                
+                let depthOffset = depthY * pixelBuffers.depthBytesPerRow + depthX * MemoryLayout<Float32>.size
+                let depthPointer = pixelBuffers.depthBaseAddress.advanced(by: depthOffset).assumingMemoryBound(to: Float32.self)
+                let depthValue = depthPointer.pointee
+                
+                if depthValue > 0.1 && depthValue < 10.0 {
+                    let depthBin = Int(depthValue * 10)
+                    depthHistogram[depthBin, default: 0] += 1
+                }
+            }
+        }
+        
+        let subjectDepthBin = depthHistogram.max(by: { $0.value < $1.value })?.key ?? 0
+        return (Float(subjectDepthBin) / 10.0 - 0.1)...(Float(subjectDepthBin) / 10.0 + 0.1)
+    }
+    
+    private func analyzeBrightnessAtDepth(coordinateMapping: CoordinateMapping, 
+                                        pixelBuffers: PixelBuffers, 
+                                        subjectDepthRange: ClosedRange<Float>) -> BrightnessResults {
+        var totalBrightness: Float = 0.0
+        var validPixels = 0
+        var foregroundBrightness: Float = 0.0
+        var foregroundPixels = 0
+        
+        for coordinateY in coordinateMapping.centerY..<(coordinateMapping.centerY + coordinateMapping.centerHeight) {
+            guard coordinateY < coordinateMapping.imageHeight else { break }
+            
+            for coordinateX in coordinateMapping.centerX..<(coordinateMapping.centerX + coordinateMapping.centerWidth) {
+                guard coordinateX < coordinateMapping.imageWidth else { break }
+                
+                let depthX = Int(Float(coordinateX) * coordinateMapping.scaleX)
+                let depthY = Int(Float(coordinateY) * coordinateMapping.scaleY)
+                
+                guard depthX < coordinateMapping.depthWidth && depthY < coordinateMapping.depthHeight else { continue }
+                
+                let depthOffset = depthY * pixelBuffers.depthBytesPerRow + depthX * MemoryLayout<Float32>.size
+                let depthPointer = pixelBuffers.depthBaseAddress.advanced(by: depthOffset).assumingMemoryBound(to: Float32.self)
+                let depthValue = depthPointer.pointee
+                
+                let imageOffset = coordinateY * pixelBuffers.imageBytesPerRow + coordinateX * 4
+                let imagePointer = pixelBuffers.imageBaseAddress.advanced(by: imageOffset)
+                let blue = Float(imagePointer.load(as: UInt8.self)) / 255.0
+                let green = Float(imagePointer.advanced(by: 1).load(as: UInt8.self)) / 255.0
+                let red = Float(imagePointer.advanced(by: 2).load(as: UInt8.self)) / 255.0
+                
+                let brightness = 0.299 * red + 0.587 * green + 0.114 * blue
+                totalBrightness += brightness
+                validPixels += 1
+                
+                if subjectDepthRange.contains(depthValue) {
+                    foregroundBrightness += brightness
+                    foregroundPixels += 1
+                }
+            }
+        }
+        
+        return BrightnessResults(totalBrightness: totalBrightness, validPixels: validPixels,
+                               foregroundBrightness: foregroundBrightness, foregroundPixels: foregroundPixels)
+    }
+    
+    private func calculateFinalBrightness(from results: BrightnessResults) -> Float {
+        guard results.validPixels > 0 else { return 0.5 }
+        
+        let averageBrightness = results.totalBrightness / Float(results.validPixels)
+        
+        if results.foregroundPixels > results.validPixels / 4 {
+            let averageForegroundBrightness = results.foregroundBrightness / Float(results.foregroundPixels)
+            let brightnessDifference = averageForegroundBrightness - averageBrightness
+            
+            if brightnessDifference > 0.1 {
+                let result = 0.85 * averageForegroundBrightness + 0.15 * averageBrightness
+                print("LiDAR Brightness Analysis - Foreground: \(averageForegroundBrightness), Overall: \(averageBrightness), Final: \(result)")
+                return result
+            } else {
+                let result = 0.7 * averageForegroundBrightness + 0.3 * averageBrightness
+                print("LiDAR Brightness Analysis - Standard - Foreground: \(averageForegroundBrightness), Overall: \(averageBrightness), Final: \(result)")
+                return result
+            }
+        } else {
+            print("LiDAR Brightness Analysis - Not enough foreground pixels, using overall: \(averageBrightness)")
+            return averageBrightness
+        }
+    }
+    
+    func analyzeBrightnessWithDepth(from pixelBuffer: CVPixelBuffer, depthData: AVDepthData) -> Float {
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let depthMap = depthData.depthDataMap
+        
+        guard let coordinateMapping = setupBrightnessAnalysisCoordinates(ciImage: ciImage, depthMap: depthMap),
+              let pixelBuffers = lockPixelBuffers(pixelBuffer: pixelBuffer, depthMap: depthMap) else {
+            return analyzeBrightness(from: pixelBuffer)
+        }
+        
+        defer {
+            CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly)
+            CVPixelBufferUnlockBaseAddress(depthMap, .readOnly)
+        }
+        
+        let subjectDepthRange = findSubjectDepthRange(coordinateMapping: coordinateMapping, pixelBuffers: pixelBuffers)
+        let brightnessResults = analyzeBrightnessAtDepth(coordinateMapping: coordinateMapping, 
+                                                       pixelBuffers: pixelBuffers, 
+                                                       subjectDepthRange: subjectDepthRange)
+        
+        return calculateFinalBrightness(from: brightnessResults)
+    }
+    
+    func setupLiDARIfAvailable() {
+        // Look up the LiDAR camera
+        guard let device = AVCaptureDevice.default(.builtInLiDARDepthCamera, for: .video, position: .back) else {
+            print("LiDAR device unavailable")
+            isLiDARAvailable = false
+            return
+        }
+        
+        do {
+            let depthInput = try AVCaptureDeviceInput(device: device)
+            
+            if session.canAddInput(depthInput) {
+                session.addInput(depthInput)
+                
+                let depthOutput = AVCaptureDepthDataOutput()
+                depthOutput.isFilteringEnabled = false
+                depthOutput.setDelegate(self, callbackQueue: DispatchQueue(label: "depthQueue"))
+                
+                if session.canAddOutput(depthOutput) {
+                    session.addOutput(depthOutput)
+                    self.depthDataOutput = depthOutput
+                    isLiDARAvailable = true
+                    print("LiDAR setup successful")
+                } else {
+                    print("Cannot add depth output")
+                    isLiDARAvailable = false
+                }
+            } else {
+                print("Cannot add depth input")
+                isLiDARAvailable = false
+            }
+        } catch {
+            print("LiDAR setup failed: \(error)")
+            isLiDARAvailable = false
+        }
+    }
+    
+    func analyzeLiDARDepth(from depthData: AVDepthData) -> (averageDepth: Float, depthVariance: Float) {
+        let depthMap = depthData.depthDataMap
+        
+        // Get the dimensions of the depth map
+        let width = CVPixelBufferGetWidth(depthMap)
+        let height = CVPixelBufferGetHeight(depthMap)
+        
+        CVPixelBufferLockBaseAddress(depthMap, .readOnly)
+        defer { CVPixelBufferUnlockBaseAddress(depthMap, .readOnly) }
+        
+        guard let baseAddress = CVPixelBufferGetBaseAddress(depthMap) else {
+            return (0.0, 0.0)
+        }
+        
+        let bytesPerRow = CVPixelBufferGetBytesPerRow(depthMap)
+        
+        // Define center region (30% to 70% of the image)
+        let centerX = Int(Float(width) * 0.3)
+        let centerY = Int(Float(height) * 0.3)
+        let centerWidth = Int(Float(width) * 0.4)
+        let centerHeight = Int(Float(height) * 0.4)
+        
+        var depthValues: [Float] = []
+        var totalDepth: Float = 0.0
+        var validPixels = 0
+        
+        // Sample depth values from the center region
+        for coorY in centerY..<(centerY + centerHeight) {
+            guard coorY < height else { break }
+            
+            for coorX in centerX..<(centerX + centerWidth) {
+                guard coorX < width else { break }
+                
+                let pixelOffset = coorY * bytesPerRow + coorX * MemoryLayout<Float32>.size
+                let depthPointer = baseAddress.advanced(by: pixelOffset).assumingMemoryBound(to: Float32.self)
+                let depthValue = depthPointer.pointee
+                
+                // Filter out invalid depth values (usually 0 or very large numbers)
+                if depthValue > 0.1 && depthValue < 10.0 {
+                    depthValues.append(depthValue)
+                    totalDepth += depthValue
+                    validPixels += 1
+                }
+            }
+        }
+        
+        guard validPixels > 0 else {
+            return (0.0, 0.0)
+        }
+        
+        let averageDepth = totalDepth / Float(validPixels)
+        
+        // Calculate variance to measure depth consistency
+        var variance: Float = 0.0
+        for depth in depthValues {
+            let diff = depth - averageDepth
+            variance += diff * diff
+        }
+        variance /= Float(validPixels)
+        
+        return (averageDepth, variance)
+    }
 }
 
 extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -299,8 +614,26 @@ extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
         if currentTime - lastBrightnessCheck >= brightnessCheckInterval {
             lastBrightnessCheck = currentTime
             
-            let brightness = analyzeBrightness(from: pixelBuffer)
-            let isTooDark = brightness < brightnessThreshold
+            let brightness: Float
+            let isTooDark: Bool
+            
+            // Use LiDAR-enhanced brightness analysis if available
+            if isLiDARAvailable, let depthData = lastDepthData {
+                brightness = analyzeBrightnessWithDepth(from: pixelBuffer, depthData: depthData)
+                
+                // For LiDAR analysis, we also need to check if we can get foreground vs background brightness
+                let standardBrightness = analyzeBrightness(from: pixelBuffer)
+                let adaptiveThreshold = getAdaptiveBrightnessThreshold(foregroundBrightness: brightness, backgroundBrightness: standardBrightness)
+                
+                isTooDark = brightness < adaptiveThreshold
+                print("Using LiDAR-enhanced brightness: \(brightness), Standard: \(standardBrightness), Adaptive threshold: \(adaptiveThreshold)")
+            } else {
+                brightness = analyzeBrightness(from: pixelBuffer)
+                isTooDark = brightness < brightnessThreshold
+                print("Using standard brightness analysis: \(brightness)")
+            }
+            
+            print("Brightness threshold: \(brightnessThreshold), Is too dark: \(isTooDark)")
             
             DispatchQueue.main.async {
                 self.delegate?.cameraService(self, didUpdateBrightness: isTooDark)
@@ -319,5 +652,30 @@ extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
                 break // Ignore live prediction errors
             }
         }
+    }
+}
+
+extension CameraService: AVCaptureDepthDataOutputDelegate {
+    func depthDataOutput(_ output: AVCaptureDepthDataOutput, didOutput depthData: AVDepthData, timestamp: CMTime, connection: AVCaptureConnection) {
+        self.lastDepthData = depthData
+        
+        let currentTime = CACurrentMediaTime()
+        if currentTime - lastDepthCheck >= depthCheckInterval {
+            lastDepthCheck = currentTime
+            
+            let depthAnalysis = analyzeLiDARDepth(from: depthData)
+            
+            // You can add delegate methods to handle depth data if needed
+            // For now, this stores the depth data for potential future use
+            print("Average depth: \(depthAnalysis.averageDepth)m, Variance: \(depthAnalysis.depthVariance)")
+        }
+    }
+    
+    func depthDataOutput(_ output: AVCaptureDepthDataOutput, 
+                         didDrop depthData: AVDepthData, 
+                         timestamp: CMTime, 
+                         connection: AVCaptureConnection, 
+                         reason: AVCaptureOutput.DataDroppedReason) {
+        print("Depth data dropped: \(reason)")
     }
 }

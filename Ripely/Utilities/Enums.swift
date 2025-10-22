@@ -73,6 +73,10 @@ enum CameraError: Error {
     case predictionFailed
 }
 
+enum ConfigurationError: Error {
+    case lidarDeviceUnavailable
+}
+
 enum MLError: Error {
     case modelNotLoaded
     case predictionFailed
